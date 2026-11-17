@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Possession Viewer</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--line:#2a2f3a;--text:#e6e8ec;--muted:#8b93a3;
+--H:#3b82f6;--A:#ef4444;--D:#9ca3af;--X:#2a2f3a;--acc:#f59e0b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:13px/1.4 system-ui,Segoe UI,sans-serif}
+header{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--panel)}
+header h1{font-size:15px;margin:0 8px 0 0}
+select,button,input{background:#222733;color:var(--text);border:1px solid var(--line);border-radius:6px;padding:4px 8px;font:inherit}
+button{cursor:pointer}button:hover{border-color:var(--muted)}
+button.primary{background:var(--acc);color:#111;border-color:var(--acc);font-weight:600}
+.muted{color:var(--muted)}
+main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:10px;padding:10px}
+@media (max-width:1000px){main{grid-template-columns:1fr}}
+.vidwrap{position:relative;background:#000;border-radius:8px;overflow:hidden;aspect-ratio:16/9}
+video{width:100%;height:100%;display:block}
+.badge{position:absolute;top:10px;left:10px;padding:6px 12px;border-radius:6px;font-weight:700;font-size:18px;background:rgba(0,0,0,.6)}
+.tagst{position:absolute;top:54px;left:10px;max-width:calc(100% - 20px);padding:4px 10px;border-radius:6px;font-size:13px;font-weight:600;background:rgba(0,0,0,.6);display:none}
+.ballst{position:absolute;bottom:10px;left:10px;padding:5px 10px;border-radius:6px;font-weight:700;font-size:14px;background:rgba(0,0,0,.65)}
+.ballst.on{color:#4ade80}.ballst.off{color:#facc15;outline:2px solid #facc15}
+.flash{position:absolute;top:10px;right:10px;padding:6px 12px;border-radius:6px;background:var(--acc);color:#111;font-weight:700;display:none}
+.novideo{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:20px;color:var(--muted)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px}
+.side{display:flex;flex-direction:column;gap:10px;min-width:0}
+canvas{display:block;width:100%}
+#changes{max-height:340px;overflow:auto}
+.ch{display:flex;gap:8px;padding:3px 6px;border-radius:4px;cursor:pointer;align-items:center}
+.ch:hover{background:#222733}.ch.cur{outline:1px solid var(--acc)}
+.dot{width:10px;height:10px;border-radius:2px;flex:none}
+.controls{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:4px;margin-right:10px}
+.tl{margin-top:8px}
+.lbl{font-size:11px;color:var(--muted);margin:6px 0 2px}
+#runlog{white-space:pre-wrap;font:11px/1.3 ui-monospace,Consolas,monospace;max-height:120px;overflow:auto;color:var(--muted)}
+kbd{border:1px solid var(--line);border-radius:3px;padding:0 4px;font-size:11px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Possession viewer</h1>
+  <label>View <select id="mode"><option value="clip">Public 5-min clip</option><option value="all">Whole match</option></select></label>
+  <span id="score" class="muted"></span>
+  <label>Labels <select id="file"></select></label>
+  <label>Compare <select id="cmp"><option value="">(none)</option></select></label>
+  <label><input type="checkbox" id="gt"> public 5-min truth (check only)</label>
+  <button class="primary" id="run">Run pipeline</button>
+  <span id="runst" class="muted"></span>
+</header>
+<main>
+  <section>
+    <div class="vidwrap">
+      <video id="v" preload="metadata" muted></video>
+      <div class="badge" id="badge">–</div>
+      <div class="tagst" id="tagst"></div>
+      <div class="flash" id="flash">POSSESSION CHANGE</div>
+      <div class="ballst" id="ballst">–</div>
+      <div class="novideo" id="novideo">No video. Start the server with<br><code>--video "path\to\BAR-ATH_tactical.mp4"</code><br>Labels, timeline and pitch still work: use the timeline to move.</div>
+    </div>
+    <div class="controls">
+      <button id="play">Play / pause</button>
+      <button id="prev">◀ prev change</button><button id="next">next change ▶</button>
+      <button id="fb">−1 frame</button><button id="ff">+1 frame</button>
+      <select id="rate"><option>0.25</option><option>0.5</option><option selected>1</option><option>2</option><option>4</option></select>
+      <label><input type="checkbox" id="pausech"> pause at each change</label>
+      <span class="muted" id="clock"></span>
+    </div>
+    <div class="tl panel">
+      <div class="legend"><span><i class="dot" style="background:var(--H)"></i>H Barcelona</span><span><i class="dot" style="background:var(--A)"></i>A Athletic</span><span><i class="dot" style="background:var(--D)"></i>D dead ball</span><span><i class="dot" style="background:var(--X)"></i>X outside halves</span><span><i class="dot" style="background:var(--acc)"></i>turnover</span><span><i class="dot" style="background:linear-gradient(90deg,var(--H) 50%,#93c5fd 50%)"></i>tag phase (light = defending)</span><span><i class="dot" style="background:#f97316"></i>tag set piece / goal</span></div>
+      <div class="lbl" id="ovlbl">Whole match (click to jump)</div>
+      <canvas id="overview" height="22"></canvas>
+      <canvas id="ovgt" height="10" style="margin-top:2px;display:none"></canvas>
+      <div class="lbl">Ball tracking (green = tracked, yellow = ball not tracked) <span id="ballpct"></span></div>
+      <canvas id="ovball" height="8"></canvas>
+      <div class="lbl" id="camlbl" style="display:none">Camera pan speed (dark = camera still, bright cyan = panning ≥ 3 m/s) · <span style="color:#e879f9">▼ camera disagrees</span> with the labels: <span style="color:#e879f9">▼</span> D while the camera pans &gt; 2 m/s for ≥ 2 s (strong), <span style="color:#e879f9">▽</span> a team while it stays &lt; 0.3 m/s for ≥ 4 s (weak: a still camera is common in play) — click a tick to jump <span id="camn"></span></div>
+      <canvas id="ovcam" height="14" style="display:none;cursor:pointer"></canvas>
+      <div class="lbl">±30 s around the playhead: labels, compare/truth rows, Smart Tagging rows (phase H / phase A / set piece), marks (white = ball over a line, orange ▲ = detected set-piece restart), nearest-player distance to the ball (blue home, red away, 0–10 m; gaps = ball not tracked), camera pan, and the decoder's evidence (default pipeline)</div>
+      <canvas id="zoom" height="207"></canvas>
+      <div class="lbl" id="evread"></div>
+    </div>
+  </section>
+  <aside class="side">
+    <div class="panel"><div class="lbl">Tracking at this frame (home blue, away red, ball yellow)</div><canvas id="pitch" height="220"></canvas></div>
+    <div class="panel">
+      <div class="lbl"><label><input type="checkbox" id="onlyto" checked> turnovers only</label> · <span id="nch"></span></div>
+      <div id="changes"></div>
+    </div>
+    <div class="panel"><div class="lbl">Pipeline run log</div><div id="runlog">Not run from here yet.</div></div>
+    <div class="muted">Keys: <kbd>space</kbd> play · <kbd>[</kbd> <kbd>]</kbd> prev/next change · <kbd>,</kbd> <kbd>.</kbd> frame · <kbd>←</kbd> <kbd>→</kbd> 5 s</div>
+  </aside>
+</main>
+<script>
+const FPS=25, $=id=>document.getElementById(id), v=$('v');
+const COL={H:'#3b82f6',A:'#ef4444',D:'#9ca3af',X:'#2a2f3a'};
+let gaps=[];                                    // [first,last] video frames where the ball is not tracked
+function gapAt(f){let lo=0,hi=gaps.length-1;while(lo<=hi){const m=(lo+hi)>>1;if(gaps[m][1]<f)lo=m+1;else if(gaps[m][0]>f)hi=m-1;else return m}return -1}
+let tags=[], lastTagKey='';                     // Smart Tagging clips [{a,b,code,team,type}] (video frames)
+const PHASE=new Set(['PROGRESSION','BUILD UP','CREATING CHANCES','ATTACKING TRANSITION','LONG BALL','DEFENSIVE TRANSITION']);
+const isPhase=t=>PHASE.has(t.code)||t.code.startsWith('DEFENDING IN');
+const isSet=t=>t.code==='SET PIECES'||t.code==='GOALS';
+const isDef=t=>t.code.startsWith('DEFENDING')||t.code.startsWith('DEFENSIVE');
+const TEAMN={H:'Barcelona',A:'Athletic'}, LIGHT={H:'#93c5fd',A:'#fca5a5'}, SETCOL='#f97316';
+const tagName=t=>isSet(t)?(t.code==='GOALS'?'GOAL':t.type||t.code):t.code;
+function inHalves(f){return halves.some(([p,a,b])=>f>=a&&f<=b)}
+// camera pan (m/s x 10 per 5-frame block, -1 unknown), ball line crossings, detected restarts, decoder evidence
+let pan10=null, panStep=5, camMarks=[], outs=[], rests=[], ev={start:-1,n:0}, evOff=false;
+const PINK='#e879f9', PANCOL='#22d3ee';
+const panAt=f=>{if(!pan10)return null;const v=pan10[Math.floor(f/panStep)];return v==null||v<0?null:v/10};
+const SIDE={'x+':'goal line','x-':'goal line','y+':'touchline','y-':'touchline'};
+const TERM={bt:['learned judge','#a78bfa'],touch:['touch','#facc15'],dist:['distance','#4ade80'],rule:['frame rule','#64748b'],
+  fly:['flight','#2dd4bf'],shape:['team shape','#f5f5f4'],tag:['tag phase','#fb7185'],tagr:['tag restart','#fdba74']};
+function computeCamMarks(){                     // runs where the camera contradicts the loaded labels
+  camMarks=[];if(!pan10||!segs.length)return;
+  let run=null;const close=()=>{if(run&&(run.b-run.a+1)>=(run.kind==='D'?2:4)*FPS)camMarks.push(run);run=null};
+  for(let i=0;i<pan10.length;i++){const f=i*panStep+2,s=segs[segAt(segs,f)],l=s?s[2]:'X',p=pan10[i];
+    const k=p<0?null:l==='D'&&p>20?'D':(l==='H'||l==='A')&&p<3?'T':null;
+    if(k&&run&&run.kind===k&&run.lab===l){run.b=i*panStep+panStep-1;run.sum+=p;run.cnt++}
+    else{close();if(k)run={a:i*panStep,b:i*panStep+panStep-1,kind:k,lab:l,sum:p,cnt:1}}}
+  close();
+  const nD=camMarks.filter(m=>m.kind==='D').length;
+  $('camn').textContent=`· ${camMarks.length} marks in the whole match (${nD} D while panning, ${camMarks.length-nD} team while still)`}
+const camMarkAt=f=>camMarks.find(m=>m.a<=f&&f<=m.b);
+let N=199319, segs=[], ch=[], cmpSegs=null, gtSegs=null, frame=0, hasVideo=false, track={start:-1,n:0}, lastSeg=-1, halves=[];
+const CLIP=[11185,18684];                       // organisers' public 5-min window (video frames)
+let LO=0, HI=N-1;                               // current view range
+const clipMode=()=>$('mode').value==='clip';
+const api=(p,o)=>fetch(p,o).then(r=>r.json());
+
+function segAt(S,f){let lo=0,hi=S.length-1;while(lo<=hi){const m=(lo+hi)>>1;if(S[m][1]<f)lo=m+1;else if(S[m][0]>f)hi=m-1;else return m;}return -1}
+function fmt(f){const s=f/FPS,h=Math.floor(s/3600),m=Math.floor(s/60)%60,x=(s%60).toFixed(2).padStart(5,'0');return (h?h+':':'')+String(m).padStart(2,'0')+':'+x}
+function matchClock(f){for(const [p,a,b] of halves){if(f>=a&&f<=b){const s=(f-a)/FPS;return `H${p} ${Math.floor(s/60)+(p==2?45:0)}'${String(Math.floor(s%60)).padStart(2,'0')}`}}return 'outside halves'}
+
+async function init(){
+  const info=await api('/api/info'); halves=info.halves; hasVideo=info.video;
+  for(const f of info.files){$('file').add(new Option(f,f));$('cmp').add(new Option(f,f))}
+  if(!info.gt)$('gt').disabled=true;
+  if(hasVideo){v.src='/video'}else{$('novideo').style.display='flex'}
+  showRun(info.run); if(info.run&&info.run.running)poll();
+  try{gaps=(await api('/api/ballgaps')).gaps||[]}catch(e){gaps=[]}
+  try{const t=await api('/api/tags');tags=Array.isArray(t)?t:[]}catch(e){tags=[]}
+  try{const c=await api('/api/campan');if(Array.isArray(c.pan10)){pan10=c.pan10;panStep=c.step||5;$('camlbl').style.display='block';$('ovcam').style.display='block'}}catch(e){pan10=null}
+  try{const m=await api('/api/marks');outs=Array.isArray(m.out)?m.out:[];rests=Array.isArray(m.restarts)?m.restarts:[]}catch(e){outs=[];rests=[]}
+  const pick=info.files.find(f=>f.startsWith('draft_'))||info.files[0]; if(pick){$('file').value=pick; await loadFile(pick)}
+  await setMode(); tick();
+}
+async function setMode(){
+  if(clipMode()){[LO,HI]=CLIP;$('ovlbl').textContent='Public 5-min clip, frames 11185–18684 (top: system decisions · bottom: organisers\' public truth) — click to jump';
+    if(!$('gt').disabled&&!$('gt').checked){$('gt').checked=true;gtSegs=(await api('/api/gt')).segments}}
+  else{LO=0;HI=N-1;$('ovlbl').textContent='Whole match (click to jump)'}
+  $('ovgt').style.display=clipMode()&&gtSegs?'block':'none';
+  ovImg=null;drawOverview();renderChanges();seek(LO);showScore()}
+async function showScore(){if(!clipMode()||$('gt').disabled){$('score').textContent='';return}
+  const d=await api('/api/score?file='+encodeURIComponent($('file').value));
+  $('score').textContent=d.error?'':`clip spellF1 ${d.spellF1.toFixed(3)} · possessions ${d.n_pred} predicted / ${d.n_gt} true`}
+$('mode').onchange=setMode;
+async function loadFile(name){const d=await api('/api/labels?file='+encodeURIComponent(name));N=d.n;segs=d.segments;ch=d.changes;lastSeg=-1;lastTagKey='';computeCamMarks();if(!clipMode())HI=N-1;renderChanges();ovImg=null;drawOverview();showScore()}
+async function loadCmp(name){cmpSegs=name?(await api('/api/labels?file='+encodeURIComponent(name))).segments:null}
+$('file').onchange=e=>loadFile(e.target.value);
+$('cmp').onchange=e=>loadCmp(e.target.value);
+$('gt').onchange=async e=>{gtSegs=e.target.checked?(await api('/api/gt')).segments:null;$('ovgt').style.display=clipMode()&&gtSegs?'block':'none';ovImg=null;drawOverview()};
+$('onlyto').onchange=renderChanges;
+
+function visibleChanges(){const R=ch.filter(c=>c.frame>=LO&&c.frame<=HI);return $('onlyto').checked?R.filter(c=>c.kind==='turnover'||c.kind==='start'):R}
+function renderChanges(){
+  const L=visibleChanges(); $('nch').textContent=`${L.length} events (${ch.filter(c=>c.kind==='turnover'&&c.frame>=LO&&c.frame<=HI).length} turnovers${clipMode()?' in the clip':''})`;
+  const box=$('changes'); box.innerHTML='';
+  for(const c of L){const d=document.createElement('div');d.className='ch';d.dataset.f=c.frame;
+    d.innerHTML=`<i class="dot" style="background:${c.kind==='turnover'?'var(--acc)':COL[c.label]}"></i><span style="width:92px">${matchClock(c.frame)}</span><b style="color:${COL[c.label]}">${c.label}</b><span class="muted">${c.kind} · ${c.dur.toFixed(1)} s</span>`;
+    d.onclick=()=>seek(c.frame);box.appendChild(d)}
+}
+function seek(f){f=Math.max(LO,Math.min(HI,Math.round(f)));frame=f;if(hasVideo)v.currentTime=(f+0.5)/FPS;draw()}
+function jumpChange(dir){const L=visibleChanges();if(!L.length)return;let c=dir>0?L.find(c=>c.frame>frame):[...L].reverse().find(c=>c.frame<frame);if(c)seek(c.frame)}
+$('prev').onclick=()=>jumpChange(-1);$('next').onclick=()=>jumpChange(1);
+$('fb').onclick=()=>{v.pause();seek(frame-1)};$('ff').onclick=()=>{v.pause();seek(frame+1)};
+$('play').onclick=()=>hasVideo?(v.paused?v.play():v.pause()):(playing=!playing);
+$('rate').onchange=e=>v.playbackRate=+e.target.value;
+let playing=false,lastT=performance.now(),acc=0;
+document.addEventListener('keydown',e=>{if(e.target.tagName==='SELECT'||e.target.tagName==='INPUT')return;
+  const k=e.key;if(k===' '){e.preventDefault();if(e.target.tagName==='BUTTON')e.target.blur();$('play').click()}else if(k===']')jumpChange(1);else if(k==='[')jumpChange(-1);
+  else if(k==='.')$('ff').click();else if(k===',')$('fb').click();else if(k==='ArrowRight')seek(frame+5*FPS);else if(k==='ArrowLeft')seek(frame-5*FPS)});
+
+function tick(){
+  const now=performance.now();
+  if(hasVideo){frame=Math.min(N-1,Math.floor(v.currentTime*FPS));if(frame>HI&&!v.paused){v.pause();seek(HI)}}
+  else if(playing){acc+=(now-lastT)/1000*FPS*(+$('rate').value);const k=Math.floor(acc);acc-=k;frame=Math.min(HI,frame+k);if(frame>=HI)playing=false}
+  lastT=now; draw(); requestAnimationFrame(tick);
+}
+async function ensureTrack(){
+  const lo=Math.max(0,frame-750),hi=Math.min(N,frame+751);   // the zoom strip shows ±30 s
+  if(track.start>=0&&lo>=track.start&&(hi<=track.start+track.n||track.short))return;
+  if(ensureTrack.busy||performance.now()<(ensureTrack.wait||0))return;ensureTrack.busy=true;
+  try{const s=Math.max(0,frame-1000),d=await api(`/api/track?start=${s}&n=2500`);
+    if(d.error)throw new Error(d.error);d.short=d.n<2500;track=d}
+  catch(e){ensureTrack.wait=performance.now()+3000}
+  finally{ensureTrack.busy=false}
+}
+function draw(){
+  const si=segAt(segs,frame),s=segs[si];
+  const l=s?s[2]:'–';$('badge').textContent=l==='H'?'H · Barcelona':l==='A'?'A · Athletic':l==='D'?'D · dead ball':l;
+  $('badge').style.color=COL[l]||'#fff';
+  if(si!==lastSeg){const c=ch.find(c=>c.frame===(s&&s[0]));
+    if(lastSeg!==-1&&c&&c.kind==='turnover'&&Math.abs(frame-s[0])<5){$('flash').style.display='block';setTimeout(()=>$('flash').style.display='none',900);
+      if($('pausech').checked&&hasVideo&&!v.paused){v.pause();seek(s[0])}}
+    lastSeg=si;
+    document.querySelectorAll('.ch.cur').forEach(e=>e.classList.remove('cur'));
+    const el=[...document.querySelectorAll('.ch')].reverse().find(e=>+e.dataset.f<=frame);if(el){el.classList.add('cur');el.scrollIntoView({block:'nearest'})}}
+  {const gi=gapAt(frame),el=$('ballst');
+   if(!inHalves(frame)){el.textContent='outside halves';el.className='ballst'}
+   else if(gi<0){el.textContent='● BALL TRACKED';el.className='ballst on'}
+   else{const [a,b]=gaps[gi];el.textContent=`○ BALL NOT TRACKED · ${((frame-a)/FPS).toFixed(1)} s of ${((b-a+1)/FPS).toFixed(1)} s`;el.className='ballst off'}}
+  {const act=tags.filter(t=>t.a<=frame&&frame<=t.b);
+   const near=[...outs.filter(o=>o[0]-FPS<=frame&&frame<=o[0]+FPS).map(o=>`<span style="color:#fff">ball out over the ${SIDE[o[2]]||'line'}</span>`),
+     ...rests.filter(r=>Math.abs(r.frame-frame)<=FPS).map(r=>`<span style="color:${SETCOL}">▲ restart detected: ${r.type}${r.team?` (${TEAMN[r.team]})`:''}</span>`)];
+   const cm=camMarkAt(frame);if(cm)near.push(`<span style="color:${PINK}">camera disagrees: ${cm.kind==='D'?`label D but the camera pans ${(cm.sum/cm.cnt/10).toFixed(1)} m/s`:`label ${cm.lab} but the camera is still (${(cm.sum/cm.cnt/10).toFixed(1)} m/s)`} for ${((cm.b-cm.a+1)/FPS).toFixed(0)} s</span>`);
+   const key=act.map(t=>t.a+t.code+t.team).join('|')+'#'+near.join('|');
+   if(key!==lastTagKey){lastTagKey=key;const el=$('tagst');el.style.display=act.length||near.length?'block':'none';
+     el.innerHTML=(act.length?'<span class="muted">tags:</span> '+act.map(t=>`<span style="color:${isSet(t)?SETCOL:t.team?(isDef(t)?LIGHT[t.team]:COL[t.team]):'#e6e8ec'}">${tagName(t)}${t.team?` (${TEAMN[t.team]})`:''}</span>`).join(' · '):'')
+       +(act.length&&near.length?' · ':'')+near.join(' · ')}}
+  $('clock').textContent=`frame ${frame} · video ${fmt(frame)} · ${matchClock(frame)}`;
+  ensureTrack();ensureEvidence();drawZoom();drawPitch();drawOverviewHead();
+}
+async function ensureEvidence(){                // decoder evidence, ±50 s fetched, ±30 s shown
+  if(evOff||ensureEvidence.busy||performance.now()<(ensureEvidence.wait||0))return;
+  const lo=Math.max(0,frame-750),hi=frame+750;
+  if(ev.start>=0&&lo>=ev.start&&(hi<ev.start+ev.n||ev.short))return;
+  ensureEvidence.busy=true;
+  try{const f0=frame,d=await api(`/api/evidence?frame=${f0}&half_window=1250`);
+    if(!d.n){ensureEvidence.wait=performance.now()+30000;return}d.short=d.start+d.n<f0+1251;ev=d}
+  catch(e){ensureEvidence.wait=performance.now()+5000}
+  finally{ensureEvidence.busy=false}
+}
+function sizeCanvas(c){const r=c.getBoundingClientRect(),dpr=devicePixelRatio||1,h=+(c.dataset.h||(c.dataset.h=c.getAttribute('height')));if(c.width!==Math.round(r.width*dpr)||c.height!==Math.round(h*dpr)){c.style.height=h+'px';c.width=Math.round(r.width*dpr);c.height=Math.round(h*dpr)}const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);return [g,r.width,h]}
+let ovImg=null;
+function drawStrip(c,S){const [g,w,h]=sizeCanvas(c);g.clearRect(0,0,w,h);if(!S)return g;const span=HI-LO+1;
+  for(const [a,b,l] of S){if(b<LO||a>HI)continue;const A=Math.max(a,LO),B=Math.min(b,HI);g.fillStyle=COL[l];g.fillRect((A-LO)/span*w,0,Math.max(1,(B-A+1)/span*w),h)}
+  if(clipMode()&&S===segs){g.fillStyle='#f59e0b';for(const c2 of ch)if(c2.kind==='turnover'&&c2.frame>=LO&&c2.frame<=HI)g.fillRect((c2.frame-LO)/span*w-1,0,2,h)}
+  return g}
+function drawOverview(){const c=$('overview');const g=drawStrip(c,segs);ovImg=g.getImageData(0,0,c.width,c.height);
+  if(clipMode()&&gtSegs)drawStrip($('ovgt'),gtSegs);drawBallStrip();drawCamStrip()}
+function panColor(p){const t=Math.min(1,Math.max(0,p/3));   // 0 m/s slate -> 3+ m/s cyan
+  return `rgb(${Math.round(30+t*(34-30))},${Math.round(41+t*(211-41))},${Math.round(59+t*(238-59))})`}
+function drawCamStrip(){const c=$('ovcam');if(!pan10||c.style.display==='none')return;const [g,w,h]=sizeCanvas(c);g.clearRect(0,0,w,h);
+  const span=HI-LO+1,i0=Math.floor(LO/panStep),i1=Math.min(pan10.length-1,Math.floor(HI/panStep)),per=Math.max(1,Math.floor((i1-i0+1)/w));
+  for(let i=i0;i<=i1;i+=per){let m=-1;for(let k=i;k<Math.min(i+per,i1+1);k++)m=Math.max(m,pan10[k]);   // max per pixel: short pans stay visible
+    if(m<0)continue;const A=Math.max(i*panStep,LO);g.fillStyle=panColor(m/10);g.fillRect((A-LO)/span*w,5,Math.max(1,per*panStep/span*w+0.5),h-5)}
+  // D while panning: solid (strong: 3% of D frames vs 18-25% of team frames on the final draft);
+  // team while still: hollow (weak: 25-32% of team frames vs 67% of D frames)
+  g.fillStyle=PINK;g.strokeStyle=PINK;g.lineWidth=1;
+  for(const m of camMarks){if(m.b<LO||m.a>HI)continue;const x=(Math.max(m.a,LO)-LO)/span*w;
+    g.beginPath();g.moveTo(x-3.5,0.5);g.lineTo(x+3.5,0.5);g.lineTo(x,5);g.closePath();
+    if(m.kind==='D'){g.fill();g.fillRect(x-0.5,5,1.5,h-5)}else g.stroke()}}
+$('ovcam').onclick=e=>{const r=e.target.getBoundingClientRect(),span=HI-LO+1,px=e.clientX-r.left;
+  let best=null,bd=7;for(const m of camMarks){if(m.b<LO||m.a>HI)continue;const d=Math.abs((Math.max(m.a,LO)-LO)/span*r.width-px);if(d<bd){bd=d;best=m}}
+  seek(best?best.a:LO+px/r.width*span)};
+function drawBallStrip(){const [g,w,h]=sizeCanvas($('ovball'));g.clearRect(0,0,w,h);const span=HI-LO+1;
+  let inPlay=0,miss=0;
+  for(const [p,a,b] of halves){const A=Math.max(a,LO),B=Math.min(b,HI);if(B<A)continue;inPlay+=B-A+1;g.fillStyle='#16a34a';g.fillRect((A-LO)/span*w,0,Math.max(1,(B-A+1)/span*w),h)}
+  g.fillStyle='#facc15';
+  for(const [a,b] of gaps){const A=Math.max(a,LO),B=Math.min(b,HI);if(B<A)continue;g.fillRect((A-LO)/span*w,0,Math.max(1,(B-A+1)/span*w),h);
+    for(const [p,x,y] of halves){const s=Math.max(A,x),e=Math.min(B,y);if(e>=s)miss+=e-s+1}}
+  $('ballpct').textContent=inPlay?`· ${(100*miss/inPlay).toFixed(1)}% of playing frames in this view not tracked`:''}
+$('ovball').onclick=e=>{const r=e.target.getBoundingClientRect();seek(LO+(e.clientX-r.left)/r.width*(HI-LO+1))};
+function drawOverviewHead(){const c=$('overview');if(!ovImg)return;const [g,w,h]=sizeCanvas(c);if(ovImg.width!==c.width)return drawOverview();g.putImageData(ovImg,0,0);g.fillStyle='#fff';g.fillRect((frame-LO)/(HI-LO+1)*w-1,0,2,h)}
+const ovClick=e=>{const r=e.target.getBoundingClientRect();seek(LO+(e.clientX-r.left)/r.width*(HI-LO+1))};
+$('overview').onclick=ovClick;$('ovgt').onclick=ovClick;
+function band(g,S,a,b,y,hh,w){if(!S)return;const span=b-a;let i=Math.max(0,segAt(S,a));if(i<0)i=0;
+  for(;i<S.length&&S[i][0]<=b;i++){const [x0,x1,l]=S[i];if(x1<a)continue;g.fillStyle=COL[l];const L=Math.max(x0,a),R=Math.min(x1,b);g.fillRect((L-a)/span*w,y,(R-L+1)/span*w,hh)}}
+function tagRow(g,L,col,a,b,y,hh,w){           // overlapping clips go to stacked lanes
+  const span=b-a,ends=[],lane=L.map(t=>{let k=ends.findIndex(e=>e<t.a);if(k<0){k=ends.length;ends.push(0)}ends[k]=t.b;return k});
+  const nl=Math.max(1,ends.length),lh=hh/nl,fs=Math.min(9,lh-1);g.fillStyle='#222733';g.fillRect(0,y,w,hh);
+  L.forEach((t,i)=>{const L0=Math.max(t.a,a),R0=Math.min(t.b,b),x=(L0-a)/span*w,ww=Math.max(1,(R0-L0+1)/span*w),yy=y+lane[i]*lh;
+    g.fillStyle=col(t);g.fillRect(x,yy,ww,lh-(nl>1?1:0));g.fillStyle='rgba(0,0,0,.6)';g.fillRect(x,yy,1,lh);
+    if(fs>=7){g.font=fs+'px system-ui';const s=tagName(t),tw=g.measureText(s).width;
+      if(tw+6<=ww){g.fillStyle=col(t)===COL.H||col(t)===COL.A?'#fff':'#111';g.fillText(s,x+3,yy+lh/2+fs/2-1)}}})}
+const DIST_H=70, PAN_H=40, EV_H=80;
+function drawZoom(){const c=$('zoom');
+  const rows=[['pred',segs]];if(cmpSegs)rows.push(['cmp',cmpSegs]);if(gtSegs)rows.push(['truth',gtSegs]);
+  const hasMarks=outs.length>0||rests.length>0, hasEv=ev.n>0&&!evOff;
+  const need=rows.length*19+13+57+(hasMarks?17:0)+4+DIST_H+(pan10?8+PAN_H:0)+(hasEv?8+EV_H+22:0);
+  if(+c.dataset.h!==need)c.dataset.h=need;
+  const [g,w,h]=sizeCanvas(c);const a=frame-30*FPS,b=frame+30*FPS,span=b-a;g.clearRect(0,0,w,h);
+  g.font='10px system-ui';let y=0;
+  for(const [n,S] of rows){band(g,S,a,b,y,16,w);g.fillStyle='#fff';g.fillText(n,3,y+12);y+=19}
+  {g.fillStyle='#16a34a';g.fillRect(0,y,w,8);g.fillStyle='#facc15';
+   for(const [x0,x1] of gaps){if(x1<a||x0>b)continue;const L=Math.max(x0,a),R=Math.min(x1,b);g.fillRect((L-a)/span*w,y,(R-L+1)/span*w,8)}
+   g.fillStyle='#000';g.fillText('ball',3,y+7);y+=11}
+  y+=2;
+  for(const [n,keep,col] of [['phase H',t=>isPhase(t)&&t.team==='H',t=>isDef(t)?LIGHT.H:COL.H],
+                             ['phase A',t=>isPhase(t)&&t.team==='A',t=>isDef(t)?LIGHT.A:COL.A],
+                             ['set piece',isSet,()=>SETCOL]]){
+    tagRow(g,tags.filter(t=>t.b>=a&&t.a<=b&&keep(t)),col,a,b,y,16,w);g.font='10px system-ui';g.fillStyle='#fff';g.fillText(n,3,y+12);y+=19}
+  if(hasMarks){y=drawMarksRow(g,a,b,y,w)}
+  for(const c2 of ch){if(c2.kind!=='turnover'||c2.frame<a||c2.frame>b)continue;g.fillStyle='#f59e0b';g.fillRect((c2.frame-a)/span*w-1,0,3,h)}
+  const top=y+4,H=DIST_H;g.strokeStyle='#2a2f3a';g.lineWidth=1;g.beginPath();for(const m of [0,5,10]){const yy=top+H-m/10*H;g.moveTo(0,yy);g.lineTo(w,yy)}g.stroke();
+  g.fillStyle='#8b93a3';g.fillText('10 m',3,top+10);g.fillText('1 m',3,top+H-0.1*H-2);
+  for(const [key,col] of [['d_home','#3b82f6'],['d_away','#ef4444']]){const arr=track[key];if(!arr)continue;g.strokeStyle=col;g.lineWidth=1.3;g.beginPath();let pen=false;
+    for(let f=Math.max(a,track.start);f<Math.min(b,track.start+track.n);f++){const d=arr[f-track.start];if(d==null){pen=false;continue}
+      const x=(f-a)/span*w,yy=top+H-Math.min(d,10)/10*H;pen?g.lineTo(x,yy):g.moveTo(x,yy);pen=true}g.stroke()}
+  y=top+H;
+  if(pan10)y=drawPanChart(g,a,b,y+8,w);
+  if(hasEv)drawEvidence(g,a,b,y+8,w);
+  g.fillStyle='#fff';g.fillRect(w/2-1,0,2,h);
+  evReadout()}
+function drawMarksRow(g,a,b,y,w){const span=b-a;g.fillStyle='#222733';g.fillRect(0,y,w,14);
+  for(const [x0,x1] of outs){if(x1<a||x0>b)continue;const L=Math.max(x0,a),R=Math.min(x1,b),x=(L-a)/span*w;
+    g.fillStyle='rgba(255,255,255,.25)';g.fillRect(x,y,Math.max(1,(R-L+1)/span*w),14);
+    if(x0>=a){g.fillStyle='#fff';g.fillRect(x-0.5,y,1.5,14);g.font='9px system-ui';g.fillText('out',x+3,y+10)}}
+  for(const r of rests){if(r.frame<a||r.frame>b)continue;const x=(r.frame-a)/span*w;g.fillStyle=SETCOL;
+    g.beginPath();g.moveTo(x,y+1);g.lineTo(x+5,y+13);g.lineTo(x-5,y+13);g.fill();
+    g.font='9px system-ui';g.fillText(r.type+(r.team?' '+r.team:''),x+7,y+10)}
+  g.font='10px system-ui';g.fillStyle='#8b93a3';g.fillText('marks',3,y+11);return y+17}
+function drawPanChart(g,a,b,top,w){const span=b-a,H=PAN_H,Y=v=>top+H-Math.min(v,4)/4*H;
+  for(const m of camMarks){if(m.b<a||m.a>b)continue;const L=Math.max(m.a,a),R=Math.min(m.b,b);g.fillStyle=m.kind==='D'?'rgba(232,121,249,.25)':'rgba(232,121,249,.10)';g.fillRect((L-a)/span*w,top,(R-L+1)/span*w,H);
+    g.fillStyle=PINK;g.fillRect((L-a)/span*w,top,(R-L+1)/span*w,2)}
+  g.strokeStyle='#2a2f3a';g.lineWidth=1;g.beginPath();g.moveTo(0,top+H);g.lineTo(w,top+H);g.stroke();
+  g.strokeStyle='#8b93a3';g.setLineDash([4,3]);g.beginPath();g.moveTo(0,Y(2));g.lineTo(w,Y(2));g.stroke();g.setLineDash([]);
+  g.strokeStyle=PANCOL;g.lineWidth=1.3;g.beginPath();let pen=false;
+  for(let i=Math.max(0,Math.floor(a/panStep));i<=Math.min(pan10.length-1,Math.floor(b/panStep));i++){const p=pan10[i];if(p<0){pen=false;continue}
+    const x=(i*panStep+panStep/2-a)/span*w,yy=Y(p/10);pen?g.lineTo(x,yy):g.moveTo(x,yy);pen=true}g.stroke();
+  g.fillStyle='#8b93a3';g.font='10px system-ui';g.fillText('camera pan (m/s)',3,top+10);g.fillText('2',w-10,Y(2)-2);g.fillText('4',w-10,top+9);return top+H}
+const EVMAX=4;
+function drawEvidence(g,a,b,top,w){const span=b-a,H=EV_H,mid=top+H/2,sc=(H/2)/EVMAX,names=ev.names||[];
+  g.fillStyle='rgba(59,130,246,.10)';g.fillRect(0,top,w,H/2);g.fillStyle='rgba(239,68,68,.10)';g.fillRect(0,mid,w,H/2);
+  const step=Math.max(1,w/700),tot=[];
+  for(let x=0;x<w;x+=step){const i=Math.round(a+x/w*span)-ev.start;if(i<0||i>=ev.n){tot.push(null);continue}
+    let up=0,dn=0,s=0;
+    for(const k of names){const v=ev.terms[k][i];if(!v)continue;s+=v;g.fillStyle=TERM[k]?TERM[k][1]:'#ccc';
+      if(v>0){const h0=Math.min(v,EVMAX-up)*sc;if(h0>0)g.fillRect(x,mid-up*sc-h0,step+0.5,h0);up+=v}
+      else{const h0=Math.min(-v,EVMAX-dn)*sc;if(h0>0)g.fillRect(x,mid+dn*sc,step+0.5,h0);dn-=v}}
+    tot.push(s)}
+  g.strokeStyle='#fff';g.lineWidth=1.2;g.beginPath();let pen=false;
+  tot.forEach((s,j)=>{if(s==null){pen=false;return}const yy=mid-Math.max(-EVMAX,Math.min(EVMAX,s))*sc;pen?g.lineTo(j*step,yy):g.moveTo(j*step,yy);pen=true});g.stroke();
+  g.strokeStyle='#8b93a3';g.lineWidth=1;g.beginPath();g.moveTo(0,mid);g.lineTo(w,mid);g.stroke();
+  g.font='10px system-ui';g.fillStyle=COL.H;g.fillText('▲ favours H Barcelona',3,top+10);g.fillStyle=COL.A;g.fillText('▼ favours A Athletic',3,top+H-3);
+  let lx=w-6;g.textAlign='right';
+  for(const k of [...names].reverse()){if(!TERM[k])continue;g.fillStyle=TERM[k][1];g.fillText(TERM[k][0],lx,top+10);lx-=g.measureText(TERM[k][0]).width+8}
+  g.fillStyle='#fff';g.fillText('— total',lx,top+10);g.textAlign='left';
+  // stoppage score band (grey = the emissions favour D) and the decoder's labels before its post-passes
+  const sy=top+H+3,vy=sy+10,VC=['H','A','D','X'];
+  for(let x=0;x<w;x+=step){const i=Math.round(a+x/w*span)-ev.start;if(i<0||i>=ev.n)continue;const s=ev.stop[i];
+    if(s!=null&&s>0){g.fillStyle=`rgba(156,163,175,${Math.min(1,0.25+s/6)})`;g.fillRect(x,sy,step+0.5,8)}
+    g.fillStyle=COL[VC[ev.vit[i]]]||COL.X;g.fillRect(x,vy,step+0.5,8)}
+  g.fillStyle='#e6e8ec';g.font='9px system-ui';g.fillText('stoppage score',3,sy+7);g.fillStyle='#fff';g.fillText('decoder before post-passes',3,vy+7)}
+function evReadout(){const el=$('evread');const i=frame-ev.start;
+  if(evOff||ev.n<=0||i<0||i>=ev.n){if(el.textContent)el.textContent='';return}
+  const names=ev.names||[],parts=names.map(k=>[k,ev.terms[k][i]||0]).filter(p=>Math.abs(p[1])>=0.05).sort((p,q)=>Math.abs(q[1])-Math.abs(p[1]));
+  const tot=names.reduce((s,k)=>s+(ev.terms[k][i]||0),0),st=ev.stop[i],vl=['H','A','D','X'][ev.vit[i]],s=segs[segAt(segs,frame)];
+  const t=`deciding (default pipeline, H − A): `+(parts.length?parts.slice(0,4).map(([k,v])=>`${TERM[k]?TERM[k][0]:k} ${v>0?'+':''}${v.toFixed(1)} ${v>0?'H':'A'}`).join(', '):'no team evidence')
+    +` · total ${tot>0?'+':''}${tot.toFixed(1)} · stoppage ${st==null?'–':(st>0?'+':'')+st.toFixed(1)}${st!=null?(st>0?' (dead)':' (live)'):''}`
+    +(s&&vl!=='X'&&s[2]!==vl?` · post-pass changed ${vl} → ${s[2]}`:'');
+  if(el.textContent!==t)el.textContent=t}
+$('zoom').onclick=e=>{const r=e.target.getBoundingClientRect();seek(frame+((e.clientX-r.left)/r.width-0.5)*60*FPS)};
+function drawPitch(){const c=$('pitch'),[g,w,h]=sizeCanvas(c);g.fillStyle='#14532d';g.fillRect(0,0,w,h);
+  const sx=w/110,sy=h/72,X=x=>(x+55)*sx,Y=y=>(36-y)*sy;g.strokeStyle='rgba(255,255,255,.6)';g.lineWidth=1;
+  g.strokeRect(X(-52.5),Y(34),105*sx,68*sy);g.beginPath();g.moveTo(X(0),Y(34));g.lineTo(X(0),Y(-34));g.stroke();
+  g.beginPath();g.arc(X(0),Y(0),9.15*sx,0,7);g.stroke();g.strokeRect(X(-52.5),Y(20.16),16.5*sx,40.32*sy);g.strokeRect(X(36),Y(20.16),16.5*sx,40.32*sy);
+  const i=frame-track.start;if(!track.pos||i<0||i>=track.n){g.fillStyle='#fff';g.fillText('loading…',8,14);return}
+  const P=track.pos,base=i*56;for(let t=0;t<2;t++){g.fillStyle=t?'#ef4444':'#3b82f6';for(let k=0;k<14;k++){const o=base+t*28+k*2,x=P[o],y=P[o+1];if(x==null||y==null)continue;g.beginPath();g.arc(X(x),Y(y),4,0,7);g.fill()}}
+  const bx=track.ball[i*2],by=track.ball[i*2+1];
+  if(bx!=null&&by!=null){g.fillStyle='#facc15';g.strokeStyle='#000';g.beginPath();g.arc(X(bx),Y(by),3.5,0,7);g.fill();g.stroke()}else{g.fillStyle='#facc15';g.fillText('ball not tracked',8,h-8)}}
+
+function showRun(st){if(!st)return;$('runst').textContent=st.running?`running → ${st.out}`:st.returncode===0?`done → ${st.out}`:st.returncode!=null?`failed (${st.returncode})`:'';
+  if(st.log_tail)$('runlog').textContent=st.log_tail}
+$('run').onclick=async()=>{if(!confirm('Run the full pipeline on the provided match? It takes a few minutes and uses a few GB of RAM.'))return;
+  const st=await api('/api/run',{method:'POST'});if(st.error)return alert(st.error);showRun(st);poll()};
+async function poll(){const st=await api('/api/run');showRun(st);if(st.running)return setTimeout(poll,3000);
+  if(st.returncode===0){const info=await api('/api/info');$('file').innerHTML='';$('cmp').innerHTML='<option value="">(none)</option>';
+    for(const f of info.files){$('file').add(new Option(f,f));$('cmp').add(new Option(f,f))}$('file').value=st.out;loadFile(st.out)}}
+window.onresize=()=>{ovImg=null;drawOverview()};
+init();
+</script>
+</body>
+</html>

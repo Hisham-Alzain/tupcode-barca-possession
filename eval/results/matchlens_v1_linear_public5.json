@@ -1,0 +1,13 @@
+{
+  "run": "matchlens_v1_linear",
+  "date": "2026-11-11",
+  "what": "matchlens_v0 + MatchLens two-sided linear ball gap fill (port of footballtactics events/eval/metrica.py iter_frames(interpolate_ball=True)); filled frames conf=None; no fill across a half boundary; no max_gap",
+  "scored_on": "public 5-minute window, sanity only (never a tuning target)",
+  "ball_frames_filled": 64091,
+  "validate_submission": "PASS",
+  "public_window": {"macroF1": 0.5898, "spellF1": 0.2383, "n_pred_possessions": 30, "n_gt_possessions": 17,
+                    "mean_pred_dur_s": 8.5, "transF1": 0.2963, "share_err": 0.047, "fragmentation": 1.67},
+  "vs_v0": {"macroF1": "+0.0135", "spellF1": "0", "possessions": "same (30)"},
+  "matchlens_delta": "Fill changed no possession boundary. Cause: matchlens deadball.py:331-339 counts a conf=None (ghost) ball as missing and declares the ball dead after GHOST_BALL_DEAD_S = 0.5 s, so the filled positions never reach the dead-ball detector. Linear fill is necessary but not sufficient: the 'ball missing => dead' rule must change.",
+  "no_per_frame_output_was_read_by_ai": true
+}

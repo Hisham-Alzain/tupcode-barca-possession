@@ -1,0 +1,13 @@
+{
+  "run": "matchlens_kalman",
+  "date": "2026-11-11",
+  "what": "matchlens_v0 + src/possess/ball_fill/kalman.py (constant-velocity Kalman + RTS smoother per axis, 25 known frames context each side, accel_std 10 m/s^2, meas_std 0.3 m, untuned); filled frames conf=None",
+  "scored_on": "public 5-minute window, sanity only (never a tuning target)",
+  "ball_frames_filled": 64091,
+  "validate_submission": "PASS",
+  "public_window": {"macroF1": 0.5877, "spellF1": 0.2383, "n_pred_possessions": 30, "n_gt_possessions": 17,
+                    "mean_pred_dur_s": 8.5, "transF1": 0.2963, "share_err": 0.042, "fragmentation": 1.67},
+  "vs_linear": {"spellF1": "0", "macroF1": "-0.0021 (noise)", "possessions": "same"},
+  "matchlens_delta": "MatchLens's AdvancedBallTracker is a forward-only coasting Kalman; this adds the backward RTS pass offline. No gain: deadball.py still converts every ghost frame into a dead ball after 0.5 s.",
+  "no_per_frame_output_was_read_by_ai": true
+}

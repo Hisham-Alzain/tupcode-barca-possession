@@ -1,0 +1,25 @@
+{
+ "variant": "rule_default",
+ "team_kw": {},
+ "dead_kw": {},
+ "decoder": null,
+ "dec_kw": {},
+ "tune": {
+  "metrica3": {
+   "spellF1": 0.384549356223176,
+   "macroF1": 0.7136670559660386,
+   "n_pred": 313,
+   "n_gt": 386,
+   "aliveDeadF1": 0.8712161483352759
+  },
+  "idsse2": {
+   "spellF1": 0.32665639445300465,
+   "macroF1": 0.7335898567798935,
+   "n_pred": 228,
+   "n_gt": 421,
+   "aliveDeadF1": 0.8580593123370412
+  }
+ },
+ "commit": "abffb61",
+ "tune_mean": 0.3556028753380903
+}

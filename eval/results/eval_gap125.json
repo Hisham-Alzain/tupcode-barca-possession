@@ -1,0 +1,34 @@
+{
+ "variant": "gap125",
+ "team_kw": {
+  "max_gap": 125
+ },
+ "dead_kw": {},
+ "decoder": null,
+ "dec_kw": {},
+ "tune": {
+  "metrica1": {
+   "spellF1": 0.4110260336906585,
+   "macroF1": 0.671628324391194,
+   "n_pred": 296,
+   "n_gt": 357,
+   "aliveDeadF1": 0.805412608474264
+  },
+  "metrica2": {
+   "spellF1": 0.36628849270664504,
+   "macroF1": 0.7285271545393099,
+   "n_pred": 287,
+   "n_gt": 330,
+   "aliveDeadF1": 0.8516128311290656
+  },
+  "idsse1": {
+   "spellF1": 0.33096179183135704,
+   "macroF1": 0.7574930189619821,
+   "n_pred": 248,
+   "n_gt": 511,
+   "aliveDeadF1": 0.8831167271963263
+  }
+ },
+ "commit": "b3c7774",
+ "tune_mean": 0.3694254394095535
+}

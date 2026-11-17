@@ -1,0 +1,205 @@
+{
+ "bench": "real1",
+ "seed": 0,
+ "sim": "lead+2",
+ "sim_kw": {
+  "jitter": 1.5,
+  "dlead": 2.0
+ },
+ "lead": {
+  "goal kick": 4.3,
+  "corner kick": 6.9,
+  "throw-in": 6.0,
+  "free kick": 6.0
+ },
+ "rates": {
+  "free kick": 1.4163681801872123,
+  "goal kick": 2.8327363603744247,
+  "throw-in": 7.365114536973505,
+  "corner kick": 3.39928363244931
+ },
+ "configs": {
+  "default": null,
+  "b_nt": {
+   "take_s": 0.0
+  },
+  "bh_nt": {
+   "hid": 1,
+   "take_s": 0.0
+  }
+ },
+ "scores": {
+  "default": {
+   "old": {
+    "metrica1": 0.7102803738317758,
+    "metrica2": 0.630366492146597,
+    "idsse1": 0.5205412054120541
+   },
+   "ctl2": {
+    "metrica1": 0.7283993115318417,
+    "metrica2": 0.6535645472061657,
+    "idsse1": 0.6347107438016528
+   },
+   "mean": {
+    "old": 0.6203960237968089,
+    "ctl2": 0.67222486751322
+   }
+  },
+  "b_nt": {
+   "old": {
+    "metrica1": 0.7119379844961241,
+    "metrica2": 0.6439024390243901,
+    "idsse1": 0.5312117503059975
+   },
+   "ctl2": {
+    "metrica1": 0.7308219178082191,
+    "metrica2": 0.666923076923077,
+    "idsse1": 0.6489326765188835
+   },
+   "mean": {
+    "old": 0.629017391275504,
+    "ctl2": 0.6822258904167265
+   }
+  },
+  "bh_nt": {
+   "old": {
+    "metrica1": 0.7119379844961241,
+    "metrica2": 0.6439024390243901,
+    "idsse1": 0.5312117503059975
+   },
+   "ctl2": {
+    "metrica1": 0.7308219178082191,
+    "metrica2": 0.666923076923077,
+    "idsse1": 0.6489326765188835
+   },
+   "mean": {
+    "old": 0.629017391275504,
+    "ctl2": 0.6822258904167265
+   }
+  }
+ },
+ "boot": {
+  "default": {},
+  "b_nt": {
+   "old": [
+    0.008645621411084221,
+    0.004735716870468437,
+    0.013062761357077247
+   ],
+   "ctl2": [
+    0.010041006700094635,
+    0.005677138101339659,
+    0.015000547635480794
+   ]
+  },
+  "bh_nt": {
+   "old": [
+    0.008645621411084221,
+    0.004735716870468437,
+    0.013062761357077247
+   ],
+   "ctl2": [
+    0.010041006700094635,
+    0.005677138101339659,
+    0.015000547635480794
+   ]
+  }
+ },
+ "fired": {
+  "b_nt": {
+   "metrica1": {
+    "events": 39,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 3,
+     "free kick": 9,
+     "throw-in": 17
+    },
+    "kick_found": 26,
+    "kick_err_s_q50": 0.0,
+    "kick_within_1s": 24,
+    "filled_frames": 873,
+    "filled_true_D": 0.9988545246277205,
+    "changed": 873
+   },
+   "metrica2": {
+    "events": 39,
+    "types": {
+     "goal kick": 9,
+     "corner kick": 1,
+     "free kick": 8,
+     "throw-in": 21
+    },
+    "kick_found": 30,
+    "kick_err_s_q50": 0.0,
+    "kick_within_1s": 30,
+    "filled_frames": 794,
+    "filled_true_D": 0.9937027707808564,
+    "changed": 794
+   },
+   "idsse1": {
+    "events": 46,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 5,
+     "free kick": 8,
+     "throw-in": 23
+    },
+    "kick_found": 33,
+    "kick_err_s_q50": 0.0,
+    "kick_within_1s": 33,
+    "filled_frames": 1258,
+    "filled_true_D": 0.9952305246422893,
+    "changed": 1258
+   }
+  },
+  "bh_nt": {
+   "metrica1": {
+    "events": 39,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 3,
+     "free kick": 9,
+     "throw-in": 17
+    },
+    "kick_found": 27,
+    "kick_err_s_q50": 0.0,
+    "kick_within_1s": 25,
+    "filled_frames": 873,
+    "filled_true_D": 0.9988545246277205,
+    "changed": 873
+   },
+   "metrica2": {
+    "events": 39,
+    "types": {
+     "goal kick": 9,
+     "corner kick": 1,
+     "free kick": 8,
+     "throw-in": 21
+    },
+    "kick_found": 30,
+    "kick_err_s_q50": 0.0,
+    "kick_within_1s": 30,
+    "filled_frames": 794,
+    "filled_true_D": 0.9937027707808564,
+    "changed": 794
+   },
+   "idsse1": {
+    "events": 46,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 5,
+     "free kick": 8,
+     "throw-in": 23
+    },
+    "kick_found": 35,
+    "kick_err_s_q50": 0.0,
+    "kick_within_1s": 34,
+    "filled_frames": 1258,
+    "filled_true_D": 0.9952305246422893,
+    "changed": 1258
+   }
+  }
+ },
+ "commit": "f5cc781"
+}

@@ -1,0 +1,58 @@
+{
+ "default": {
+  "possessions": 346,
+  "per_half_hour": 99.85634026833586,
+  "mean_s": 10.065664739884392,
+  "D_share": 0.44159975372617427,
+  "home_share_of_HA": 0.5846464832085266,
+  "window_possessions": 22,
+  "window_D_frames": 862,
+  "frames_changed": 0.0,
+  "changed_on_hidden": 0.0
+ },
+ "BD05": {
+  "possessions": 342,
+  "per_half_hour": 98.70193171032041,
+  "mean_s": 10.140584795321637,
+  "D_share": 0.44394705112747235,
+  "home_share_of_HA": 0.5849461373440059,
+  "window_possessions": 22,
+  "window_D_frames": 864,
+  "frames_changed": 0.00479079551576409,
+  "changed_on_hidden": 0.0
+ },
+ "BD1": {
+  "possessions": 343,
+  "per_half_hour": 98.99053384982427,
+  "mean_s": 10.09399416909621,
+  "D_share": 0.4448834047356404,
+  "home_share_of_HA": 0.5849969961643329,
+  "window_possessions": 22,
+  "window_D_frames": 866,
+  "frames_changed": 0.007073959108283523,
+  "changed_on_hidden": 0.0
+ },
+ "BT5": {
+  "possessions": 324,
+  "per_half_hour": 93.50709319925092,
+  "mean_s": 10.73962962962963,
+  "D_share": 0.4420935840537698,
+  "home_share_of_HA": 0.5936706096032923,
+  "window_possessions": 17,
+  "window_D_frames": 862,
+  "frames_changed": 0.016694030425078884,
+  "changed_on_hidden": 0.001536688436419516
+ },
+ "BT5BD1": {
+  "possessions": 326,
+  "per_half_hour": 94.08429747825863,
+  "mean_s": 10.608957055214724,
+  "D_share": 0.4454798491572817,
+  "home_share_of_HA": 0.5941385332454344,
+  "window_possessions": 17,
+  "window_D_frames": 866,
+  "frames_changed": 0.022504553500423283,
+  "changed_on_hidden": 0.001139925904816187
+ },
+ "commit": "b655c00"
+}

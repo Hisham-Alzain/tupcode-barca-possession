@@ -1,0 +1,110 @@
+{
+ "setpiece_core_0_3s": {
+  "frames": 4275,
+  "visible": 0.3375438596491228,
+  "hidden": 0.6624561403508772,
+  "rest": 0.07742690058479532,
+  "carried": 0.07438596491228071,
+  "slow_free": 0.1111111111111111,
+  "fast": 0.07461988304093567,
+  "vis_rest_or_carried": 0.44975744975744975
+ },
+ "setpiece_wide_m2_6s": {
+  "frames": 11464,
+  "visible": 0.38014654570830425,
+  "hidden": 0.6198534542916957,
+  "rest": 0.06385205861828332,
+  "carried": 0.08679344033496161,
+  "slow_free": 0.08845080251221214,
+  "fast": 0.14105024424284718,
+  "vis_rest_or_carried": 0.3962826984855438
+ },
+ "type_Corner Kick": {
+  "frames": 900,
+  "visible": 0.006666666666666667,
+  "hidden": 0.9933333333333333,
+  "rest": 0.0044444444444444444,
+  "carried": 0.0,
+  "slow_free": 0.0,
+  "fast": 0.0022222222222222222,
+  "vis_rest_or_carried": 0.6666666666666666,
+  "clips": 12
+ },
+ "type_Free Kick": {
+  "frames": 375,
+  "visible": 0.2,
+  "hidden": 0.8,
+  "rest": 0.08533333333333333,
+  "carried": 0.088,
+  "slow_free": 0.02666666666666667,
+  "fast": 0.0,
+  "vis_rest_or_carried": 0.8666666666666667,
+  "clips": 5
+ },
+ "type_Goal Kick": {
+  "frames": 750,
+  "visible": 0.8,
+  "hidden": 0.2,
+  "rest": 0.26266666666666666,
+  "carried": 0.228,
+  "slow_free": 0.17066666666666666,
+  "fast": 0.13866666666666666,
+  "vis_rest_or_carried": 0.6133333333333333,
+  "clips": 10
+ },
+ "type_Kick Off (After Goal)": {
+  "frames": 300,
+  "visible": 0.0,
+  "hidden": 1.0,
+  "rest": 0.0,
+  "carried": 0.0,
+  "slow_free": 0.0,
+  "fast": 0.0,
+  "vis_rest_or_carried": 0.0,
+  "clips": 4
+ },
+ "type_Kick Off (Start)": {
+  "frames": 0,
+  "clips": 2
+ },
+ "type_Throw-in": {
+  "frames": 1950,
+  "visible": 0.39076923076923076,
+  "hidden": 0.6092307692307692,
+  "rest": 0.050256410256410255,
+  "carried": 0.05846153846153846,
+  "slow_free": 0.17282051282051283,
+  "fast": 0.10923076923076923,
+  "vis_rest_or_carried": 0.2782152230971129,
+  "clips": 26
+ },
+ "clips_with_visible_ball_0_3s": 0.3728813559322034,
+ "pred_D": {
+  "frames": 68933,
+  "visible": 0.16494277051629844,
+  "hidden": 0.8350572294837015,
+  "rest": 0.0472777914786822,
+  "carried": 0.026924694993689526,
+  "slow_free": 0.05377685578750381,
+  "fast": 0.0369634282564229,
+  "vis_rest_or_carried": 0.449868073878628
+ },
+ "pred_D_runs2s": {
+  "runs": 107,
+  "any_visible": 0.7570093457943925,
+  "mostly_visible": 0.21495327102803738,
+  "fully_hidden": 0.24299065420560748,
+  "mean_visible": 0.2861030153241414
+ },
+ "all_play": {
+  "frames": 155924,
+  "visible": 0.58903696672738,
+  "hidden": 0.41096303327262,
+  "rest": 0.03690259357122701,
+  "carried": 0.13058284805418024,
+  "slow_free": 0.07551114645596572,
+  "fast": 0.346040378646007,
+  "vis_rest_or_carried": 0.2843377429364691
+ },
+ "commit": "1695004"
+}

@@ -1,0 +1,172 @@
+{
+ "provided": {
+  "touch default": {
+   "accel p99 half 1": 30.47962381017349,
+   "smoothed half 1": true,
+   "accel p99 half 2": 46.54919291481929,
+   "smoothed half 2": true,
+   "touch onsets per visible min": 3.932536565690874,
+   "touch-hold share of visible": 0.26570361092831213
+  },
+  "touch smooth": {
+   "accel p99 half 1": 30.47962381017349,
+   "smoothed half 1": true,
+   "accel p99 half 2": 46.54919291481929,
+   "smoothed half 2": true,
+   "touch onsets per visible min": 7.467043114611417,
+   "touch-hold share of visible": 0.6667798840936591
+  },
+  "default": {
+   "possessions per half hour": 112.45963350686466,
+   "spell median s": 5.48,
+   "spells < 4 s": 0.36523929471032746,
+   "D share hidden": 0.723759726497842,
+   "D share visible": 0.13687986923387183,
+   "H share of possession": 0.5926896899420216
+  },
+  "smooth_touch": {
+   "possessions per half hour": 118.97492713572585,
+   "spell median s": 5.0,
+   "spells < 4 s": 0.4023809523809524,
+   "D share hidden": 0.7237287873396965,
+   "D share visible": 0.1282611926040716,
+   "H share of possession": 0.5939653361869806
+  },
+  "touch off": {
+   "possessions per half hour": 111.89308623478978,
+   "spell median s": 5.44,
+   "spells < 4 s": 0.389873417721519,
+   "D share hidden": 0.7236050307071145,
+   "D share visible": 0.13915129386290784,
+   "H share of possession": 0.5887987390245627
+  },
+  "frames changed by smooth_touch": 0.04752702115739313,
+  "frames changed by touch off": 0.01440289065008152
+ },
+ "metrica1": {
+  "default": {
+   "possessions per half hour": 94.96158779636704,
+   "spell median s": 7.26,
+   "spells < 4 s": 0.34967320261437906,
+   "D share hidden": 0.5512324202479542,
+   "D share visible": 0.22353643253565675,
+   "H share of possession": 0.5057386793472387
+  },
+  "truth": {
+   "possessions per half hour": 110.78851909576156,
+   "spell median s": 4.92,
+   "spells < 4 s": 0.4481792717086835,
+   "D share hidden": 0.7141993760311004,
+   "D share visible": 0.15552903264307455,
+   "H share of possession": 0.5414329582667619
+  },
+  "touch default": {
+   "accel p99 half 1": 38.399040833507065,
+   "smoothed half 1": true,
+   "accel p99 half 2": 40.81526870184722,
+   "smoothed half 2": true,
+   "touch onsets per visible min": 4.260905890075789,
+   "touch-hold share of visible": 0.3036343020827117
+  },
+  "touch smooth": {
+   "accel p99 half 1": 38.399040833507065,
+   "smoothed half 1": true,
+   "accel p99 half 2": 40.81526870184722,
+   "smoothed half 2": true,
+   "touch onsets per visible min": 6.301844005490243,
+   "touch-hold share of visible": 0.6579936742853733
+  },
+  "smooth_touch": {
+   "possessions per half hour": 93.7202598513165,
+   "spell median s": 7.24,
+   "spells < 4 s": 0.3543046357615894,
+   "D share hidden": 0.5513140915698862,
+   "D share visible": 0.215062361997971,
+   "H share of possession": 0.5107953021933823
+  }
+ },
+ "metrica2": {
+  "default": {
+   "possessions per half hour": 102.33358837031369,
+   "spell median s": 5.52,
+   "spells < 4 s": 0.3707165109034268,
+   "D share hidden": 0.6212447084528199,
+   "D share visible": 0.12280191832582474,
+   "H share of possession": 0.49155050147430274
+  },
+  "truth": {
+   "possessions per half hour": 105.20275439938791,
+   "spell median s": 5.12,
+   "spells < 4 s": 0.4090909090909091,
+   "D share hidden": 0.8255667076334835,
+   "D share visible": 0.11528120912658044,
+   "H share of possession": 0.5154914016716303
+  },
+  "touch default": {
+   "accel p99 half 1": 36.30338284114567,
+   "smoothed half 1": true,
+   "accel p99 half 2": 37.35236670375464,
+   "smoothed half 2": true,
+   "touch onsets per visible min": 4.941142275832001,
+   "touch-hold share of visible": 0.33666376011238675
+  },
+  "touch smooth": {
+   "accel p99 half 1": 36.30338284114567,
+   "smoothed half 1": true,
+   "accel p99 half 2": 37.35236670375464,
+   "smoothed half 2": true,
+   "touch onsets per visible min": 5.813108559802354,
+   "touch-hold share of visible": 0.754166061134525
+  },
+  "smooth_touch": {
+   "possessions per half hour": 90.21933180311144,
+   "spell median s": 8.12,
+   "spells < 4 s": 0.30742049469964666,
+   "D share hidden": 0.6224566434521371,
+   "D share visible": 0.11058227970740687,
+   "H share of possession": 0.5000470913257777
+  }
+ },
+ "idsse1": {
+  "default": {
+   "possessions per half hour": 91.87008022361218,
+   "spell median s": 7.220000000000001,
+   "spells < 4 s": 0.31543624161073824,
+   "D share hidden": 0.6630432959253854,
+   "D share visible": 0.15511730782592584,
+   "H share of possession": 0.46496356640801323
+  },
+  "truth": {
+   "possessions per half hour": 157.53560736330815,
+   "spell median s": 3.0,
+   "spells < 4 s": 0.5733855185909981,
+   "D share hidden": 0.8001610386996125,
+   "D share visible": 0.14936192880468768,
+   "H share of possession": 0.4581405428199932
+  },
+  "touch default": {
+   "accel p99 half 1": 35.863491749161604,
+   "smoothed half 1": true,
+   "accel p99 half 2": 37.73732090016968,
+   "smoothed half 2": true,
+   "touch onsets per visible min": 2.7966278342636124,
+   "touch-hold share of visible": 0.17956319336683882
+  },
+  "touch smooth": {
+   "accel p99 half 1": 35.863491749161604,
+   "smoothed half 1": true,
+   "accel p99 half 2": 37.73732090016968,
+   "smoothed half 2": true,
+   "touch onsets per visible min": 6.114366445098085,
+   "touch-hold share of visible": 0.6765870718206453
+  },
+  "smooth_touch": {
+   "possessions per half hour": 101.11874601793556,
+   "spell median s": 6.16,
+   "spells < 4 s": 0.3445121951219512,
+   "D share hidden": 0.6624729505309245,
+   "D share visible": 0.14880607730967876,
+   "H share of possession": 0.45668357810413884
+  }
+ }
+}

@@ -1,0 +1,1526 @@
+{
+ "commit": "44d697f",
+ "summary": {
+  "goal kick hid=0": {
+   "clips": 10,
+   "found": 6,
+   "rel_s_q10_50_90": [
+    -1.0999999999999999,
+    3.6,
+    5.6
+   ],
+   "D_until_kick": 3,
+   "D_ends_early": 3,
+   "early_s_q50_max": [
+    8.96,
+    14.64
+   ],
+   "early_taker_frames": 601,
+   "early_frames": 763
+  },
+  "corner kick hid=0": {
+   "clips": 12,
+   "found": 0,
+   "rel_s_q10_50_90": null,
+   "D_until_kick": 0,
+   "D_ends_early": 0,
+   "early_s_q50_max": null,
+   "early_taker_frames": 0,
+   "early_frames": 0
+  },
+  "free kick hid=0": {
+   "clips": 5,
+   "found": 0,
+   "rel_s_q10_50_90": null,
+   "D_until_kick": 0,
+   "D_ends_early": 0,
+   "early_s_q50_max": null,
+   "early_taker_frames": 0,
+   "early_frames": 0
+  },
+  "throw-in hid=0": {
+   "clips": 26,
+   "found": 7,
+   "rel_s_q10_50_90": [
+    3.544,
+    5.24,
+    13.592
+   ],
+   "D_until_kick": 5,
+   "D_ends_early": 2,
+   "early_s_q50_max": [
+    0.62,
+    0.88
+   ],
+   "early_taker_frames": 0,
+   "early_frames": 29
+  },
+  "goal kick hid=1": {
+   "clips": 10,
+   "found": 8,
+   "rel_s_q10_50_90": [
+    -1.664,
+    2.18,
+    5.343999999999999
+   ],
+   "D_until_kick": 5,
+   "D_ends_early": 3,
+   "early_s_q50_max": [
+    8.96,
+    14.64
+   ],
+   "early_taker_frames": 601,
+   "early_frames": 763
+  },
+  "corner kick hid=1": {
+   "clips": 12,
+   "found": 4,
+   "rel_s_q10_50_90": [
+    5.6240000000000006,
+    6.58,
+    7.0040000000000004
+   ],
+   "D_until_kick": 2,
+   "D_ends_early": 2,
+   "early_s_q50_max": [
+    0.54,
+    0.64
+   ],
+   "early_taker_frames": 25,
+   "early_frames": 25
+  },
+  "free kick hid=1": {
+   "clips": 5,
+   "found": 2,
+   "rel_s_q10_50_90": [
+    6.68,
+    8.92,
+    11.16
+   ],
+   "D_until_kick": 2,
+   "D_ends_early": 0,
+   "early_s_q50_max": null,
+   "early_taker_frames": 0,
+   "early_frames": 0
+  },
+  "throw-in hid=1": {
+   "clips": 26,
+   "found": 19,
+   "rel_s_q10_50_90": [
+    2.7279999999999998,
+    6.24,
+    14.807999999999998
+   ],
+   "D_until_kick": 13,
+   "D_ends_early": 6,
+   "early_s_q50_max": [
+    0.78,
+    5.76
+   ],
+   "early_taker_frames": 0,
+   "early_frames": 300
+  }
+ },
+ "rows": [
+  {
+   "a": 17534,
+   "type": "free kick",
+   "sign": -1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.6651428571428571
+  },
+  {
+   "a": 18321,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 0.8102857142857143,
+   "kick": 18351,
+   "how": "rest",
+   "rel_s": 1.2,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 8.96,
+   "between": {
+    "H": 223,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 223,
+   "label_after": "HHHHH"
+  },
+  {
+   "a": 19536,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.5748571428571428
+  },
+  {
+   "a": 21577,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 1.0,
+   "kick": 21680,
+   "how": "rest",
+   "rel_s": 4.12,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DDHHH"
+  },
+  {
+   "a": 25411,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 1.0,
+   "kick": 25542,
+   "how": "rest",
+   "rel_s": 5.24,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DDDHH"
+  },
+  {
+   "a": 27795,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.9897142857142858
+  },
+  {
+   "a": 29609,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.4377142857142857
+  },
+  {
+   "a": 34652,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.5474285714285714
+  },
+  {
+   "a": 36940,
+   "type": "corner kick",
+   "sign": -1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.8708571428571429
+  },
+  {
+   "a": 37277,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 1.0,
+   "kick": 37378,
+   "how": "rest",
+   "rel_s": 4.04,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 14.64,
+   "between": {
+    "H": 239,
+    "A": 126,
+    "D": 0
+   },
+   "between_taker": 239,
+   "label_after": "AAAAA"
+  },
+  {
+   "a": 39061,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 0.9977142857142857,
+   "kick": 39152,
+   "how": "rest",
+   "rel_s": 3.64,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DHHHH"
+  },
+  {
+   "a": 42615,
+   "type": "corner kick",
+   "sign": -1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.6891428571428572
+  },
+  {
+   "a": 44277,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.7702857142857142
+  },
+  {
+   "a": 46209,
+   "type": "free kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.5371428571428571
+  },
+  {
+   "a": 51001,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.8434285714285714
+  },
+  {
+   "a": 52679,
+   "type": "free kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.8251428571428572
+  },
+  {
+   "a": 57369,
+   "type": "corner kick",
+   "sign": -1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.6262857142857143
+  },
+  {
+   "a": 65559,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.464
+  },
+  {
+   "a": 68477,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.3142857142857143
+  },
+  {
+   "a": 73615,
+   "type": "free kick",
+   "sign": -1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.052571428571428575
+  },
+  {
+   "a": 80914,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.7005714285714286
+  },
+  {
+   "a": 84848,
+   "type": "goal kick",
+   "sign": -1,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 0.4045714285714286,
+   "kick": 85004,
+   "how": "rest",
+   "rel_s": 6.24,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "DDDDD"
+  },
+  {
+   "a": 85574,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.5668571428571428
+  },
+  {
+   "a": 114853,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.8937142857142857
+  },
+  {
+   "a": 120625,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.9051428571428571
+  },
+  {
+   "a": 121222,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 0.7828571428571428,
+   "kick": 121378,
+   "how": "rest",
+   "rel_s": 6.24,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DAAAA"
+  },
+  {
+   "a": 123605,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.808
+  },
+  {
+   "a": 125149,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 1.0
+  },
+  {
+   "a": 127253,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 0.8514285714285714,
+   "kick": 127600,
+   "how": "rest",
+   "rel_s": 13.88,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DDDAA"
+  },
+  {
+   "a": 130322,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.22285714285714286
+  },
+  {
+   "a": 136427,
+   "type": "corner kick",
+   "sign": -1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.656
+  },
+  {
+   "a": 138064,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.22628571428571428
+  },
+  {
+   "a": 139965,
+   "type": "goal kick",
+   "sign": -1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.8502857142857143
+  },
+  {
+   "a": 144190,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 0.7988571428571428,
+   "kick": 144314,
+   "how": "rest",
+   "rel_s": 4.96,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "DHHHH"
+  },
+  {
+   "a": 146806,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.5622857142857143
+  },
+  {
+   "a": 148634,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 1.0,
+   "kick": 148713,
+   "how": "rest",
+   "rel_s": 3.16,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "DDHHH"
+  },
+  {
+   "a": 150340,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.8194285714285714
+  },
+  {
+   "a": 155671,
+   "type": "corner kick",
+   "sign": -1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.7382857142857143
+  },
+  {
+   "a": 155804,
+   "type": "free kick",
+   "sign": -1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.8902857142857142
+  },
+  {
+   "a": 156851,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.616
+  },
+  {
+   "a": 163853,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.656
+  },
+  {
+   "a": 164857,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.5554285714285714
+  },
+  {
+   "a": 165860,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.528
+  },
+  {
+   "a": 166392,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 0.9954285714285714,
+   "kick": 166727,
+   "how": "rest",
+   "rel_s": 13.4,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 0.88,
+   "between": {
+    "H": 21,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "HHHHH"
+  },
+  {
+   "a": 169725,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.08342857142857144
+  },
+  {
+   "a": 179301,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.4765714285714286
+  },
+  {
+   "a": 182414,
+   "type": "goal kick",
+   "sign": -1,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.4342857142857143
+  },
+  {
+   "a": 182863,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.8251428571428572
+  },
+  {
+   "a": 184266,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.8034285714285714
+  },
+  {
+   "a": 184604,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 0.5348571428571428,
+   "kick": 184519,
+   "how": "rest",
+   "rel_s": -3.4,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 7.04,
+   "between": {
+    "H": 139,
+    "A": 36,
+    "D": 0
+   },
+   "between_taker": 139,
+   "label_after": "AAAAA"
+  },
+  {
+   "a": 185442,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": true,
+   "vis_in_clip": 1.0,
+   "kick": 185527,
+   "how": "rest",
+   "rel_s": 3.4,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 0.36,
+   "between": {
+    "H": 8,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "HHHHH"
+  },
+  {
+   "a": 187495,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.7988571428571428
+  },
+  {
+   "a": 188433,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 0,
+   "found": false,
+   "vis_in_clip": 0.7977142857142857
+  },
+  {
+   "a": 17534,
+   "type": "free kick",
+   "sign": -1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.6651428571428571,
+   "kick": 17827,
+   "how": "reappear",
+   "rel_s": 11.72,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "DAAAA"
+  },
+  {
+   "a": 18321,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.8102857142857143,
+   "kick": 18351,
+   "how": "rest",
+   "rel_s": 1.2,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 8.96,
+   "between": {
+    "H": 223,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 223,
+   "label_after": "HHHHH"
+  },
+  {
+   "a": 19536,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.5748571428571428,
+   "kick": 19773,
+   "how": "reappear",
+   "rel_s": 9.48,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 4.16,
+   "between": {
+    "H": 0,
+    "A": 103,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "AAAHH"
+  },
+  {
+   "a": 21577,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 1.0,
+   "kick": 21680,
+   "how": "rest",
+   "rel_s": 4.12,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DDHHH"
+  },
+  {
+   "a": 25411,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 1.0,
+   "kick": 25542,
+   "how": "rest",
+   "rel_s": 5.24,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DDDHH"
+  },
+  {
+   "a": 27795,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.9897142857142858,
+   "kick": 27804,
+   "how": "reappear",
+   "rel_s": 0.36,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DDDDD"
+  },
+  {
+   "a": 29609,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.4377142857142857,
+   "kick": 29782,
+   "how": "reappear",
+   "rel_s": 6.92,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "DAHHH"
+  },
+  {
+   "a": 34652,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.5474285714285714,
+   "kick": 34828,
+   "how": "reappear",
+   "rel_s": 7.04,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 0.44,
+   "between": {
+    "H": 10,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 10,
+   "label_after": "HHHHH"
+  },
+  {
+   "a": 36940,
+   "type": "corner kick",
+   "sign": -1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.8708571428571429
+  },
+  {
+   "a": 37277,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 1.0,
+   "kick": 37378,
+   "how": "rest",
+   "rel_s": 4.04,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 14.64,
+   "between": {
+    "H": 239,
+    "A": 126,
+    "D": 0
+   },
+   "between_taker": 239,
+   "label_after": "AAAAA"
+  },
+  {
+   "a": 39061,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.9977142857142857,
+   "kick": 39152,
+   "how": "rest",
+   "rel_s": 3.64,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DHHHH"
+  },
+  {
+   "a": 42615,
+   "type": "corner kick",
+   "sign": -1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.6891428571428572,
+   "kick": 42749,
+   "how": "reappear",
+   "rel_s": 5.36,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 0.64,
+   "between": {
+    "H": 0,
+    "A": 15,
+    "D": 0
+   },
+   "between_taker": 15,
+   "label_after": "AAAAA"
+  },
+  {
+   "a": 44277,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.7702857142857142,
+   "kick": 44740,
+   "how": "reappear",
+   "rel_s": 18.52,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "AAAAA"
+  },
+  {
+   "a": 46209,
+   "type": "free kick",
+   "sign": 1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.5371428571428571
+  },
+  {
+   "a": 51001,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.8434285714285714,
+   "kick": 50997,
+   "how": "reappear",
+   "rel_s": -0.16,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "DDDDD"
+  },
+  {
+   "a": 52679,
+   "type": "free kick",
+   "sign": 1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.8251428571428572,
+   "kick": 52832,
+   "how": "reappear",
+   "rel_s": 6.12,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "HHHHH"
+  },
+  {
+   "a": 57369,
+   "type": "corner kick",
+   "sign": -1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.6262857142857143
+  },
+  {
+   "a": 65559,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.464,
+   "kick": 66028,
+   "how": "reappear",
+   "rel_s": 18.76,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DDAAA"
+  },
+  {
+   "a": 68477,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.3142857142857143
+  },
+  {
+   "a": 73615,
+   "type": "free kick",
+   "sign": -1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.052571428571428575
+  },
+  {
+   "a": 80914,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.7005714285714286
+  },
+  {
+   "a": 84848,
+   "type": "goal kick",
+   "sign": -1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.4045714285714286,
+   "kick": 85004,
+   "how": "rest",
+   "rel_s": 6.24,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "DDDDD"
+  },
+  {
+   "a": 85574,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.5668571428571428,
+   "kick": 85746,
+   "how": "reappear",
+   "rel_s": 6.88,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 0.68,
+   "between": {
+    "H": 0,
+    "A": 16,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "AAAAA"
+  },
+  {
+   "a": 114853,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.8937142857142857
+  },
+  {
+   "a": 120625,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.9051428571428571,
+   "kick": 120708,
+   "how": "reappear",
+   "rel_s": 3.32,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DDDDA"
+  },
+  {
+   "a": 121222,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.7828571428571428,
+   "kick": 121378,
+   "how": "rest",
+   "rel_s": 6.24,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DAAAA"
+  },
+  {
+   "a": 123605,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.808
+  },
+  {
+   "a": 125149,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 1.0
+  },
+  {
+   "a": 127253,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.8514285714285714,
+   "kick": 127600,
+   "how": "rest",
+   "rel_s": 13.88,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DDDAA"
+  },
+  {
+   "a": 130322,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.22285714285714286
+  },
+  {
+   "a": 136427,
+   "type": "corner kick",
+   "sign": -1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.656
+  },
+  {
+   "a": 138064,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.22628571428571428
+  },
+  {
+   "a": 139965,
+   "type": "goal kick",
+   "sign": -1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.8502857142857143,
+   "kick": 139942,
+   "how": "reappear",
+   "rel_s": -0.92,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "AAAAA"
+  },
+  {
+   "a": 144190,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.7988571428571428,
+   "kick": 144314,
+   "how": "rest",
+   "rel_s": 4.96,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "DHHHH"
+  },
+  {
+   "a": 146806,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.5622857142857143
+  },
+  {
+   "a": 148634,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 1.0,
+   "kick": 148713,
+   "how": "rest",
+   "rel_s": 3.16,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "DDHHH"
+  },
+  {
+   "a": 150340,
+   "type": "corner kick",
+   "sign": 1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.8194285714285714,
+   "kick": 150496,
+   "how": "reappear",
+   "rel_s": 6.24,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": 0,
+   "label_after": "HHHHH"
+  },
+  {
+   "a": 155671,
+   "type": "corner kick",
+   "sign": -1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.7382857142857143
+  },
+  {
+   "a": 155804,
+   "type": "free kick",
+   "sign": -1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.8902857142857142
+  },
+  {
+   "a": 156851,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.616
+  },
+  {
+   "a": 163853,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.656
+  },
+  {
+   "a": 164857,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.5554285714285714,
+   "kick": 164958,
+   "how": "reappear",
+   "rel_s": 4.04,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DHHHH"
+  },
+  {
+   "a": 165860,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.528,
+   "kick": 165972,
+   "how": "reappear",
+   "rel_s": 4.48,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "DDAAA"
+  },
+  {
+   "a": 166392,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.9954285714285714,
+   "kick": 166727,
+   "how": "rest",
+   "rel_s": 13.4,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 0.88,
+   "between": {
+    "H": 21,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "HHHHH"
+  },
+  {
+   "a": 169725,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.08342857142857144
+  },
+  {
+   "a": 179301,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.4765714285714286,
+   "kick": 179458,
+   "how": "reappear",
+   "rel_s": 6.28,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "AAAAA"
+  },
+  {
+   "a": 182414,
+   "type": "goal kick",
+   "sign": -1,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.4342857142857143
+  },
+  {
+   "a": 182863,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.8251428571428572,
+   "kick": 182617,
+   "how": "reappear",
+   "rel_s": -9.84,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 5.76,
+   "between": {
+    "H": 143,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "HHHAA"
+  },
+  {
+   "a": 184266,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": false,
+   "vis_in_clip": 0.8034285714285714
+  },
+  {
+   "a": 184604,
+   "type": "goal kick",
+   "sign": 1,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.5348571428571428,
+   "kick": 184519,
+   "how": "rest",
+   "rel_s": -3.4,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 7.04,
+   "between": {
+    "H": 139,
+    "A": 36,
+    "D": 0
+   },
+   "between_taker": 139,
+   "label_after": "AAAAA"
+  },
+  {
+   "a": 185442,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 1.0,
+   "kick": 185527,
+   "how": "rest",
+   "rel_s": 3.4,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 0.36,
+   "between": {
+    "H": 8,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "HHHHH"
+  },
+  {
+   "a": 187495,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.7988571428571428,
+   "kick": 187671,
+   "how": "reappear",
+   "rel_s": 7.04,
+   "ours_D_at_kick-1": true,
+   "last_D_before_s": 0.04,
+   "between": {
+    "H": 0,
+    "A": 0,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "HHHHH"
+  },
+  {
+   "a": 188433,
+   "type": "throw-in",
+   "sign": 0,
+   "hid": 1,
+   "found": true,
+   "vis_in_clip": 0.7977142857142857,
+   "kick": 188610,
+   "how": "reappear",
+   "rel_s": 7.08,
+   "ours_D_at_kick-1": false,
+   "last_D_before_s": 0.4,
+   "between": {
+    "H": 0,
+    "A": 9,
+    "D": 0
+   },
+   "between_taker": null,
+   "label_after": "AAAAA"
+  }
+ ]
+}

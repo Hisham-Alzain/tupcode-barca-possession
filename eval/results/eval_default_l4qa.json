@@ -1,0 +1,39 @@
+{
+ "variant": "default_l4qa",
+ "team_kw": {},
+ "dead_kw": {},
+ "decoder": null,
+ "dec_kw": {},
+ "tune": {
+  "metrica1": {
+   "spellF1": 0.4140888208269525,
+   "macroF1": 0.677075736026778,
+   "n_pred": 296,
+   "n_gt": 357,
+   "aliveDeadF1": 0.805412608474264
+  },
+  "metrica2": {
+   "spellF1": 0.37212317666126415,
+   "macroF1": 0.7361658439449855,
+   "n_pred": 287,
+   "n_gt": 330,
+   "aliveDeadF1": 0.8516128311290656
+  },
+  "idsse1": {
+   "spellF1": 0.33096179183135704,
+   "macroF1": 0.7574930189619821,
+   "n_pred": 248,
+   "n_gt": 511,
+   "aliveDeadF1": 0.8831167271963263
+  }
+ },
+ "commit": "b3c7774",
+ "tune_mean": 0.37239126310652454,
+ "public5": {
+  "spellF1": 0.454054054054054,
+  "macroF1": 0.7293214152216853,
+  "n_pred": 20,
+  "n_gt": 17,
+  "aliveDeadF1": 0.924056530517161
+ }
+}

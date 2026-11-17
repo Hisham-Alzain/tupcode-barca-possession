@@ -1,0 +1,27 @@
+{
+ "off": {
+  "possessions / half hour": 117.84183259157608,
+  "D runs / half hour": 30.027005419968905,
+  "D share": 0.44250489433893375,
+  "H share of H+A": 0.5980894740407849,
+  "blocks": 131,
+  "fires": 77,
+  "fires, label at reappearance = that team": 42,
+  "fires, label D": 32,
+  "team before and after": 52,
+  "team switched across the block": 13
+ },
+ "on": {
+  "possessions / half hour": 120.10802167987562,
+  "D runs / half hour": 30.87682632808123,
+  "D share": 0.438822337070447,
+  "H share of H+A": 0.5933121697869811,
+  "blocks": 131,
+  "fires": 77,
+  "fires, label at reappearance = that team": 50,
+  "fires, label D": 27,
+  "team before and after": 55,
+  "team switched across the block": 14
+ },
+ "frames changed": 0.007276984961317411
+}

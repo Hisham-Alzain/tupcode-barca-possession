@@ -1,0 +1,47 @@
+{
+ "default": {
+  "possessions": 371,
+  "per_half_hour": 107.07139375593238,
+  "mean_s": 9.438814016172508,
+  "D_share": 0.4385405710474334,
+  "home_share_of_HA": 0.5838939973727797,
+  "window_possessions": 21,
+  "window_D_frames": 821,
+  "frames_changed": 0.0,
+  "changed_on_hidden": 0.0
+ },
+ "hi2t1": {
+  "possessions": 352,
+  "per_half_hour": 101.58795310535902,
+  "mean_s": 9.948295454545455,
+  "D_share": 0.4385405710474334,
+  "home_share_of_HA": 0.5819521388999943,
+  "window_possessions": 21,
+  "window_D_frames": 821,
+  "frames_changed": 0.002591005874656884,
+  "changed_on_hidden": 0.04455445544554455
+ },
+ "fly7v48": {
+  "possessions": 396,
+  "per_half_hour": 114.2864472435289,
+  "mean_s": 8.857676767676768,
+  "D_share": 0.4376042174392653,
+  "home_share_of_HA": 0.580481463320067,
+  "window_possessions": 30,
+  "window_D_frames": 844,
+  "frames_changed": 0.018098560837331006,
+  "changed_on_hidden": 0.03260099220411056
+ },
+ "fly7hv48": {
+  "possessions": 342,
+  "per_half_hour": 98.70193171032041,
+  "mean_s": 10.25625730994152,
+  "D_share": 0.4376042174392653,
+  "home_share_of_HA": 0.5831499241655358,
+  "window_possessions": 22,
+  "window_D_frames": 844,
+  "frames_changed": 0.01930427644236936,
+  "changed_on_hidden": 0.035880398671096346
+ },
+ "commit": "1dfbab7"
+}

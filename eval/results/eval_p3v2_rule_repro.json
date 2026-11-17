@@ -1,0 +1,48 @@
+{
+ "variant": "p3v2_rule_repro",
+ "team_kw": {},
+ "dead_kw": {},
+ "decoder": "viterbi",
+ "dec_kw": {
+  "hard_dead": 1,
+  "soft": 1,
+  "cap": 1.5,
+  "d0": 0.25,
+  "c_switch": 4.0,
+  "c_same": 1.0,
+  "gap_pos": 0.5,
+  "w_rule": 0.3
+ },
+ "tune": {
+  "metrica1": {
+   "spellF1": 0.4520123839009288,
+   "macroF1": 0.6843018985232773,
+   "n_pred": 289,
+   "n_gt": 357,
+   "aliveDeadF1": 0.8016520013802623
+  },
+  "metrica2": {
+   "spellF1": 0.3895081967213115,
+   "macroF1": 0.7483973589429848,
+   "n_pred": 280,
+   "n_gt": 330,
+   "aliveDeadF1": 0.8526109726103034
+  },
+  "idsse1": {
+   "spellF1": 0.35119363395225467,
+   "macroF1": 0.7719473906887363,
+   "n_pred": 243,
+   "n_gt": 511,
+   "aliveDeadF1": 0.8831368405887579
+  }
+ },
+ "commit": "3ed60d7",
+ "tune_mean": 0.39757140485816506,
+ "public5": {
+  "spellF1": 0.4444444444444445,
+  "macroF1": 0.7223336000136634,
+  "n_pred": 19,
+  "n_gt": 17,
+  "aliveDeadF1": 0.9306991819725267
+ }
+}

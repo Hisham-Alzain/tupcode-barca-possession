@@ -1,0 +1,20 @@
+{
+  "run": "matchlens_v0",
+  "date": "2026-11-11",
+  "what": "footballtactics events.Eventer, untuned, fed the tactical ATD via src/possess/matchlens_adapter.py (team slots only, GK = deepest own-side player, graded halves only, X elsewhere)",
+  "scored_on": "public 5-minute window (frames 11185-18684, 17 possessions). Format/sanity check only; NOT a tuning target (RULES.md).",
+  "scorer": "third_party/mtah/evaluation/run_evaluation.py --gt public",
+  "input": "tactical ATD only; no video, no broadcast, no Smart Tagging, no homography",
+  "frames_fed": {"half1": 79467, "half2": 79390},
+  "validate_submission": "OK (199319 rows)",
+  "public_window": {
+    "macroF1": 0.5763, "spellF1": 0.2383, "n_pred_possessions": 30, "n_gt_possessions": 17,
+    "mean_pred_dur_s": 8.5, "mean_gt_dur_s": 14.2, "transF1": 0.2963, "latency_frames": 3.6,
+    "share_err": 0.064, "fragmentation": 1.67
+  },
+  "public_window_baselines": {"smooth125": 0.4242, "smooth50": 0.3256, "smooth25": 0.2868, "raw": 0.0378},
+  "full_match_aggregates_from_validator": {"n_possessions_counting_X_as_gap": 986, "mean_dur_s": 2.2,
+    "note": "validator counts every X as a gap; scorer bridges X inside a possession, so the true count is lower"},
+  "reading": "MatchLens v0 ranks below smooth50/smooth125 on the public window: it over-splits (30 vs 17, fragmentation 1.67) and its possession definition differs from the GT. Dead-ball logic built for clean tracking (ball absent == dead) is suspect on data where the ball is missing 41% of live frames.",
+  "no_per_frame_output_was_read_by_ai": true
+}

@@ -1,0 +1,22 @@
+{
+  "run": "matchlens_physics",
+  "date": "2026-11-11",
+  "what": "matchlens_v0 + src/possess/ball_fill/physics.py (two-sided drag flight k=0.6/s, velocity from LSQ over 5 anchors, smoothstep blend, only for gaps <= 2.5 s, linear beyond; untuned); filled frames conf=None",
+  "scored_on": "public 5-minute window, sanity only (never a tuning target)",
+  "ball_frames_filled": 64091,
+  "validate_submission": "PASS",
+  "public_window": {"macroF1": 0.5895, "spellF1": 0.2286, "n_pred_possessions": 32, "n_gt_possessions": 17,
+                    "mean_pred_dur_s": 8.0, "transF1": 0.2857, "share_err": 0.047, "fragmentation": 1.76},
+  "challenge_input_gap_stats_graded_halves": {
+    "note": "aggregate statistics of the challenge INPUT (allowed: calibrating degradation on input stats); interior gaps only, a gap touching a half end is not counted",
+    "n_gaps": 147,
+    "by_length": {"<0.5s": [15, 51], "0.5-1s": [1, 22], "1-2.5s": [0, 0], "2.5-5s": [0, 0],
+                  "5-10s": [53, 9343], "10-30s": [59, 26340], ">30s": [19, 28333]},
+    "by_length_format": "[gap count, missing frames]",
+    "reading": "Bimodal: 16 short gaps hold 73 frames; 131 gaps of 5 s or more hold 64,018 frames (99.9%). The ball is not flickering through occlusions, it is absent for long blocks."
+  },
+  "physics_signals": {"gaps_modelled": 16, "forward_flight_leaves_pitch": 1, "fwd_bwd_disagreement_median_m": 7.9, "disagreement_over_5m": 11},
+  "bug_found_by_tests": "first version ran the drag model backwards with negated velocity; correct backward flight is p1 - v1*(exp(k tau)-1)/k (ball was faster earlier). Fixed before the reported run.",
+  "matchlens_delta": "New method (MatchLens had linear only; velocity fit plays the role of kinematics.py SG). No score change: interpolation of any kind can only reach 0.1% of the missing frames.",
+  "no_per_frame_output_was_read_by_ai": true
+}

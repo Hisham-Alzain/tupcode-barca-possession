@@ -1,0 +1,46 @@
+{
+ "default": {
+  "possessions": 371,
+  "per_half_hour": 107.07139375593238,
+  "D_share": 0.4385405710474334,
+  "home_share_of_HA": 0.5838939973727797,
+  "frames_changed": 0.0,
+  "changed_on_hidden": 0.0
+ },
+ "h05": {
+  "possessions": 371,
+  "per_half_hour": 107.07139375593238,
+  "D_share": 0.43988096765090684,
+  "home_share_of_HA": 0.5849363378217459,
+  "frames_changed": 0.0037774813370616456,
+  "changed_on_hidden": 0.8862478777589134
+ },
+ "v02": {
+  "possessions": 370,
+  "per_half_hour": 106.78279161642851,
+  "D_share": 0.4384443703342654,
+  "home_share_of_HA": 0.5839424394700776,
+  "frames_changed": 0.0022062030219850695,
+  "changed_on_hidden": 0.5203488372093024
+ },
+ "v02n": {
+  "possessions": 370,
+  "per_half_hour": 106.78279161642851,
+  "D_share": 0.4384443703342654,
+  "home_share_of_HA": 0.5839424394700776,
+  "frames_changed": 0.0022062030219850695,
+  "changed_on_hidden": 0.5203488372093024
+ },
+ "r10": {
+  "possessions": 373,
+  "per_half_hour": 107.6485980349401,
+  "D_share": 0.43954747184525794,
+  "home_share_of_HA": 0.5866137227079233,
+  "frames_changed": 0.004130217285344142,
+  "changed_on_hidden": 0.43478260869565216,
+  "restart_events": 31,
+  "restart_frames_anchored": 2100,
+  "default_agrees_on_restart_frames": 0.6614285714285715
+ },
+ "commit": "cb53974"
+}

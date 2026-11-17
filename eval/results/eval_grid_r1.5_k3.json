@@ -1,0 +1,36 @@
+{
+ "variant": "grid_r1.5_k3",
+ "team_kw": {
+  "restart_flip": 1,
+  "backdate": 1,
+  "r_pz": 1.5,
+  "r_dz": 1.5,
+  "k": 3
+ },
+ "dead_kw": {},
+ "tune": {
+  "metrica1": {
+   "spellF1": 0.31172069825436416,
+   "macroF1": 0.6581829231775016,
+   "n_pred": 445,
+   "n_gt": 357,
+   "aliveDeadF1": 0.8016520013802623
+  },
+  "metrica2": {
+   "spellF1": 0.30157894736842106,
+   "macroF1": 0.7143791331132402,
+   "n_pred": 430,
+   "n_gt": 330,
+   "aliveDeadF1": 0.8513813944654847
+  },
+  "idsse1": {
+   "spellF1": 0.3378935939196525,
+   "macroF1": 0.7526559305505832,
+   "n_pred": 410,
+   "n_gt": 511,
+   "aliveDeadF1": 0.8831368405887579
+  }
+ },
+ "commit": "2c9d35e",
+ "tune_mean": 0.31706441318081263
+}

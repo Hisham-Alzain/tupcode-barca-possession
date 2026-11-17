@@ -1,0 +1,49 @@
+{
+ "variant": "cap1",
+ "team_kw": {},
+ "dead_kw": {},
+ "decoder": null,
+ "dec_kw": {},
+ "bench": "orig",
+ "tune": {
+  "metrica3": {
+   "spellF1": 0.6314325452016689,
+   "macroF1": 0.8711399807060469,
+   "n_pred": 333,
+   "n_gt": 386,
+   "aliveDeadF1": 0.9355580903356634
+  },
+  "idsse2": {
+   "spellF1": 0.5259361997226074,
+   "macroF1": 0.8579274249725533,
+   "n_pred": 300,
+   "n_gt": 421,
+   "aliveDeadF1": 0.9322219785040579
+  }
+ },
+ "commit": "886dadd",
+ "shape": "shape.MODELS",
+ "attack_votes": {
+  "metrica3": {
+   "1": [
+    -1,
+    1.0
+   ],
+   "2": [
+    1,
+    1.0
+   ]
+  },
+  "idsse2": {
+   "1": [
+    -1,
+    1.0
+   ],
+   "2": [
+    1,
+    0.9904903995848469
+   ]
+  }
+ },
+ "tune_mean": 0.5786843724621382
+}

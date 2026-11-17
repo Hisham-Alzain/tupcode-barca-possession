@@ -1,0 +1,283 @@
+{
+ "protocol": "leave-one-match-out shape models, tune split",
+ "l2": 10.0,
+ "rows": [
+  {
+   "kw": {
+    "w_shape": 0.05,
+    "w_sdead": 0.3,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.0,
+    "cap": 1.0,
+    "w_touch": 0.5
+   },
+   "per_match": [
+    0.6597,
+    0.6119,
+    0.5268
+   ],
+   "n_pred": [
+    296,
+    259,
+    350
+   ],
+   "spellF1": 0.5994793891784354
+  },
+  {
+   "kw": {
+    "w_shape": 0.05,
+    "w_sdead": 0.3,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.0,
+    "cap": 0.75
+   },
+   "per_match": [
+    0.6632,
+    0.6064,
+    0.5248
+   ],
+   "n_pred": [
+    298,
+    263,
+    348
+   ],
+   "spellF1": 0.5981368253477909
+  },
+  {
+   "kw": {
+    "w_shape": 0.05,
+    "w_sdead": 0.4,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.0,
+    "cap": 1.0
+   },
+   "per_match": [
+    0.6673,
+    0.6047,
+    0.5194
+   ],
+   "n_pred": [
+    303,
+    268,
+    357
+   ],
+   "spellF1": 0.5971032800766322
+  },
+  {
+   "kw": {
+    "w_shape": 0.05,
+    "w_sdead": 0.3,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.0,
+    "cap": 1.0,
+    "c_switch": 5.0
+   },
+   "per_match": [
+    0.6638,
+    0.6054,
+    0.5218
+   ],
+   "n_pred": [
+    292,
+    260,
+    346
+   ],
+   "spellF1": 0.597011493012917
+  },
+  {
+   "kw": {
+    "w_shape": 0.05,
+    "w_sdead": 0.3,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.0,
+    "cap": 1.0
+   },
+   "per_match": [
+    0.6655,
+    0.5993,
+    0.5203
+   ],
+   "n_pred": [
+    303,
+    272,
+    357
+   ],
+   "spellF1": 0.5950221971077184
+  },
+  {
+   "kw": {
+    "w_shape": 0.08,
+    "w_sdead": 0.3,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.0,
+    "cap": 1.0
+   },
+   "per_match": [
+    0.6489,
+    0.598,
+    0.5265
+   ],
+   "n_pred": [
+    305,
+    272,
+    368
+   ],
+   "spellF1": 0.591152212490788
+  },
+  {
+   "kw": {
+    "w_shape": 0.05,
+    "w_sdead": 0.3,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.0,
+    "cap": 1.25
+   },
+   "per_match": [
+    0.6552,
+    0.5961,
+    0.519
+   ],
+   "n_pred": [
+    306,
+    278,
+    366
+   ],
+   "spellF1": 0.5900994802566973
+  },
+  {
+   "kw": {
+    "w_shape": 0.05,
+    "w_sdead": 0.3,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.15,
+    "cap": 1.0
+   },
+   "per_match": [
+    0.6558,
+    0.5927,
+    0.5147
+   ],
+   "n_pred": [
+    306,
+    276,
+    357
+   ],
+   "spellF1": 0.587764251955358
+  },
+  {
+   "kw": {
+    "w_shape": 0.05,
+    "w_sdead": 0.3,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.0,
+    "cap": 1.5
+   },
+   "per_match": [
+    0.6444,
+    0.5909,
+    0.5185
+   ],
+   "n_pred": [
+    314,
+    284,
+    363
+   ],
+   "spellF1": 0.5846087581044842
+  },
+  {
+   "kw": {
+    "w_shape": 0.05,
+    "w_sdead": 0.3,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.3,
+    "cap": 1.0
+   },
+   "per_match": [
+    0.6492,
+    0.5911,
+    0.5098
+   ],
+   "n_pred": [
+    314,
+    279,
+    356
+   ],
+   "spellF1": 0.583372418121196
+  },
+  {
+   "kw": {
+    "w_shape": 0.05,
+    "w_sdead": 0.3,
+    "c_stop": 12.0,
+    "gap_pos": -1.0,
+    "shape_vis": 1.0,
+    "sdead_vis": 2.5,
+    "w_dead": 1.0,
+    "w_live": 0.0,
+    "w_rule": 0.3,
+    "cap": 1.5
+   },
+   "per_match": [
+    0.6287,
+    0.5832,
+    0.5075
+   ],
+   "n_pred": [
+    325,
+    288,
+    360
+   ],
+   "spellF1": 0.5731244035117713
+  }
+ ]
+}

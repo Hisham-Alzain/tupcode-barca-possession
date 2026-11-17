@@ -1,0 +1,75 @@
+{
+ "default": {
+  "possessions": 324,
+  "D_share": 0.4420935840537698,
+  "catalogue_D": {
+   "15889-15946": 0,
+   "16338-16400": 1,
+   "17380-17461": 0,
+   "18127-18389": 1
+  }
+ },
+ "rk5law": {
+  "possessions": 324,
+  "D_share": 0.4466727380005644,
+  "frames_changed": 0.004579153946794592,
+  "live_to_D": 714,
+  "live_to_D_runs": 8,
+  "live_to_D_in_setpiece_window": 0.15546218487394958,
+  "live_to_D_visible": 0.6456582633053222,
+  "D_to_live": 0,
+  "new_D_runs": 1,
+  "window_D_frames": 1099,
+  "runs_sec": [
+   9.5,
+   0.5,
+   8.4,
+   0.7,
+   6.8,
+   0.6,
+   1.3,
+   0.8
+  ],
+  "catalogue_D": {
+   "15889-15946": 0,
+   "16338-16400": 1,
+   "17380-17461": 0,
+   "18127-18389": 238
+  }
+ },
+ "rk5rlaw": {
+  "possessions": 319,
+  "D_share": 0.45486903876247403,
+  "frames_changed": 0.01277545470870424,
+  "live_to_D": 1992,
+  "live_to_D_runs": 13,
+  "live_to_D_in_setpiece_window": 0.2354417670682731,
+  "live_to_D_visible": 0.6526104417670683,
+  "D_to_live": 0,
+  "new_D_runs": 3,
+  "window_D_frames": 1099,
+  "runs_sec": [
+   9.5,
+   14.0,
+   13.3,
+   0.5,
+   8.4,
+   0.7,
+   6.8,
+   0.6,
+   17.2,
+   1.3,
+   1.3,
+   0.8,
+   5.3
+  ],
+  "catalogue_D": {
+   "15889-15946": 0,
+   "16338-16400": 1,
+   "17380-17461": 0,
+   "18127-18389": 238
+  }
+ },
+ "setpiece_window_share_of_play": 0.07352299838382802,
+ "commit": "dbc0ddd"
+}

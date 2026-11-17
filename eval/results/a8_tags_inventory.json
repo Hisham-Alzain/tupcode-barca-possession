@@ -1,0 +1,420 @@
+{
+ "home": "Barcelona",
+ "n_tags": 638,
+ "codes": {
+  "PLAYERS IN THE BOX": {
+   "n": 97,
+   "len_p10": 18.512,
+   "len_med": 27.68,
+   "len_p90": 62.448,
+   "mode_len": 19.0,
+   "mode_share": 0.020618556701030927,
+   "teams": {
+    "Atletic Club": 46,
+    "Barcelona": 51
+   }
+  },
+  "BALL IN FINAL THIRD": {
+   "n": 93,
+   "len_p10": 22.4,
+   "len_med": 27.0,
+   "len_p90": 39.464,
+   "mode_len": 24.8,
+   "mode_share": 0.043010752688172046,
+   "teams": {
+    "Atletic Club": 39,
+    "Barcelona": 54
+   }
+  },
+  "BALL IN THE BOX": {
+   "n": 72,
+   "len_p10": 15.6,
+   "len_med": 17.439999999999998,
+   "len_p90": 21.06,
+   "mode_len": 16.0,
+   "mode_share": 0.08333333333333333,
+   "teams": {
+    "Atletic Club": 30,
+    "Barcelona": 42
+   }
+  },
+  "PROGRESSION": {
+   "n": 66,
+   "len_p10": 11.120000000000001,
+   "len_med": 17.64,
+   "len_p90": 27.740000000000002,
+   "mode_len": 15.3,
+   "mode_share": 0.030303030303030304,
+   "teams": {
+    "Atletic Club": 19,
+    "Barcelona": 47
+   }
+  },
+  "DEFENDING IN MIDDLE THIRD": {
+   "n": 66,
+   "len_p10": 11.120000000000001,
+   "len_med": 17.64,
+   "len_p90": 27.740000000000002,
+   "mode_len": 15.3,
+   "mode_share": 0.030303030303030304,
+   "teams": {
+    "Barcelona": 19,
+    "Atletic Club": 47
+   }
+  },
+  "SET PIECES": {
+   "n": 59,
+   "len_p10": 29.00000000000002,
+   "len_med": 35.0,
+   "len_p90": 35.0,
+   "mode_len": 35.0,
+   "mode_share": 0.8983050847457628,
+   "teams": {
+    "N/A": 32,
+    "Atletic Club": 11,
+    "Barcelona": 16
+   }
+  },
+  "CREATING CHANCES": {
+   "n": 30,
+   "len_p10": 30.0,
+   "len_med": 30.0,
+   "len_p90": 30.0,
+   "mode_len": 30.0,
+   "mode_share": 1.0,
+   "teams": {
+    "Atletic Club": 9,
+    "Barcelona": 19,
+    "N/A": 2
+   }
+  },
+  "DEFENDING IN DEFENSIVE THIRD": {
+   "n": 30,
+   "len_p10": 30.0,
+   "len_med": 30.0,
+   "len_p90": 30.0,
+   "mode_len": 30.0,
+   "mode_share": 1.0,
+   "teams": {
+    "Barcelona": 9,
+    "Atletic Club": 19,
+    "N/A": 2
+   }
+  },
+  "LONG BALL": {
+   "n": 29,
+   "len_p10": 9.024000000000001,
+   "len_med": 12.4,
+   "len_p90": 18.176,
+   "mode_len": 11.4,
+   "mode_share": 0.06896551724137931,
+   "teams": {
+    "Atletic Club": 20,
+    "Barcelona": 9
+   }
+  },
+  "ATTACKING TRANSITION": {
+   "n": 24,
+   "len_p10": 10.66,
+   "len_med": 15.440000000000001,
+   "len_p90": 20.464,
+   "mode_len": 11.7,
+   "mode_share": 0.08333333333333333,
+   "teams": {
+    "Atletic Club": 11,
+    "Barcelona": 13
+   }
+  },
+  "DEFENSIVE TRANSITION": {
+   "n": 24,
+   "len_p10": 10.66,
+   "len_med": 15.440000000000001,
+   "len_p90": 20.464,
+   "mode_len": 11.7,
+   "mode_share": 0.08333333333333333,
+   "teams": {
+    "Barcelona": 11,
+    "Atletic Club": 13
+   }
+  },
+  "BUILD UP": {
+   "n": 22,
+   "len_p10": 13.724,
+   "len_med": 20.52,
+   "len_p90": 25.160000000000004,
+   "mode_len": 22.7,
+   "mode_share": 0.09090909090909091,
+   "teams": {
+    "Barcelona": 15,
+    "Atletic Club": 7
+   }
+  },
+  "DEFENDING IN ATTACKING THIRD": {
+   "n": 22,
+   "len_p10": 13.724,
+   "len_med": 20.52,
+   "len_p90": 25.160000000000004,
+   "mode_len": 22.7,
+   "mode_share": 0.09090909090909091,
+   "teams": {
+    "Atletic Club": 15,
+    "Barcelona": 7
+   }
+  },
+  "GOALS": {
+   "n": 4,
+   "len_p10": 94.12400000000001,
+   "len_med": 169.26,
+   "len_p90": 232.55200000000002,
+   "mode_len": 148.4,
+   "mode_share": 0.25,
+   "teams": {
+    "Barcelona": 2,
+    "Atletic Club": 2
+   }
+  }
+ },
+ "coverage": 0.6943446807418999,
+ "overlap_both": 0.09402016366948,
+ "home_share_of_one_team_frames": 0.626120399551306,
+ "out_clips": 142,
+ "out_clips_mirroring_an_in_clip": 142,
+ "one-team_runs": {
+  "n": 130,
+  "p10": 4.1240000000000006,
+  "med": 18.200000000000003,
+  "p90": 69.20400000000002,
+  "mean": 28.80153846153846
+ },
+ "uncovered_runs": {
+  "n": 81,
+  "p10": 3.0,
+  "med": 13.2,
+  "p90": 55.88,
+  "mean": 23.53530864197531
+ },
+ "both-team_runs": {
+  "n": 50,
+  "p10": 2.4520000000000004,
+  "med": 11.84,
+  "p90": 20.448,
+  "mean": 11.728000000000002
+ },
+ "alignment": {
+  "all": {
+   "frames": 155924,
+   "one_team_clip_share": 0.6003245170724198,
+   "ours_D_inside_clip": 0.3547780567277389,
+   "agree_when_we_name_a_team": 0.7482945890456322,
+   "ours_D_outside_clips": 0.7173671289787868,
+   "live_frames_outside_clips_share": 0.15386372722599806
+  },
+  "visible": {
+   "frames": 91845,
+   "one_team_clip_share": 0.6678970003810768,
+   "ours_D_inside_clip": 0.09044226725135712,
+   "agree_when_we_name_a_team": 0.7613406219195269,
+   "ours_D_outside_clips": 0.29369296523044935,
+   "live_frames_outside_clips_share": 0.15115445466231583
+  },
+  "hidden": {
+   "frames": 64079,
+   "one_team_clip_share": 0.5034722764088079,
+   "ours_D_inside_clip": 0.8573863988593392,
+   "agree_when_we_name_a_team": 0.5900891110628125,
+   "ours_D_outside_clips": 0.9591036414565827,
+   "live_frames_outside_clips_share": 0.18686944737238367
+  }
+ },
+ "disagree_runs": {
+  "n": 153,
+  "len_med": 3.28,
+  "len_p90": 8.208000000000002,
+  "frames": 15202,
+  "frames_in_runs_ge_4s": 10395,
+  "mostly_hidden_runs": 13,
+  "frames_hidden": 1886
+ },
+ "by_code": {
+  "PLAYERS IN THE BOX": {
+   "frames": 72702,
+   "agree": 0.6121763570969202,
+   "ours_D": 0.4225330802453853
+  },
+  "BALL IN FINAL THIRD": {
+   "frames": 58750,
+   "agree": 0.6979470652422158,
+   "ours_D": 0.3292425531914894
+  },
+  "BALL IN THE BOX": {
+   "frames": 29022,
+   "agree": 0.6649060195098739,
+   "ours_D": 0.27589414926607403
+  },
+  "PROGRESSION": {
+   "frames": 31184,
+   "agree": 0.8546724535467245,
+   "ours_D": 0.054258594150846585
+  },
+  "DEFENDING IN MIDDLE THIRD": {
+   "frames": 31184,
+   "agree": 0.8546724535467245,
+   "ours_D": 0.054258594150846585
+  },
+  "CREATING CHANCES": {
+   "frames": 20911,
+   "agree": 0.653920013358938,
+   "ours_D": 0.42723925206828944
+  },
+  "DEFENDING IN DEFENSIVE THIRD": {
+   "frames": 20911,
+   "agree": 0.653920013358938,
+   "ours_D": 0.42723925206828944
+  },
+  "LONG BALL": {
+   "frames": 9462,
+   "agree": 0.6759100764578341,
+   "ours_D": 0.07387444514901712
+  },
+  "ATTACKING TRANSITION": {
+   "frames": 9131,
+   "agree": 0.6970831914652139,
+   "ours_D": 0.03504544956740773
+  },
+  "DEFENSIVE TRANSITION": {
+   "frames": 9131,
+   "agree": 0.6970831914652139,
+   "ours_D": 0.03504544956740773
+  },
+  "BUILD UP": {
+   "frames": 11033,
+   "agree": 0.857255133117202,
+   "ours_D": 0.07740415118281518
+  },
+  "DEFENDING IN ATTACKING THIRD": {
+   "frames": 11033,
+   "agree": 0.857255133117202,
+   "ours_D": 0.07740415118281518
+  }
+ },
+ "agree_by_clip_fifth": [
+  0.8182590317419559,
+  0.8076716119609502,
+  0.7347305502487373,
+  0.6282991202346041,
+  0.5612459895608869
+ ],
+ "live_by_clip_fifth": [
+  0.7674129541768353,
+  0.7900282391522181,
+  0.8025960224684986,
+  0.6829416316436299,
+  0.6357755011949523
+ ],
+ "set_pieces": {
+  "Corner Kick": {
+   "n": 12,
+   "anchored": 12,
+   "dead_share": 0.3550228310502283,
+   "len_med": 35.04,
+   "restart_from_start_s": [
+    5.144,
+    24.259999999999998,
+    74.744
+   ],
+   "restart_after_clip_end": 4,
+   "with_team": 12,
+   "our_first_team_equals_tag": 3
+  },
+  "Free Kick": {
+   "n": 5,
+   "anchored": 5,
+   "dead_share": 0.45,
+   "len_med": 35.04,
+   "restart_from_start_s": [
+    7.136,
+    54.96,
+    114.80799999999999
+   ],
+   "restart_after_clip_end": 3,
+   "with_team": 5,
+   "our_first_team_equals_tag": 1
+  },
+  "Goal Kick": {
+   "n": 10,
+   "anchored": 8,
+   "dead_share": 0.25536529680365294,
+   "len_med": 35.04,
+   "restart_from_start_s": [
+    4.676,
+    30.020000000000003,
+    47.296
+   ],
+   "restart_after_clip_end": 4,
+   "with_team": 8,
+   "our_first_team_equals_tag": 6
+  },
+  "Kick Off (After Goal)": {
+   "n": 4,
+   "anchored": 4,
+   "dead_share": 0.7261904761904762,
+   "len_med": 5.04,
+   "restart_from_start_s": [
+    3.084,
+    3.3,
+    11.804000000000002
+   ],
+   "restart_after_clip_end": 1,
+   "with_team": 0,
+   "our_first_team_equals_tag": 0
+  },
+  "Throw-in": {
+   "n": 26,
+   "anchored": 23,
+   "dead_share": 0.30444327362135587,
+   "len_med": 35.04,
+   "restart_from_start_s": [
+    5.432,
+    19.56,
+    51.336
+   ],
+   "restart_after_clip_end": 9,
+   "with_team": 0,
+   "our_first_team_equals_tag": 0
+  }
+ },
+ "restart_events_with_team": {
+  "Free Kick": 5,
+  "Goal Kick": 10,
+  "Corner Kick": 12,
+  "Kick Off (After Goal)": 4
+ },
+ "goals": [
+  {
+   "team": "Barcelona",
+   "a": 45947,
+   "b": 49656,
+   "half": 1
+  },
+  {
+   "team": "Atletic Club",
+   "a": 57283,
+   "b": 62037,
+   "half": 1
+  },
+  {
+   "team": "Atletic Club",
+   "a": 73710,
+   "b": 75482,
+   "half": 1
+  },
+  {
+   "team": "Barcelona",
+   "a": 156757,
+   "b": 163025,
+   "half": 2
+  }
+ ],
+ "possessions_per_half_hour": 107.07139375593238,
+ "stoppages_per_half_hour": 29.726020368897668
+}

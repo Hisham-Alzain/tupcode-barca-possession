@@ -1,0 +1,592 @@
+{
+ "bench": "real2",
+ "seed": 0,
+ "sim": "base",
+ "sim_kw": {
+  "jitter": 1.5
+ },
+ "lead": {
+  "goal kick": 4.3,
+  "corner kick": 6.9,
+  "throw-in": 6.0,
+  "free kick": 6.0
+ },
+ "rates": {
+  "free kick": 1.4163681801872123,
+  "goal kick": 2.8327363603744247,
+  "throw-in": 7.365114536973505,
+  "corner kick": 3.39928363244931
+ },
+ "configs": {
+  "default": null,
+  "sp": {},
+  "sph": {
+   "hid": 1
+  },
+  "sp_g10": {
+   "gap_s": 10.0
+  },
+  "sp_g20": {
+   "gap_s": 20.0
+  },
+  "sp_nt": {
+   "take_s": 0.0
+  },
+  "sph_nt": {
+   "hid": 1,
+   "take_s": 0.0
+  },
+  "sp_w8": {
+   "pre_s": 8.0
+  }
+ },
+ "scores": {
+  "default": {
+   "old": {
+    "metrica1": 0.6248322147651006,
+    "metrica2": 0.6461538461538462,
+    "idsse1": 0.5106493506493506
+   },
+   "ctl2": {
+    "metrica1": 0.6699065420560748,
+    "metrica2": 0.711969111969112,
+    "idsse1": 0.6989323843416371
+   },
+   "mean": {
+    "old": 0.5938784705227659,
+    "ctl2": 0.6936026794556079
+   }
+  },
+  "sp": {
+   "old": {
+    "metrica1": 0.6288590604026846,
+    "metrica2": 0.6464223385689355,
+    "idsse1": 0.5127272727272727
+   },
+   "ctl2": {
+    "metrica1": 0.6743925233644861,
+    "metrica2": 0.7113680154142582,
+    "idsse1": 0.702491103202847
+   },
+   "mean": {
+    "old": 0.5960028905662976,
+    "ctl2": 0.6960838806605304
+   }
+  },
+  "sph": {
+   "old": {
+    "metrica1": 0.6321070234113713,
+    "metrica2": 0.645993031358885,
+    "idsse1": 0.5110246433203631
+   },
+   "ctl2": {
+    "metrica1": 0.6778398510242085,
+    "metrica2": 0.7107692307692307,
+    "idsse1": 0.6998223801065719
+   },
+   "mean": {
+    "old": 0.5963748993635397,
+    "ctl2": 0.6961438206333371
+   }
+  },
+  "sp_g10": {
+   "old": {
+    "metrica1": 0.6288590604026846,
+    "metrica2": 0.6464223385689355,
+    "idsse1": 0.5127272727272727
+   },
+   "ctl2": {
+    "metrica1": 0.6743925233644861,
+    "metrica2": 0.7113680154142582,
+    "idsse1": 0.702491103202847
+   },
+   "mean": {
+    "old": 0.5960028905662976,
+    "ctl2": 0.6960838806605304
+   }
+  },
+  "sp_g20": {
+   "old": {
+    "metrica1": 0.6288590604026846,
+    "metrica2": 0.6464223385689355,
+    "idsse1": 0.5127272727272727
+   },
+   "ctl2": {
+    "metrica1": 0.6743925233644861,
+    "metrica2": 0.7113680154142582,
+    "idsse1": 0.702491103202847
+   },
+   "mean": {
+    "old": 0.5960028905662976,
+    "ctl2": 0.6960838806605304
+   }
+  },
+  "sp_nt": {
+   "old": {
+    "metrica1": 0.6288590604026846,
+    "metrica2": 0.6464223385689355,
+    "idsse1": 0.5127272727272727
+   },
+   "ctl2": {
+    "metrica1": 0.6743925233644861,
+    "metrica2": 0.7113680154142582,
+    "idsse1": 0.702491103202847
+   },
+   "mean": {
+    "old": 0.5960028905662976,
+    "ctl2": 0.6960838806605304
+   }
+  },
+  "sph_nt": {
+   "old": {
+    "metrica1": 0.6342281879194631,
+    "metrica2": 0.6471204188481675,
+    "idsse1": 0.511168831168831
+   },
+   "ctl2": {
+    "metrica1": 0.6803738317757009,
+    "metrica2": 0.7121387283236995,
+    "idsse1": 0.7003558718861209
+   },
+   "mean": {
+    "old": 0.5975058126454873,
+    "ctl2": 0.6976228106618404
+   }
+  },
+  "sp_w8": {
+   "old": {
+    "metrica1": 0.6288590604026846,
+    "metrica2": 0.6464223385689355,
+    "idsse1": 0.5127272727272727
+   },
+   "ctl2": {
+    "metrica1": 0.6743925233644861,
+    "metrica2": 0.7113680154142582,
+    "idsse1": 0.702491103202847
+   },
+   "mean": {
+    "old": 0.5960028905662976,
+    "ctl2": 0.6960838806605304
+   }
+  }
+ },
+ "boot": {
+  "default": {},
+  "sp": {
+   "old": [
+    0.002084533731516938,
+    0.0003015939724621349,
+    0.0043324724074136865
+   ],
+   "ctl2": [
+    0.002439080555645297,
+    0.00021817556932616407,
+    0.0051441508910972395
+   ]
+  },
+  "sph": {
+   "old": [
+    0.002434436560799708,
+    -0.00030881262657146225,
+    0.005323255001835227
+   ],
+   "ctl2": [
+    0.0024567335615179116,
+    -0.0010795363232112961,
+    0.0061087660857746095
+   ]
+  },
+  "sp_g10": {
+   "old": [
+    0.002084533731516938,
+    0.0003015939724621349,
+    0.0043324724074136865
+   ],
+   "ctl2": [
+    0.002439080555645297,
+    0.00021817556932616407,
+    0.0051441508910972395
+   ]
+  },
+  "sp_g20": {
+   "old": [
+    0.002084533731516938,
+    0.0003015939724621349,
+    0.0043324724074136865
+   ],
+   "ctl2": [
+    0.002439080555645297,
+    0.00021817556932616407,
+    0.0051441508910972395
+   ]
+  },
+  "sp_nt": {
+   "old": [
+    0.002084533731516938,
+    0.0003015939724621349,
+    0.0043324724074136865
+   ],
+   "ctl2": [
+    0.002439080555645297,
+    0.00021817556932616407,
+    0.0051441508910972395
+   ]
+  },
+  "sph_nt": {
+   "old": [
+    0.003569983772135407,
+    0.0007906352354061979,
+    0.006551786842547352
+   ],
+   "ctl2": [
+    0.003946491922357694,
+    0.0005406187965821651,
+    0.007576744154727985
+   ]
+  },
+  "sp_w8": {
+   "old": [
+    0.002084533731516938,
+    0.0003015939724621349,
+    0.0043324724074136865
+   ],
+   "ctl2": [
+    0.002439080555645297,
+    0.00021817556932616407,
+    0.0051441508910972395
+   ]
+  }
+ },
+ "fired": {
+  "sp": {
+   "metrica1": {
+    "events": 39,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 3,
+     "free kick": 9,
+     "throw-in": 17
+    },
+    "kick_found": 7,
+    "kick_err_s_q50": 0.36,
+    "kick_within_1s": 5,
+    "filled_frames": 250,
+    "filled_true_D": 1.0,
+    "changed": 250
+   },
+   "metrica2": {
+    "events": 39,
+    "types": {
+     "goal kick": 9,
+     "corner kick": 1,
+     "free kick": 8,
+     "throw-in": 21
+    },
+    "kick_found": 3,
+    "kick_err_s_q50": 0.32,
+    "kick_within_1s": 3,
+    "filled_frames": 11,
+    "filled_true_D": 1.0,
+    "changed": 11
+   },
+   "idsse1": {
+    "events": 46,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 5,
+     "free kick": 8,
+     "throw-in": 23
+    },
+    "kick_found": 8,
+    "kick_err_s_q50": 0.42,
+    "kick_within_1s": 6,
+    "filled_frames": 389,
+    "filled_true_D": 0.8071979434447301,
+    "changed": 389
+   }
+  },
+  "sph": {
+   "metrica1": {
+    "events": 39,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 3,
+     "free kick": 9,
+     "throw-in": 17
+    },
+    "kick_found": 27,
+    "kick_err_s_q50": 0.28,
+    "kick_within_1s": 20,
+    "filled_frames": 631,
+    "filled_true_D": 0.8734525447042641,
+    "changed": 727
+   },
+   "metrica2": {
+    "events": 39,
+    "types": {
+     "goal kick": 9,
+     "corner kick": 1,
+     "free kick": 8,
+     "throw-in": 21
+    },
+    "kick_found": 27,
+    "kick_err_s_q50": 0.24,
+    "kick_within_1s": 26,
+    "filled_frames": 81,
+    "filled_true_D": 0.5733333333333334,
+    "changed": 150
+   },
+   "idsse1": {
+    "events": 46,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 5,
+     "free kick": 8,
+     "throw-in": 23
+    },
+    "kick_found": 30,
+    "kick_err_s_q50": 0.08,
+    "kick_within_1s": 26,
+    "filled_frames": 548,
+    "filled_true_D": 0.5684039087947883,
+    "changed": 614
+   }
+  },
+  "sp_g10": {
+   "metrica1": {
+    "events": 39,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 3,
+     "free kick": 9,
+     "throw-in": 17
+    },
+    "kick_found": 7,
+    "kick_err_s_q50": 0.36,
+    "kick_within_1s": 5,
+    "filled_frames": 250,
+    "filled_true_D": 1.0,
+    "changed": 250
+   },
+   "metrica2": {
+    "events": 39,
+    "types": {
+     "goal kick": 9,
+     "corner kick": 1,
+     "free kick": 8,
+     "throw-in": 21
+    },
+    "kick_found": 3,
+    "kick_err_s_q50": 0.32,
+    "kick_within_1s": 3,
+    "filled_frames": 11,
+    "filled_true_D": 1.0,
+    "changed": 11
+   },
+   "idsse1": {
+    "events": 46,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 5,
+     "free kick": 8,
+     "throw-in": 23
+    },
+    "kick_found": 8,
+    "kick_err_s_q50": 0.42,
+    "kick_within_1s": 6,
+    "filled_frames": 389,
+    "filled_true_D": 0.8071979434447301,
+    "changed": 389
+   }
+  },
+  "sp_g20": {
+   "metrica1": {
+    "events": 39,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 3,
+     "free kick": 9,
+     "throw-in": 17
+    },
+    "kick_found": 7,
+    "kick_err_s_q50": 0.36,
+    "kick_within_1s": 5,
+    "filled_frames": 250,
+    "filled_true_D": 1.0,
+    "changed": 250
+   },
+   "metrica2": {
+    "events": 39,
+    "types": {
+     "goal kick": 9,
+     "corner kick": 1,
+     "free kick": 8,
+     "throw-in": 21
+    },
+    "kick_found": 3,
+    "kick_err_s_q50": 0.32,
+    "kick_within_1s": 3,
+    "filled_frames": 11,
+    "filled_true_D": 1.0,
+    "changed": 11
+   },
+   "idsse1": {
+    "events": 46,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 5,
+     "free kick": 8,
+     "throw-in": 23
+    },
+    "kick_found": 8,
+    "kick_err_s_q50": 0.42,
+    "kick_within_1s": 6,
+    "filled_frames": 389,
+    "filled_true_D": 0.8071979434447301,
+    "changed": 389
+   }
+  },
+  "sp_nt": {
+   "metrica1": {
+    "events": 39,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 3,
+     "free kick": 9,
+     "throw-in": 17
+    },
+    "kick_found": 7,
+    "kick_err_s_q50": 0.36,
+    "kick_within_1s": 5,
+    "filled_frames": 250,
+    "filled_true_D": 1.0,
+    "changed": 250
+   },
+   "metrica2": {
+    "events": 39,
+    "types": {
+     "goal kick": 9,
+     "corner kick": 1,
+     "free kick": 8,
+     "throw-in": 21
+    },
+    "kick_found": 3,
+    "kick_err_s_q50": 0.32,
+    "kick_within_1s": 3,
+    "filled_frames": 11,
+    "filled_true_D": 1.0,
+    "changed": 11
+   },
+   "idsse1": {
+    "events": 46,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 5,
+     "free kick": 8,
+     "throw-in": 23
+    },
+    "kick_found": 8,
+    "kick_err_s_q50": 0.42,
+    "kick_within_1s": 6,
+    "filled_frames": 389,
+    "filled_true_D": 0.8071979434447301,
+    "changed": 389
+   }
+  },
+  "sph_nt": {
+   "metrica1": {
+    "events": 39,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 3,
+     "free kick": 9,
+     "throw-in": 17
+    },
+    "kick_found": 27,
+    "kick_err_s_q50": 0.28,
+    "kick_within_1s": 20,
+    "filled_frames": 631,
+    "filled_true_D": 0.9492868462757528,
+    "changed": 631
+   },
+   "metrica2": {
+    "events": 39,
+    "types": {
+     "goal kick": 9,
+     "corner kick": 1,
+     "free kick": 8,
+     "throw-in": 21
+    },
+    "kick_found": 27,
+    "kick_err_s_q50": 0.24,
+    "kick_within_1s": 26,
+    "filled_frames": 81,
+    "filled_true_D": 0.9259259259259259,
+    "changed": 81
+   },
+   "idsse1": {
+    "events": 46,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 5,
+     "free kick": 8,
+     "throw-in": 23
+    },
+    "kick_found": 30,
+    "kick_err_s_q50": 0.08,
+    "kick_within_1s": 26,
+    "filled_frames": 548,
+    "filled_true_D": 0.6113138686131386,
+    "changed": 548
+   }
+  },
+  "sp_w8": {
+   "metrica1": {
+    "events": 39,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 3,
+     "free kick": 9,
+     "throw-in": 17
+    },
+    "kick_found": 7,
+    "kick_err_s_q50": 0.36,
+    "kick_within_1s": 5,
+    "filled_frames": 250,
+    "filled_true_D": 1.0,
+    "changed": 250
+   },
+   "metrica2": {
+    "events": 39,
+    "types": {
+     "goal kick": 9,
+     "corner kick": 1,
+     "free kick": 8,
+     "throw-in": 21
+    },
+    "kick_found": 3,
+    "kick_err_s_q50": 0.32,
+    "kick_within_1s": 3,
+    "filled_frames": 11,
+    "filled_true_D": 1.0,
+    "changed": 11
+   },
+   "idsse1": {
+    "events": 46,
+    "types": {
+     "goal kick": 10,
+     "corner kick": 5,
+     "free kick": 8,
+     "throw-in": 23
+    },
+    "kick_found": 8,
+    "kick_err_s_q50": 0.42,
+    "kick_within_1s": 6,
+    "filled_frames": 389,
+    "filled_true_D": 0.8071979434447301,
+    "changed": 389
+   }
+  }
+ },
+ "commit": "f5cc781"
+}

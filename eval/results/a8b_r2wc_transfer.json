@@ -1,0 +1,36 @@
+{
+ "default": {
+  "possessions": 371,
+  "per_half_hour": 107.07139375593238,
+  "mean_s": 9.438814016172508,
+  "D_share": 0.4385405710474334,
+  "home_share_of_HA": 0.5838939973727797,
+  "window_possessions": 21,
+  "window_D_frames": 821,
+  "frames_changed": 0.0,
+  "changed_on_hidden": 0.0
+ },
+ "F": {
+  "possessions": 342,
+  "per_half_hour": 98.70193171032041,
+  "mean_s": 10.25625730994152,
+  "D_share": 0.4376042174392653,
+  "home_share_of_HA": 0.5831499241655358,
+  "window_possessions": 22,
+  "window_D_frames": 844,
+  "frames_changed": 0.01930427644236936,
+  "changed_on_hidden": 0.035880398671096346
+ },
+ "Fwc16": {
+  "possessions": 345,
+  "per_half_hour": 99.56773812883199,
+  "mean_s": 10.211014492753623,
+  "D_share": 0.435173546086555,
+  "home_share_of_HA": 0.584001362552515,
+  "window_possessions": 22,
+  "window_D_frames": 811,
+  "frames_changed": 0.02190810907878197,
+  "changed_on_hidden": 0.03161592505854801
+ },
+ "commit": "6256844"
+}

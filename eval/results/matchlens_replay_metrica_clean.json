@@ -1,0 +1,42 @@
+{
+  "source": "footballtactics events.Eventer via metrica_replay (perfect tracking, no degradation)",
+  "commit": "54e8ce6",
+  "clips": {
+    "metrica_Sample_Game_1": {
+      "spell_f1_mean": 0.46277205040091635,
+      "spell_f1_at_headline": 0.48797250859106533,
+      "spell_bootstrap_low": 0.43390607101947315,
+      "spell_bootstrap_high": 0.49120274914089346,
+      "macro_f1": 0.8279930813940929,
+      "n_gt_spells": 357,
+      "n_pred_spells": 516,
+      "spell_count_error": 159,
+      "mean_spell_duration_s": 6.1172093023255805,
+      "gt_mean_spell_duration_s": 9.888067226890756,
+      "alive_dead_f1": 0.845904398200589,
+      "team_acc_gt_alive": 0.6792330965088215,
+      "gt_home_share": 0.5414442895831209,
+      "pred_home_share": 0.5091178068957188,
+      "n_graded": 145006,
+      "n_abstain_on_graded": 16507
+    },
+    "metrica_Sample_Game_2": {
+      "spell_f1_mean": 0.41743119266055045,
+      "spell_f1_at_headline": 0.4334862385321101,
+      "spell_bootstrap_low": 0.38807339449541284,
+      "spell_bootstrap_high": 0.44545871559633027,
+      "macro_f1": 0.8545044942393346,
+      "n_gt_spells": 330,
+      "n_pred_spells": 542,
+      "spell_count_error": 212,
+      "mean_spell_duration_s": 5.815424354243543,
+      "gt_mean_spell_duration_s": 10.093575757575758,
+      "alive_dead_f1": 0.8662354636549482,
+      "team_acc_gt_alive": 0.7161831107695263,
+      "gt_home_share": 0.5154914016716303,
+      "pred_home_share": 0.5151161203221941,
+      "n_graded": 141156,
+      "n_abstain_on_graded": 17392
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+ "variant": "vit0",
+ "team_kw": {},
+ "dead_kw": {},
+ "decoder": "viterbi",
+ "dec_kw": {},
+ "tune": {
+  "metrica1": {
+   "spellF1": 0.3809815950920245,
+   "macroF1": 0.6666002990230488,
+   "n_pred": 295,
+   "n_gt": 357,
+   "aliveDeadF1": 0.8016520013802623
+  },
+  "metrica2": {
+   "spellF1": 0.3638752052545156,
+   "macroF1": 0.7287011279957153,
+   "n_pred": 279,
+   "n_gt": 330,
+   "aliveDeadF1": 0.8526109726103034
+  },
+  "idsse1": {
+   "spellF1": 0.3175693527080581,
+   "macroF1": 0.7566919688088102,
+   "n_pred": 246,
+   "n_gt": 511,
+   "aliveDeadF1": 0.8831368405887579
+  }
+ },
+ "commit": "4406f4b",
+ "tune_mean": 0.3541420510181994
+}

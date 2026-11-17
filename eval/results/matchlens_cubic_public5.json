@@ -1,0 +1,14 @@
+{
+  "run": "matchlens_cubic",
+  "date": "2026-11-11",
+  "what": "matchlens_v0 + src/possess/ball_fill/cubic.py (local CubicSpline through 2 known anchors per side, linear fallback, clipped to pitch+2 m); filled frames conf=None",
+  "scored_on": "public 5-minute window, sanity only (never a tuning target)",
+  "ball_frames_filled": 64091,
+  "validate_submission": "PASS",
+  "public_window": {"macroF1": 0.5895, "spellF1": 0.2286, "n_pred_possessions": 32, "n_gt_possessions": 17,
+                    "mean_pred_dur_s": 8.0, "transF1": 0.2857, "share_err": 0.047, "fragmentation": 1.76},
+  "vs_linear": {"spellF1": "-0.0097 (one-two possessions; inside the noise of a 17-possession window)", "possessions": "+2"},
+  "regression_check": "linear via the new ball_fill package reproduces v1 exactly (64091 frames, spellF1 0.2383, macroF1 0.5898)",
+  "matchlens_delta": "Cubic is new (MatchLens had linear only). No measurable gain: deadball.py still turns every ghost frame into a dead ball after 0.5 s.",
+  "no_per_frame_output_was_read_by_ai": true
+}

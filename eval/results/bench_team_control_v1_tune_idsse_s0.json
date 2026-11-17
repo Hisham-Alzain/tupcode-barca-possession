@@ -1,0 +1,142 @@
+{
+  "pipeline": "team_control_v1",
+  "split": "tune",
+  "seed": 0,
+  "matches": {
+    "metrica1": {
+      "spellF1": 0.3776566757493188,
+      "ci": [
+        0.34547683923705724,
+        0.4147138964577657
+      ],
+      "macroF1": 0.6510715349973911,
+      "alive_dead_f1": 0.80190377780909,
+      "n_gt": 357,
+      "n_pred": 377,
+      "gt_mean_s": 9.888067226890756,
+      "pred_mean_s": 10.96944297082228,
+      "hidden_frac_all": 0.40007723765059616,
+      "hidden_frac_live": 0.3809135307248643,
+      "missed": {
+        "wrong team for the whole possession": 31,
+        "predicted dead ball during a live possession [ball hidden]": 28,
+        "merged with a neighbour (missed stoppage or turnover) [ball hidden]": 47,
+        "merged with a neighbour (missed stoppage or turnover)": 43,
+        "wrong team for the whole possession [ball hidden]": 54,
+        "boundary too late/early": 5,
+        "predicted dead ball during a live possession": 3,
+        "boundary too late/early [ball hidden]": 1,
+        "split by a spurious turnover": 2,
+        "split by an invented stoppage": 2
+      },
+      "spurious": {
+        "fragment of a true possession (over-splitting)": 45,
+        "possession invented during a true dead ball [ball hidden]": 16,
+        "spell for the wrong team": 41,
+        "fragment of a true possession (over-splitting) [ball hidden]": 11,
+        "possession invented during a true dead ball": 111,
+        "mixed / straddles a boundary [ball hidden]": 5,
+        "spell for the wrong team [ball hidden]": 5,
+        "mixed / straddles a boundary": 2
+      },
+      "secs": 1
+    },
+    "metrica2": {
+      "spellF1": 0.33476394849785407,
+      "ci": [
+        0.3021173104434907,
+        0.3680114449213161
+      ],
+      "macroF1": 0.6700546606835179,
+      "alive_dead_f1": 0.8214531407101656,
+      "n_gt": 330,
+      "n_pred": 369,
+      "gt_mean_s": 10.093575757575758,
+      "pred_mean_s": 11.488563685636857,
+      "hidden_frac_all": 0.4008161125555233,
+      "hidden_frac_live": 0.3997261984820828,
+      "missed": {
+        "wrong team for the whole possession [ball hidden]": 55,
+        "split by a spurious turnover": 5,
+        "boundary too late/early": 4,
+        "wrong team for the whole possession": 25,
+        "predicted dead ball during a live possession [ball hidden]": 22,
+        "merged with a neighbour (missed stoppage or turnover)": 47,
+        "merged with a neighbour (missed stoppage or turnover) [ball hidden]": 45,
+        "split by an invented stoppage": 2,
+        "predicted dead ball during a live possession": 3
+      },
+      "spurious": {
+        "spell for the wrong team": 42,
+        "fragment of a true possession (over-splitting)": 42,
+        "possession invented during a true dead ball": 134,
+        "fragment of a true possession (over-splitting) [ball hidden]": 9,
+        "possession invented during a true dead ball [ball hidden]": 9,
+        "spell for the wrong team [ball hidden]": 7,
+        "mixed / straddles a boundary [ball hidden]": 4
+      },
+      "secs": 0
+    },
+    "idsse1": {
+      "spellF1": 0.33525721455457963,
+      "ci": [
+        0.3000752823086575,
+        0.37089084065244665
+      ],
+      "macroF1": 0.7511374188813379,
+      "alive_dead_f1": 0.8896684314827413,
+      "n_gt": 511,
+      "n_pred": 286,
+      "gt_mean_s": 6.682504892367906,
+      "pred_mean_s": 11.708251748251747,
+      "hidden_frac_all": 0.40652912488355525,
+      "hidden_frac_live": 0.4012932094788506,
+      "missed": {
+        "merged with a neighbour (missed stoppage or turnover) [ball hidden]": 57,
+        "wrong team for the whole possession [ball hidden]": 63,
+        "merged with a neighbour (missed stoppage or turnover)": 86,
+        "wrong team for the whole possession": 85,
+        "predicted dead ball during a live possession [ball hidden]": 71,
+        "split by a spurious turnover": 3,
+        "boundary too late/early": 7,
+        "split by an invented stoppage": 1,
+        "predicted dead ball during a live possession": 3
+      },
+      "spurious": {
+        "spell for the wrong team": 60,
+        "fragment of a true possession (over-splitting) [ball hidden]": 8,
+        "possession invented during a true dead ball": 16,
+        "spell for the wrong team [ball hidden]": 7,
+        "fragment of a true possession (over-splitting)": 46,
+        "mixed / straddles a boundary [ball hidden]": 6,
+        "possession invented during a true dead ball [ball hidden]": 5,
+        "mixed / straddles a boundary": 3
+      },
+      "secs": 80
+    }
+  },
+  "commit": "5a490a6",
+  "mean_spellF1": 0.34922594626725084,
+  "missed_total": {
+    "wrong team for the whole possession": 141,
+    "predicted dead ball during a live possession [ball hidden]": 121,
+    "merged with a neighbour (missed stoppage or turnover) [ball hidden]": 149,
+    "merged with a neighbour (missed stoppage or turnover)": 176,
+    "wrong team for the whole possession [ball hidden]": 172,
+    "boundary too late/early": 16,
+    "predicted dead ball during a live possession": 9,
+    "boundary too late/early [ball hidden]": 1,
+    "split by a spurious turnover": 10,
+    "split by an invented stoppage": 5
+  },
+  "spurious_total": {
+    "fragment of a true possession (over-splitting)": 133,
+    "possession invented during a true dead ball [ball hidden]": 30,
+    "spell for the wrong team": 143,
+    "fragment of a true possession (over-splitting) [ball hidden]": 28,
+    "possession invented during a true dead ball": 261,
+    "mixed / straddles a boundary [ball hidden]": 15,
+    "spell for the wrong team [ball hidden]": 19,
+    "mixed / straddles a boundary": 5
+  }
+}

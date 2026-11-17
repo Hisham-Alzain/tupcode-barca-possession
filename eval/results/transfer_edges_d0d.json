@@ -1,0 +1,41 @@
+{
+ "kw": null,
+ "res": {
+  "provided": {
+   "before D runs >= 3 s / half hour": 23.511711791107725,
+   "before share of their edges on hidden frames": 0.4819277108433735,
+   "before hidden D share": 0.7108426279720929,
+   "before D share": 0.3695713755138269,
+   "before possessions / half hour": 112.45963350686466,
+   "before D runs / half hour": 24.644806335257496,
+   "before D run median s": 19.84
+  },
+  "metrica1": {
+   "before D runs >= 3 s / half hour": 26.688550818586815,
+   "before share of their edges on hidden frames": 0.3546511627906977,
+   "before hidden D share": 0.43699945281798735,
+   "before D share": 0.3845565011102989,
+   "before possessions / half hour": 95.58225176889232,
+   "before D runs / half hour": 26.688550818586815,
+   "before D run median s": 20.7
+  },
+  "metrica2": {
+   "before D runs >= 3 s / half hour": 25.82249426166794,
+   "before share of their edges on hidden frames": 0.37037037037037035,
+   "before hidden D share": 0.3568760907504363,
+   "before D share": 0.3465669188699028,
+   "before possessions / half hour": 87.35016577403724,
+   "before D runs / half hour": 27.416475388931396,
+   "before D run median s": 16.16
+  },
+  "idsse1": {
+   "before D runs >= 3 s / half hour": 24.97139764467311,
+   "before share of their edges on hidden frames": 0.37037037037037035,
+   "before hidden D share": 0.3629991575400168,
+   "before D share": 0.35336754197866643,
+   "before possessions / half hour": 113.45030041036672,
+   "before D runs / half hour": 24.97139764467311,
+   "before D run median s": 20.0
+  }
+ }
+}

@@ -1,0 +1,45 @@
+{
+ "default": {
+  "possessions": 412,
+  "per_half_hour": 116.70873804742631,
+  "D_share": 0.43950848876662657,
+  "H_share_of_HA": 0.5895011118848132,
+  "frames_changed": 0.0
+ },
+ "ctl1": {
+  "possessions": 378,
+  "per_half_hour": 107.07743442215326,
+  "D_share": 0.43950848876662657,
+  "H_share_of_HA": 0.590186212628316,
+  "frames_changed": 0.0023983834517836795
+ },
+ "ctl2": {
+  "possessions": 296,
+  "per_half_hour": 83.84899626708298,
+  "D_share": 0.43950848876662657,
+  "H_share_of_HA": 0.5899166647948068,
+  "frames_changed": 0.012734723682305469
+ },
+ "ctl3": {
+  "possessions": 261,
+  "per_half_hour": 73.93441900577248,
+  "D_share": 0.43950848876662657,
+  "H_share_of_HA": 0.591769806150183,
+  "frames_changed": 0.020232032582763113
+ },
+ "cf2": {
+  "possessions": 368,
+  "per_half_hour": 104.24469806177883,
+  "D_share": 0.43950848876662657,
+  "H_share_of_HA": 0.5938026460612322,
+  "frames_changed": 0.004375003934356056
+ },
+ "fl2p": {
+  "possessions": 314,
+  "per_half_hour": 88.94792171575693,
+  "D_share": 0.43950848876662657,
+  "H_share_of_HA": 0.5923875199353085,
+  "frames_changed": 0.009750908049377742
+ },
+ "commit": "5dd0f55"
+}

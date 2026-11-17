@@ -1,0 +1,38 @@
+diff --git a/src/possess/decode.py b/src/possess/decode.py
+index c5a06df..9851968 100644
+--- a/src/possess/decode.py
++++ b/src/possess/decode.py
+@@ -340,9 +340,14 @@ def viterbi(d_home: np.ndarray, d_away: np.ndarray, visible: np.ndarray, dead: n
+             confirm_s: float = 0.0, tag_team: np.ndarray = None, w_tag: float = 0.0,
+             tag_vis: float = 0.0, tag_restart: np.ndarray = None, w_tagr: float = 0.0,
+             rule_flip: int = -1, tag_neutral: int = 0, fly: np.ndarray = None, w_fly: float = 0.0,
+-            bt: np.ndarray = None, w_bt: float = 0.0) -> np.ndarray:
++            bt: np.ndarray = None, w_bt: float = 0.0, sw: np.ndarray = None, w_sw: float = 0.0,
++            sw_lo: float = 1.0, sw_hi: float = 8.0) -> np.ndarray:
+     """Best 'H'/'A'/'D' sequence (numpy array of 1-char strings). Defaults reproduce v1.
+ 
++    Per-frame switch cost (envelope L8 round 6, opt-in, w_sw = 0 = off = the constant c_switch): the
++    cost of a direct H <-> A change at frame i is clip(c_switch + w_sw * sw[i], sw_lo, sw_hi); sw < 0
++    where a turnover is likely (a learned "turnover within 0.5 s" log-odds below its base rate).
++
+     Smart Tagging evidence (envelope L6, smarttags.py; off by default, labels byte-identical):
+     w_tag * tag_team is added to the team emission on hidden-ball frames (times tag_vis on visible
+     ones); w_tagr * tag_restart on every frame (the tagged restart taker, for a few seconds).
+@@ -452,12 +457,17 @@ def viterbi(d_home: np.ndarray, d_away: np.ndarray, visible: np.ndarray, dead: n
+     if w_s and cue_dn is not None:
+         c_in = np.maximum(0.0, c_in - w_s * np.where(visible, 0.0, np.nan_to_num(cue_dn)))
+     co, ci = c_out.tolist(), c_in.tolist()
++    cs = None                                           # per-frame switch cost (L8 round 6, opt-in)
++    if w_sw and sw is not None:
++        cs = np.clip(c_switch + w_sw * np.nan_to_num(sw), sw_lo, sw_hi).tolist()
+     sh, sa, sdh, sda = eh[0], ea[0], ed[0], ed[0]
+     back = np.zeros((n, 4), dtype=np.int8)
+     bk = back.tolist()
+     for i in range(1, n):
+         c_other, c_stop = co[i], ci[i]
+         c_back = c_other + c_same
++        if cs is not None:
++            c_switch = cs[i]
+         # ties go to the lowest state index (H, A, DH, DA), as np.argmax did in v1
+         bh, vh = H, sh
+         v = sa - c_switch

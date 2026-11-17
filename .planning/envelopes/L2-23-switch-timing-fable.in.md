@@ -1,0 +1,19 @@
+```yaml
+id: L2-23-switch-timing-fable
+role: Fable designer/builder (hard task)
+goal: The user reports that possession switches are placed too LATE (several frames after the real change). Measure the switch-timing error on the EXTERNAL benches and fix it there: for matched turnovers (H<->A, visible ball), the signed offset predicted-minus-true switch frame, by cause (pass/interception in flight, tackle/duel, after hidden block, after stoppage). Then move switches to the right frame so that real2 and real1 gain under the co-deciding rule.
+default_at_start: L2-22 (commit e9237b1 on main): real2 0.5326, real1 0.6068, orig 0.6283 — re-measure first.
+decision_rule: ADR-016: adopt only if neither real2 nor real1 drops by more than 0.003 and at least one gains; orig drop <= 0.005; paired 2-min block bootstrap CI90 lower bound > 0 on the gaining bench; >= 3 real2 seeds (in memory) with median seed gain >= +0.005. Also report the timing itself: median and IQR of the signed offset before/after (the user's actual complaint), even if spellF1 barely moves.
+step_0: offset histogram per match and per cause on real1 and real2 (smoothed ball). Truth definition check: in Metrica events / DFL BallPossession, WHEN does possession change — at the pass release, at the reception, or at the first touch of the new team? (L2-15 found: new team's touch minus true switch has median 0.00 s on raw tracks.) Is the lateness specific to the smoothed-ball regime (smooth_touch uses 8-frame velocities and peak picking — a built-in lag?) or to backdating rules (team_control backdate, decode gap_pos=0.5, touch_hold lag)? Stop if |median offset| < 2 frames on both benches AND the timing oracle (true switch frames given the predicted spell sequence) is < +0.005.
+ideas (not orders): backdate the switch to the velocity-change peak (touch instant) instead of the detection frame; in smooth mode de-lag the peak by half the smoothing window; switch at the pass release vs reception according to the truth convention found in step 0; snap switches to the frame the ball leaves the old team's 1 m zone.
+tried_ref: .planning/TRIED.md — backdate (ADR-005), gap_pos, touch_hold lag, L2-18 exit snap (stoppage exits only), T58 clean-up, T63 M2 exit shift. State new_angle.
+matchlens_start: src/possess/team_control.py backdate (MatchLens possession.py), decode.touch_hold / ball_impulse (MatchLens impulse.py), edges.py (snap machinery reusable for H<->A edges).
+rules_reminder: The user's observation came from watching the provided match; it is ONLY the motivation. Decide everything on external tune matches. Agents MAY read the provided match's INPUT under data/challenge (ADR-001) for transfer aggregates only; NEVER the public ground-truth CSV (third_party/mtah/evaluation/gt/*); never tune or fit on the provided match; --no-public always; NEVER --split heldout.
+owned_files: [src/possess/decode.py, src/possess/shape.py, src/possess/team_control.py, src/possess/edges.py, src/possess/pipeline.py (constants only), scripts/diagnose.py, scripts/tune_shape.py, tests/*, .planning/envelopes/L2-23-switch-timing-fable.out.md]
+constraints:
+  - Tune ONLY on metrica1, metrica2, idsse1 (LOMO for anything learned; noise gate).
+  - RAM: check >= 3 GB free before EVERY run (python ctypes GlobalMemoryStatusEx); if below, wait and re-check, never run; foreground; one run at a time; < 10 min per command; new caches under new names; grids <= 30.
+  - evaluate.py must reproduce any default you set with no extra flags. Do not commit. Do not edit .planning files other than your out envelope.
+deliverable: out envelope <= 300 words: offset table before/after per bench and cause, truth convention, change, real2/real1/orig per match, bootstrap + seeds, transfer (how many switches move on the provided match and by how much), commands, risks.
+done_when: a change meeting the decision rule, or a clear negative with the diagnosis.
+```

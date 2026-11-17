@@ -1,0 +1,3 @@
+id: L3-A1-paper-audit
+First read .planning/envelopes/L3-common.md and obey it.
+goal: Audit our possession logic against the Vidal-Codina paper end to end. Build a table: each of the paper's rules and thresholds for ball possession, possession gain/loss, duel/contested ball, pass / reception, and dead ball (their exact definitions and numbers) vs what src/possess does today (team_control.py, decode.py touch_hold/ball_impulse, stoppage_ml.py, shape.py). Pick the 1-3 deltas most likely to raise spellF1 (measure each on real2/real1/orig), implement the best, with tests. Especially: their definition of WHEN possession changes (at loss of control, at the opponent's first control, or after N frames) and their possession/duel radius.

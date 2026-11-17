@@ -1,0 +1,17 @@
+# Datasets — never commit (size + licences; challenge data must never leave this machine)
+data/
+!data/README.md
+
+# Outputs
+runs/
+submissions/
+*.csv.gz
+
+viewer/cache/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+third_party/mtah/

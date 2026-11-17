@@ -1,0 +1,252 @@
+<title>Possession State Machine</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; each state machine = diagram, then a state table, then the exits that lose the label. */
+:root{
+  --bg:#f6f7fa; --surface:#ffffff; --fg:#141a26; --muted:#5b6476; --line:#dde1e9; --code:#eef0f5;
+  --home:#1d4fa0; --away:#c8102e; --warn:#a86400; --ok:#1f7a4d;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f131b; --surface:#171c27; --fg:#e8ebf2; --muted:#9aa3b5; --line:#2a3141; --code:#222938;
+  --home:#6f9bea; --away:#ff6b7f; --warn:#f0b04a; --ok:#5fcf95; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f131b; --surface:#171c27; --fg:#e8ebf2; --muted:#9aa3b5; --line:#2a3141; --code:#222938;
+  --home:#6f9bea; --away:#ff6b7f; --warn:#f0b04a; --ok:#5fcf95; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1000px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
+h1{font-size:clamp(2.1rem,6vw,3.2rem)}
+h2{font-size:1.7rem;text-transform:uppercase;letter-spacing:.02em}
+h3{font-size:1.15rem;text-transform:uppercase;letter-spacing:.03em}
+p{margin:0;max-width:70ch}
+section{display:grid;gap:16px;min-width:0}
+.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);font-size:1.05rem}
+code{font-family:var(--mono);font-size:.85em;background:var(--code);padding:1px 5px;border-radius:4px}
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto}
+.diagram pre.mermaid{margin:0;min-width:640px;background:transparent}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--mono);font-size:.72rem;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.p-team{color:var(--ok)} .p-x{color:var(--warn)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px;min-width:0}
+.box ul,.box ol{margin:0;padding-left:20px;display:grid;gap:6px}
+.callout{border-left:3px solid var(--warn);padding:10px 14px;background:var(--surface);border-radius:0 8px 8px 0;font-size:.95rem}
+.src{font-size:.85rem;color:var(--muted)}
+</style>
+
+<div class="wrap">
+
+<header style="display:grid;gap:14px">
+  <div class="eyebrow">barca-possession · how a frame gets its team today</div>
+  <h1>Possession state machine</h1>
+  <p class="lede">The bench showed that MatchLens gives no team on 18–20% of the frames where the ball is visible and play is live. The scorer then copies the previous team into those frames, which carries the old possession past a turnover. This page draws the exact logic that produces that, as it is in the code, before we research fixes.</p>
+</header>
+
+<section>
+  <div class="eyebrow">Layer 0 · applies to every frame first</div>
+  <h2>The gate before possession</h2>
+  <p>Every frame passes two checks before any possession logic runs. Either one stops the possession tracker for that frame.</p>
+  <div class="diagram"><pre class="mermaid">
+flowchart LR
+  F([frame]) --> Q1{Ball dead?<br/>DeadBallDetector}
+  Q1 -- yes --> P[PAUSE<br/>reset possession<br/>label D]
+  Q1 -- no --> Q2{Ball position<br/>present?}
+  Q2 -- no --> P2[PAUSE<br/>reset possession<br/>label: no team]
+  Q2 -- yes --> T[Possession tracker<br/>state machine below]
+  </pre></div>
+  <p class="callout">Turning off the "ball unseen 0.5 s means dead" rule (loop iteration 1) only fixed the first check. The second check is inside the possession tracker itself (<code>possession.py:354</code>): <b>every frame without a ball position resets the possessor to nobody</b>. After a 20-second gap the tracker starts again from zero and needs a new proven gain before it names any team.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Layer 1 · MatchLens (footballtactics/backend/events/possession.py)</div>
+  <h2>MatchLens possession tracker</h2>
+  <p>A port of Vidal-Codina et al. (2022) §2.3. It works per player. Each frame is first classified, then the state moves. The frame's label is the team of <code>current_possessor_id</code>; when that is empty the frame has no answer.</p>
+  <div class="tbl"><table>
+    <tr><th>Frame classification (<code>_classify_control_state</code>)</th><th>Rule</th></tr>
+    <tr><td>Duel</td><td>Players from both teams within 2.3 m of the ball (duel zone). Wins over everything else.</td></tr>
+    <tr><td>Control by P</td><td>No duel, and P is the nearest player within 1.8 m of the ball (possession zone).</td></tr>
+    <tr><td>No control</td><td>Nobody within 1.8 m.</td></tr>
+  </table></div>
+  <div class="diagram"><pre class="mermaid">
+stateDiagram-v2
+  direction LR
+  [*] --> Idle
+  Idle: Idle · nobody holds it
+  Candidate: Candidate P · gain not proven
+  Held: Held by P
+  Pending: Pending loss · P
+  DuelHeld: Duel · P still in it
+  DuelOpen: Duel · no holder
+
+  Idle --> Candidate: P controls
+  Candidate --> Held: contact proven
+  Candidate --> Candidate: Q controls (restart for Q)
+  Held --> Held: P controls
+  Held --> Pending: no control and ball moved 0.5 m or more
+  Held --> Candidate: Q controls (loss for P now)
+  Pending --> Held: P controls again (loss dropped)
+  Pending --> Candidate: Q controls (loss committed, back-dated)
+  Pending --> Idle: 3 s with no control (loss committed)
+  Held --> DuelHeld: duel with P in it
+  Pending --> DuelHeld: duel with P in it
+  Held --> DuelOpen: duel without P
+  Candidate --> DuelOpen: duel
+  Idle --> DuelOpen: duel
+  DuelHeld --> Held: P alone in zone again
+  DuelHeld --> Held: W wins it (forced gain, W becomes holder)
+  DuelOpen --> Held: W wins it (forced gain)
+  Held --> Idle: PAUSE (dead ball or no ball position)
+  Candidate --> Idle: PAUSE
+  Pending --> Idle: PAUSE
+  DuelHeld --> Idle: PAUSE
+  DuelOpen --> Idle: PAUSE
+  </pre></div>
+  <div class="tbl"><table>
+    <tr><th>State</th><th>What it means</th><th>Label the frame gets</th></tr>
+    <tr><td>Idle</td><td>No sequence, no holder. Start of a half, after a pause, after a committed loss.</td><td><span class="pill p-x">no team</span></td></tr>
+    <tr><td>Candidate P</td><td>P has the ball in the zone, but the tracker has not yet seen evidence of a touch.</td><td><span class="pill p-x">no team</span></td></tr>
+    <tr><td>Held by P</td><td>A proven gain. Stays until someone else controls, the ball leaves, a duel or a pause.</td><td><span class="pill p-team">team of P</span></td></tr>
+    <tr><td>Pending loss P</td><td>The ball left P's zone and moved. Waiting to see who controls next.</td><td><span class="pill p-team">team of P</span></td></tr>
+    <tr><td>Duel, P still in it</td><td>P is challenged but has not lost it yet.</td><td><span class="pill p-team">team of P</span></td></tr>
+    <tr><td>Duel, no holder</td><td>A duel the previous holder is not part of, or nobody held the ball.</td><td><span class="pill p-x">no team</span></td></tr>
+  </table></div>
+  <div class="box">
+    <h3>"Contact proven" (<code>_sequence_indicates_contact</code>)</h3>
+    <ul>
+      <li>The ball's direction at the start of P's control run and at its latest frame differ: dot product of the two unit vectors below 0.85 (about 32°), or</li>
+      <li>at some frame in the run, incoming and outgoing speed differ by more than 1.5 m/s.</li>
+      <li>Both read a Savitzky-Golay smoothed ball track (window 7, order 2). If the ball looks airborne, the bar is raised (0.75 and 2.25 m/s).</li>
+      <li>A duel winner skips this test: winning a duel counts as a proven gain.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Why frames lose their team</div>
+  <h2>Five ways a live frame ends up with no team</h2>
+  <div class="tbl"><table>
+    <tr><th>#</th><th>Path</th><th>When it happens in football</th><th>Effect after the scorer's fill</th></tr>
+    <tr><td class="num">1</td><td>Candidate P, contact not yet proven</td><td>A receiver traps a slow pass cleanly: little change of direction or speed, so the test fails for several frames, sometimes the whole control run.</td><td>Old team carried forward. On an interception that is the wrong team until the gain is proven.</td></tr>
+    <tr><td class="num">2</td><td>Held by P, then Q controls</td><td>Every pass or tackle. P's loss is emitted at once; Q starts as a candidate.</td><td>Same as 1: the frames between Q's first touch and Q's proven gain carry P's team.</td></tr>
+    <tr><td class="num">3</td><td>Pending loss, 3 s with no control</td><td>A long ball or a loose ball nobody reaches quickly.</td><td>Idle until someone's gain is proven.</td></tr>
+    <tr><td class="num">4</td><td>Duel without the previous holder</td><td>A 50-50 between two players who did not have the ball.</td><td>No team until the duel ends with a winner.</td></tr>
+    <tr><td class="num">5</td><td>PAUSE on any frame without a ball position</td><td>Every ball gap, which in our match is 41% of graded frames, mostly in blocks of 5–30 s.</td><td>The holder is forgotten; after the gap the next gain must be proven from scratch.</td></tr>
+  </table></div>
+  <p class="callout">Measured on the external bench (visible-ball live frames, Metrica G1/G2): MatchLens named the right team on 68–72%, gave no team on 18–20%, called the ball dead on 2–8%, and named the wrong team on only 6%. The problem is mostly silence at the wrong moment, not wrong answers.</p>
+  <p class="src">Bench numbers: <code>scripts/diag_visible_team.py</code>, loop iteration 2 (<code>.planning/LOOP.md</code>).</p>
+</section>
+
+<section>
+  <div class="eyebrow">Layer 1, current replacement · src/possess/team_control.py</div>
+  <h2>Our team-level rule (loop iteration 2)</h2>
+  <p>What the pipeline uses now instead of the per-player tracker. It works per team, keeps the current team through anything ambiguous, and never resets on a missing ball. Tuned on external data: zone 1.0 m, 5 frames.</p>
+  <div class="diagram"><pre class="mermaid">
+stateDiagram-v2
+  direction LR
+  [*] --> Unknown
+  Unknown: No team yet (start of match)
+  HoldT: Team T has it
+  Challenge: Team U challenging · n of 5
+  Dead: Dead ball
+
+  Unknown --> Challenge: a team alone in its 1.0 m zone
+  HoldT --> HoldT: T in zone, duel, nobody in zone, or ball hidden
+  HoldT --> Challenge: U alone in its zone (n = 1)
+  Challenge --> Challenge: U alone in zone again (n + 1), or ambiguous frame (n kept)
+  Challenge --> HoldT: T alone in zone (challenge dropped)
+  Challenge --> HoldU: n reaches 5
+  HoldU: Team U has it
+  HoldT --> Dead: dead-ball detector
+  Challenge --> Dead: dead-ball detector (challenge dropped)
+  Dead --> HoldT: play resumes (team kept from before)
+  </pre></div>
+  <div class="cols">
+    <div class="box"><h3>What it fixed</h3><ul>
+      <li>No empty labels during live play once a team has been named, so no late carry-over from silence.</li>
+      <li>Ball gaps keep the team (possession survives about 75% of gaps).</li>
+      <li>Tune spellF1 0.326 → 0.356 (iteration 2), 0.375 with the new dead-ball detector (iteration 3).</li>
+    </ul></div>
+    <div class="box"><h3>What it still gets wrong</h3><ul>
+      <li>The 5 control frames are counted, not required in a row: frames where nobody is in a zone do not reset the count. The code comment says "consecutive"; the code does not do that.</li>
+      <li>It still decides on distance alone. There is no touch evidence, so a defender standing next to a passing lane can win the ball on paper.</li>
+      <li>A turnover hidden inside a ball gap is only seen when the ball comes back, and is dated then.</li>
+      <li>On IDSSE it switches too rarely: 286 possessions predicted against 511.</li>
+      <li>After a stoppage the team before the stoppage is kept, though the restart may belong to the other team.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Research · 45 sources, 3 agents, 2026-11-12</div>
+  <h2>What the research says, and the plan</h2>
+  <p>Three research agents covered gain and loss rules, whole-match segmentation, and stoppages and restarts. Every literature number came from search snippets because page fetching is blocked here, so treat thresholds as unverified. Two facts were checked against our own code and data.</p>
+  <div class="tbl"><table>
+    <tr><th>Match (external truth)</th><th>Stoppages between two live spells</th><th>Same team after</th><th>Other team after</th></tr>
+    <tr><td>Metrica 1</td><td class="num">154</td><td class="num">18%</td><td class="num">82%</td></tr>
+    <tr><td>Metrica 2</td><td class="num">167</td><td class="num">22%</td><td class="num">78%</td></tr>
+    <tr><td>IDSSE 1</td><td class="num">101</td><td class="num">10%</td><td class="num">90%</td></tr>
+  </table></div>
+  <p class="callout">Our rule keeps the pre-stoppage team after a dead ball, so it starts wrong on about 85% of restarts. And it commits a switch only on the fifth control frame without back-dating it, so every turnover is labelled late.</p>
+  <div class="tbl"><table>
+    <tr><th>#</th><th>Fix</th><th>Failure it targets</th><th>Source</th><th>Expected</th><th>Cost</th></tr>
+    <tr><td class="num">P1</td><td>After a stoppage, start with the other team</td><td>Restart keeps the old team</td><td>Our measurement</td><td>Clear gain</td><td>10 lines</td></tr>
+    <tr><td class="num">P2</td><td>Date a switch at the new team's first control frame</td><td>Late switches</td><td>Event conventions; Vidal-Codina back-dates losses</td><td>Small</td><td>5 lines</td></tr>
+    <tr><td class="num">P3</td><td>Decode the whole match at once (Viterbi over H, A, D) with a switch cost and minimum durations; today's rules become evidence</td><td>Flicker, late and early switches</td><td>PathCRF 2026, sticky HMM, Li &amp; Link 2026</td><td>+0.02 to +0.05</td><td>0.5–1 day</td></tr>
+    <tr><td class="num">P4</td><td>Restart team from the Laws: goal kick to the defending team, corner to the attacking team, throw-in to the team at the still ball</td><td>Restart team</td><td>IFAB Laws 8, 13, 15–17</td><td>+0.01 to +0.03</td><td>0.5 day</td></tr>
+    <tr><td class="num">P5</td><td>Team-shape classifier for frames with the ball hidden</td><td>Turnovers inside ball gaps</td><td>Perše et al.; Ballradar; PathCRF</td><td>+0.02 to +0.05</td><td>1–1.5 days</td></tr>
+    <tr><td class="num">P6</td><td>Stoppage evidence from set-piece positions; start the dead ball when it crosses the line</td><td>Missed and late stoppages</td><td>Vidal-Codina; Mills et al. 2026; Lang et al. 2022</td><td>+0.03 to +0.04</td><td>0.5 day</td></tr>
+    <tr><td class="num">P7</td><td>Zone radius per data source, context-dependent switch cost</td><td>Too few switches on IDSSE</td><td>Vidal-Codina; PathCRF</td><td>IDSSE count toward the truth</td><td>Grid only</td></tr>
+  </table></div>
+  <p class="src">Expected gains are planning guesses, not measurements. Full write-up: <code>docs/research/possession-research-plan.md</code>; sources in <code>docs/research/literature/</code>.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Improvement loop · results</div>
+  <h2>What has been built and measured</h2>
+  <p>Every version is scored on the external tune matches (Metrica 1, Metrica 2, IDSSE 1), which decide what is kept. The Barcelona–Athletic public 5 minutes is reported next to it as a sanity check and never used to choose. Held-out matches (Metrica 3, IDSSE 2) are opened only for a clear win.</p>
+  <div class="tbl"><table>
+    <tr><th>Version</th><th>Tune mean</th><th>Metrica 1</th><th>Metrica 2</th><th>IDSSE 1</th><th>Held-out</th><th>Public 5 min (sanity)</th><th>Kept</th></tr>
+    <tr><td>Self-contained baseline</td><td class="num">0.3586</td><td class="num">0.397</td><td class="num">0.352</td><td class="num">0.326</td><td>—</td><td class="num">0.432 · 20 vs 17</td><td>base</td></tr>
+    <tr><td>P1 restart team + P2 switch dated at first control</td><td class="num">0.3724</td><td class="num">0.414</td><td class="num">0.372</td><td class="num">0.331</td><td class="num">0.3556</td><td class="num">0.454 · 20 vs 17</td><td>yes</td></tr>
+    <tr><td>P3 decoder v1 (best of 24 settings)</td><td class="num">0.3597</td><td class="num">0.390</td><td class="num">0.371</td><td class="num">0.318</td><td>—</td><td>—</td><td>no</td></tr>
+    <tr><td>P3 decoder v2: whole half decoded at once, distance-weighted evidence, switch placed mid-gap</td><td class="num">0.3976</td><td class="num">0.452</td><td class="num">0.390</td><td class="num">0.351</td><td class="num">0.3625</td><td class="num">0.444 · 19 vs 17</td><td>yes</td></tr>
+    <tr><td>P5 team shape: player positions say who has the ball while it is hidden, and when play has stopped</td><td class="num">0.4932</td><td class="num">0.573</td><td class="num">0.482</td><td class="num">0.425</td><td class="num">0.4789</td><td class="num">0.433 · 19 vs 17</td><td>yes</td></tr>
+    <tr><td>Touch detection (MatchLens impulse rule at team level): a touch near one team gives it the ball until the next touch, catching deflections and tackles</td><td class="num">0.5657</td><td class="num">0.603</td><td class="num">0.564</td><td class="num">0.530</td><td class="num">0.5584</td><td class="num">0.456 · 19 vs 17</td><td>yes</td></tr>
+    <tr><td>Ball cleaning before touch detection: tracking jumps and short freezes no longer fire false touches; real kicks kept</td><td class="num">0.5679</td><td class="num">0.610</td><td class="num">0.564</td><td class="num">0.530</td><td>— (robustness)</td><td class="num">0.456 · 19 vs 17</td><td>yes</td></tr>
+    <tr><td>Team context while the ball is hidden: how each team's shape changes over ±2 s tells who won the ball inside a gap</td><td class="num">0.5845</td><td class="num">0.630</td><td class="num">0.585</td><td class="num">0.539</td><td class="num">0.5762</td><td class="num">0.456 · 19 vs 17</td><td>yes</td></tr>
+    <tr><td>Still-ball stoppage rule</td><td class="num">0.6125</td><td class="num">0.649</td><td class="num">0.629</td><td class="num">0.559</td><td>—</td><td class="num">0.443 · 20 vs 17</td><td>no: the gain came from how the bench draws the dead ball; a still ball is rare on the real match</td></tr>
+    <tr><td>Player-only stoppage evidence trusted when the ball is visible (decided on the realistic bench)</td><td class="num">0.6002 (realistic 0.5731)</td><td class="num">0.647</td><td class="num">0.615</td><td class="num">0.538</td><td class="num">0.5716 (realistic 0.5557)</td><td class="num">0.459 · 17 vs 17</td><td>yes</td></tr>
+    <tr><td><b>Distance evidence stops at the 1 m control zone (ball closeness was counted three times)</b></td><td class="num"><b>0.6110</b> (realistic 0.5834)</td><td class="num">0.665</td><td class="num">0.627</td><td class="num">0.541</td><td class="num"><b>0.5787</b> (realistic 0.5619)</td><td class="num">0.459 · 17 vs 17</td><td>yes</td></tr>
+    <tr><td>Contested touches keep the last clean toucher's hold (duel rule; near-inert on the provided match)</td><td class="num">0.6205 (realistic 0.5935)</td><td class="num">0.675</td><td class="num">0.633</td><td class="num">0.553</td><td>— (not measured)</td><td class="num">0.459 · 17 vs 17</td><td>yes</td></tr>
+    <tr><td>Fast-player speed in the stoppage model (90th percentile of all tracked players' speeds, 1 s and 5 s means; player-only)</td><td class="num">0.6283 (realistic 0.6061)</td><td class="num">0.685</td><td class="num">0.647</td><td class="num">0.553</td><td class="num">0.5968 (realistic 0.5788)</td><td class="num">0.529 · 17 vs 17</td><td>yes</td></tr>
+    <tr><td>Hidden restarts snapped to the players' speed-up (exit of a stoppage of 3 s or more that ends on a hidden-ball frame moves to the largest step-up of the fast-player speed within ±2 s; nothing learned)</td><td class="num">0.6305 (realistic 0.6081)</td><td class="num">0.690</td><td class="num">0.647</td><td class="num">0.554</td><td>— (not measured)</td><td class="num">0.529 · 17 vs 17</td><td>yes</td></tr>
+    <tr><td>Touch detection adapted to low-passed ball tracks (8-frame velocities, one touch per peak, 2 m radius; only when the ball's acceleration p99 is below 150 m/s²; pending user confirmation)</td><td class="num">0.6305 (realistic 0.6081; real2 0.4833)</td><td class="num">0.690</td><td class="num">0.647</td><td class="num">0.554</td><td>— (not measured)</td><td class="num">0.506 · 17 vs 17</td><td>yes</td></tr>
+    <tr><td><b>Per-match unsupervised dead-ball prior on hidden frames (EM, Saerens 2002; shift applied only if ≥ 0.6 and ≥ 40,000 hidden frames with evidence; disclosed, pending organiser answer)</b></td><td class="num"><b>0.6305</b> (realistic 0.6081; real2 0.5173)</td><td class="num">0.690</td><td class="num">0.647</td><td class="num">0.554</td><td>— (not measured)</td><td class="num">0.506 · 17 vs 17</td><td><b>yes, default</b></td></tr>
+  </table></div>
+  <p class="callout">Since 14 Nov changes are decided on more realistic benches (the dead ball moves, small tracking jumps, calibrated on the provided match's input). A second one, real2, adds a smoothed ball, hiding tied to stoppages and player loss in hidden blocks; real1 and real2 now co-decide. On real1 the default scores 0.608, on real2 0.517. Expected on the real match: roughly 0.50-0.52.</p>
+  <p class="callout">Since the self-contained baseline: tune 0.3586 → 0.5845, held-out 0.3556 (frame rule) → 0.5762. Before this step: tune 0.5657, held-out 0.5584. Half of all true possessions last under 4 seconds; touch detection is what finally catches them. Next: clean the ball track (tracking jumps fire false touches) and turnovers while the ball is hidden. Earlier: tune 0.3586 → 0.4932, held-out 0.3556 → 0.4789 with team shape. Team shape is the biggest single gain and it held up on the held-out matches (+0.116), under 10 cm position noise, and with 7–12 players per team. Tune numbers for the learned models are leave-one-match-out. Every number was reproduced by an independent Fable review. The public 5-minute dip (0.444 → 0.433) is the same 19 possessions against 17, within one-possession noise.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Next</div>
+  <h2>Questions the research should answer</h2>
+  <ol style="margin:0;padding-left:20px;display:grid;gap:6px;max-width:75ch">
+    <li>How should a gain be confirmed without waiting: touch evidence, retention time, passes completed by the new team, or a mix?</li>
+    <li>How should the tracker carry its belief through a ball gap instead of resetting, and how should it date a turnover found after the gap?</li>
+    <li>Should the decision be made frame by frame at all, or as a whole-match segmentation (HMM or HSMM) where these rules become evidence?</li>
+    <li>Who restarts after a stoppage: can the restart team be read from positions or from Smart Tagging set pieces?</li>
+    <li>What do published systems (Vidal-Codina, Link and Hoernig's ball possession, SkillCorner, Metrica's own corrected tracking) do for each of these?</li>
+  </ol>
+</section>
+
+</div>

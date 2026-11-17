@@ -1,0 +1,341 @@
+<title>Barça–Athletic Possession Goals</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; a possession "ribbon" (H/A/D strip) is the recurring visual motif. */
+:root{
+  --bg:#f6f7fa; --surface:#ffffff; --fg:#141a26; --muted:#5b6476; --line:#dde1e9;
+  --home:#1d4fa0; --home-soft:#dbe5f6; --away:#c8102e; --away-soft:#f8dde1;
+  --dead:#8b93a3; --dead-soft:#e7e9ee; --ok:#1f7a4d; --warn:#a86400; --bad:#b3261e;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f131b; --surface:#171c27; --fg:#e8ebf2; --muted:#9aa3b5; --line:#2a3141;
+  --home:#6f9bea; --home-soft:#1c2c4a; --away:#ff6b7f; --away-soft:#45202a;
+  --dead:#7c8496; --dead-soft:#262c38; --ok:#5fcf95; --warn:#f0b04a; --bad:#ff7b72; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f131b; --surface:#171c27; --fg:#e8ebf2; --muted:#9aa3b5; --line:#2a3141;
+  --home:#6f9bea; --home-soft:#1c2c4a; --away:#ff6b7f; --away-soft:#45202a;
+  --dead:#7c8496; --dead-soft:#262c38; --ok:#5fcf95; --warn:#f0b04a; --bad:#ff7b72; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
+h1{font-size:clamp(2.2rem,6vw,3.4rem);letter-spacing:.01em}
+h2{font-size:1.75rem;letter-spacing:.02em;text-transform:uppercase}
+h3{font-size:1.2rem;letter-spacing:.03em;text-transform:uppercase}
+p{margin:0;max-width:68ch}
+.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+section{display:grid;gap:16px;min-width:0}
+.lede{color:var(--muted);font-size:1.05rem}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.fact{background:var(--surface);padding:14px 16px;display:grid;gap:2px}
+.fact b{font-family:var(--mono);font-size:1.35rem;font-variant-numeric:tabular-nums}
+.fact span{color:var(--muted);font-size:.82rem}
+.ribbon{display:flex;height:22px;border-radius:4px;overflow:hidden}
+.ribbon i{display:block;height:100%}
+.H{background:var(--home)} .A{background:var(--away)} .D{background:var(--dead)} .Xf{background:repeating-linear-gradient(45deg,var(--home) 0 4px,var(--home-soft) 4px 8px)}
+.rib-row{display:grid;grid-template-columns:110px 1fr 90px;gap:12px;align-items:center;font-size:.85rem}
+.rib-row .s{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.82rem;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.p-ok{color:var(--ok)} .p-warn{color:var(--warn)} .p-bad{color:var(--bad)} .p-mut{color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px;min-width:0}
+.box ul{margin:0;padding-left:18px;display:grid;gap:6px}
+.box.no{border-top:3px solid var(--bad)} .box.yes{border-top:3px solid var(--ok)}
+ol.steps{margin:0;padding-left:0;list-style:none;display:grid;gap:8px;counter-reset:s}
+ol.steps li{display:grid;grid-template-columns:34px 1fr;gap:10px;counter-increment:s}
+ol.steps li::before{content:counter(s);font-family:var(--display);font-size:1.3rem;color:var(--home);text-align:right}
+ol.steps b{font-weight:600}
+.note{font-size:.85rem;color:var(--muted)}
+code{font-family:var(--mono);font-size:.85em;background:var(--dead-soft);padding:1px 5px;border-radius:4px}
+.callout{border-left:3px solid var(--warn);padding:10px 14px;background:var(--surface);border-radius:0 8px 8px 0;font-size:.92rem}
+@media (max-width:520px){.rib-row{grid-template-columns:1fr;gap:4px}.rib-row .s{text-align:left}}
+</style>
+
+<div class="wrap">
+
+<header style="display:grid;gap:14px">
+  <div class="eyebrow">More Than A Hack 2027 · Phase 1 · deadline 17 Nov 2026, 23:59 CET</div>
+  <h1>Barça–Athletic possession: what we are building and how we know it works</h1>
+  <p class="lede">Give every frame of the tactical video one label: <b>H</b> Barcelona has the ball, <b>A</b> Athletic has it, <b>D</b> ball out of play, <b>X</b> no answer. The board ranks on spellF1, which scores whole possessions, so splitting one possession into pieces is the main way to lose.</p>
+  <div class="facts">
+    <div class="fact"><b>199,319</b><span>frames to label (25 fps)</span></div>
+    <div class="fact"><b>158,857</b><span>graded frames (two halves)</span></div>
+    <div class="fact"><b>41%</b><span>graded frames with no ball</span></div>
+    <div class="fact"><b>638</b><span>Smart Tagging phases and set pieces</span></div>
+    <div class="fact"><b>0.2433</b><span>spellF1 floor to beat (baseline_smooth50)</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="eyebrow">Why fragmentation is fatal</div>
+  <h2>How spellF1 sees a possession</h2>
+  <p>A possession is a maximal run of H or of A. Predicted runs are matched one-to-one to true runs by temporal IoU, and F1 is averaged over IoU 0.3–0.7. An X is forward-filled with your last label in that half before matching.</p>
+  <div style="display:grid;gap:10px">
+    <div class="rib-row"><span>Truth</span><div class="ribbon"><i class="H" style="width:38%"></i><i class="D" style="width:8%"></i><i class="A" style="width:30%"></i><i class="H" style="width:24%"></i></div><span class="s">3 spells</span></div>
+    <div class="rib-row"><span>Clean segments</span><div class="ribbon"><i class="H" style="width:37%"></i><i class="D" style="width:9%"></i><i class="A" style="width:31%"></i><i class="H" style="width:23%"></i></div><span class="s">3 / 3 hit</span></div>
+    <div class="rib-row"><span>Flickering</span><div class="ribbon"><i class="H" style="width:14%"></i><i class="A" style="width:3%"></i><i class="H" style="width:21%"></i><i class="D" style="width:8%"></i><i class="A" style="width:12%"></i><i class="H" style="width:2%"></i><i class="A" style="width:16%"></i><i class="H" style="width:24%"></i></div><span class="s">1 / 3 hit</span></div>
+    <div class="rib-row"><span>Abstain mid-possession</span><div class="ribbon"><i class="H" style="width:20%"></i><i class="Xf" style="width:18%"></i><i class="D" style="width:8%"></i><i class="A" style="width:30%"></i><i class="H" style="width:24%"></i></div><span class="s">X costs 0</span></div>
+    <div class="legend"><span style="--c:var(--home)">H Barcelona</span><span style="--c:var(--away)">A Athletic</span><span style="--c:var(--dead)">D dead ball</span><span style="--c:var(--home-soft)">X, filled with last label</span></div>
+  </div>
+  <div class="tbl"><table>
+    <tr><th>Timing error on a perfect answer</th><th>spellF1</th></tr>
+    <tr><td>1 frame late</td><td class="num">1.0000</td></tr>
+    <tr><td>3 frames late</td><td class="num">0.9818</td></tr>
+    <tr><td>8 frames late</td><td class="num">0.8933</td></tr>
+    <tr><td>1 second late</td><td class="num">0.6539</td></tr>
+    <tr><td>Random or constant labels</td><td class="num">0.0000</td></tr>
+  </table></div>
+  <p class="note">Source: the organisers' EVALUATION.md. Differences under about 0.04 spellF1 are noise on the full match. macroF1 is the first tie-break.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Definition of done</div>
+  <h2>Our goals and gates</h2>
+  <p>Targets marked <i>proposed</i> still need the team's agreement and an ADR before they bind. Every number comes from external matches, never from the challenge game.</p>
+  <div class="tbl"><table>
+    <tr><th>#</th><th>Goal</th><th>Gate</th><th>Measured on</th><th>Status</th></tr>
+    <tr><td class="num">G1</td><td>Valid, reproducible file</td><td><code>validate_submission.py</code> passes; the repo regenerates the identical CSV</td><td>Challenge input, run locally by a human</td><td><span class="pill p-mut">not run</span></td></tr>
+    <tr><td class="num">G2</td><td>Beat the reference systems</td><td>spellF1 above the MatchLens replay and above 0.2433, with bootstrap CIs not overlapping (<i>proposed</i>)</td><td>Degraded Metrica / IDSSE, held-out split</td><td><span class="pill p-warn">baseline measured</span></td></tr>
+    <tr><td class="num">G3</td><td>No fragmentation</td><td>Predicted possession count within ±15% of truth; mean length within ±20% (<i>proposed</i>)</td><td>Degraded external, held-out</td><td><span class="pill p-bad">MatchLens +45% to +64%</span></td></tr>
+    <tr><td class="num">G4</td><td>Dead balls right</td><td>Alive/dead F1 ≥ 0.90 (<i>proposed</i>)</td><td>Degraded external, held-out</td><td><span class="pill p-warn">MatchLens 0.85–0.87 clean</span></td></tr>
+    <tr><td class="num">G5</td><td>Sane full match</td><td>A few hundred possessions; Barça share above 50%; ≥ 90% of tagged set pieces end a predicted D; halves behave alike</td><td>Challenge output, aggregate only, read by a human</td><td><span class="pill p-mut">not run</span></td></tr>
+    <tr><td class="num">G6</td><td>Rules kept</td><td>No AI access to challenge data; no tuning on the public 5 min; no hand labels on the game; match data not in the public repo</td><td>Repo settings, ADRs, git history</td><td><span class="pill p-ok">enforced</span></td></tr>
+    <tr><td class="num">G7</td><td>Delivered</td><td><code>&lt;team&gt;.csv</code>, public repo, technical document (approach, assets used and dropped, training data, possession rules, limits, reproduction)</td><td>Google Form</td><td><span class="pill p-mut">due 17 Nov</span></td></tr>
+  </table></div>
+</section>
+
+<section>
+  <div class="eyebrow">First measurement</div>
+  <h2>MatchLens possession tracker, tested</h2>
+  <p>We ran the MatchLens event layer (<code>events.Eventer</code> via <code>evaluation/adapters/metrica_replay.py</code> in footballtactics) on Metrica Sample Games 1 and 2 and scored it with the organisers' own <code>possession_metrics.py</code>. This is perfect, identified tracking with the ball always present, so it is an upper bound for what MatchLens would do on the challenge input.</p>
+  <div class="tbl"><table>
+    <tr><th>Match</th><th>spellF1 (95% CI)</th><th>macroF1</th><th>Alive/dead F1</th><th>Possessions true → predicted</th><th>Mean length true → predicted</th><th>Team accuracy, live frames</th></tr>
+    <tr><td>Metrica Game 1</td><td class="num">0.463 (0.434–0.491)</td><td class="num">0.828</td><td class="num">0.846</td><td class="num">357 → 516</td><td class="num">9.9 s → 6.1 s</td><td class="num">0.68</td></tr>
+    <tr><td>Metrica Game 2</td><td class="num">0.417 (0.388–0.445)</td><td class="num">0.855</td><td class="num">0.866</td><td class="num">330 → 542</td><td class="num">10.1 s → 5.8 s</td><td class="num">0.72</td></tr>
+    <tr><td><b>BAR–ATH, public 5 min</b> (real tactical ATD, no IDs, ball missing 41%)</td><td class="num">0.238 (17 possessions, no CI)</td><td class="num">0.576</td><td class="num">—</td><td class="num">17 → 30</td><td class="num">14.2 s → 8.5 s</td><td class="num">—</td></tr>
+  </table></div>
+  <p class="note">The BAR–ATH row is a format and sanity check only. On the same window the organisers' baselines score 0.4242 (smooth125) and 0.3256 (smooth50), so untuned MatchLens sits below the floor there. It was run blind: the script printed only the scoreboard row, and no frame-level output was read by an AI tool.</p>
+  <div class="cols">
+    <div class="box"><h3>What it tells us</h3><ul>
+      <li>Even with perfect data, MatchLens splits possessions: 45–64% too many, each about 40% too short. That is the failure spellF1 punishes.</li>
+      <li>Its dead-ball detection is decent but short of the 0.90 gate.</li>
+      <li>Touch detection and ball kinematics are worth keeping; the frame-by-frame state machine has to be replaced by whole-match segmentation (Viterbi or HSMM).</li>
+    </ul></div>
+    <div class="box"><h3>Limits of this number</h3><ul>
+      <li>Metrica truth here comes from event data ("last team to act"), not from corrected tracking as in the challenge, so absolute values will not transfer. Comparisons between versions mostly will.</li>
+      <li>No degradation yet: no lost IDs, no track fragments, ball present 100% of the time. The degraded score will be lower.</li>
+      <li>Saved to <code>eval/results/matchlens_replay_metrica_clean.json</code>; regenerate with <code>scripts/score_matchlens_replay.py</code>.</li>
+    </ul></div>
+  </div>
+  <p class="callout">The provided video was not used: the challenge already supplies tracking, so the possession layer is the part worth testing. The BAR–ATH run read the tactical ATD only, through <code>scripts/blind_run_public5.py</code>, which keeps every per-frame output in <code>data/challenge/_runs/</code> and prints aggregates only, so our rule that AI tools never see challenge data (<code>docs/RULES.md</code>) held.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Experiments · ball gap filling</div>
+  <h2>Interpolation tries</h2>
+  <p>The ball is missing on 41% of graded frames. Each method fills those gaps offline (it can see the frame where the ball comes back), lives in its own file under <code>src/possess/ball_fill/</code>, and is run blind on the real tactical tracking with <code>scripts/blind_run_public5.py --ball-fill &lt;method&gt;</code>. Everything else is untuned MatchLens.</p>
+  <div class="tbl"><table>
+    <tr><th>Try</th><th>Method</th><th>Frames filled</th><th>spellF1</th><th>macroF1</th><th>Possessions (truth 17)</th><th>Mean length (truth 14.2 s)</th><th>Fragmentation</th></tr>
+    <tr><td class="num">v0</td><td>No fill (MatchLens as-is)</td><td class="num">0</td><td class="num">0.2383</td><td class="num">0.5763</td><td class="num">30</td><td class="num">8.5 s</td><td class="num">1.67</td></tr>
+    <tr><td class="num">v1</td><td>Linear, two-sided (<code>linear.py</code>, exact MatchLens port)</td><td class="num">64,091</td><td class="num">0.2383</td><td class="num">0.5898</td><td class="num">30</td><td class="num">8.5 s</td><td class="num">1.67</td></tr>
+    <tr><td class="num">v2</td><td>Local cubic spline, 2 anchors per side (<code>cubic.py</code>)</td><td class="num">64,091</td><td class="num">0.2286</td><td class="num">0.5895</td><td class="num">32</td><td class="num">8.0 s</td><td class="num">1.76</td></tr>
+    <tr><td class="num">v3</td><td>Kalman filter + RTS smoother, constant velocity, 25-frame context each side (<code>kalman.py</code>, untuned)</td><td class="num">64,091</td><td class="num">0.2383</td><td class="num">0.5877</td><td class="num">30</td><td class="num">8.5 s</td><td class="num">1.67</td></tr>
+    <tr><td class="num">v4</td><td>Physics: two-sided flight with drag, gaps ≤ 2.5 s, linear beyond (<code>physics.py</code>, untuned)</td><td class="num">64,091</td><td class="num">0.2286</td><td class="num">0.5895</td><td class="num">32</td><td class="num">8.0 s</td><td class="num">1.76</td></tr>
+    <tr><td class="num">v5</td><td>Player-anchored: ball rides with the carrier, passes to the receiver (<code>player_anchored.py</code>, untuned)</td><td class="num">64,091</td><td class="num">0.2383</td><td class="num">0.5899</td><td class="num">30</td><td class="num">8.5 s</td><td class="num">1.67</td></tr>
+    <tr><td class="num">v6</td><td>Polynomial, degree 2 (<code>poly.py</code>)</td><td class="num">64,091</td><td class="num">0.2286</td><td class="num">0.5876</td><td class="num">32</td><td class="num">7.9 s</td><td class="num">1.76</td></tr>
+    <tr><td class="num">v7</td><td>Polynomial, degree 3</td><td class="num">64,091</td><td class="num">0.2383</td><td class="num">0.5898</td><td class="num">30</td><td class="num">8.5 s</td><td class="num">1.67</td></tr>
+    <tr><td class="num">v8</td><td>Polynomial, degree 4</td><td class="num">64,091</td><td class="num">0.2383</td><td class="num">0.5898</td><td class="num">30</td><td class="num">8.5 s</td><td class="num">1.67</td></tr>
+    <tr><td class="num">v9</td><td>Polynomial, degree 5</td><td class="num">64,091</td><td class="num">0.2286</td><td class="num">0.5895</td><td class="num">32</td><td class="num">8.0 s</td><td class="num">1.76</td></tr>
+    <tr><td class="num">v10</td><td>Polynomial, degree 7</td><td class="num">64,091</td><td class="num">0.2286</td><td class="num">0.5895</td><td class="num">32</td><td class="num">8.0 s</td><td class="num">1.76</td></tr>
+    <tr><td class="num">—</td><td>Next: ball-free signals (team shape, tags), found by the Haiku swarm on raw data</td><td class="num" colspan="6">not run yet · <code>docs/research/ball-interpolation.md</code></td></tr>
+  </table></div>
+  <h3>Filled positions against the real ones</h3>
+  <p>Inside a real gap there is no true position to compare with, so we hid stretches where the ball <i>was</i> seen, filled them with each method, and measured the distance to the hidden truth: 200 stretches per gap length, mean error in metres (<code>scripts/eval_ball_fill.py</code>). Bold = lowest in the row.</p>
+  <div class="tbl"><table>
+    <tr><th>Gap</th><th>linear</th><th>cubic</th><th>kalman</th><th>physics</th><th>player</th><th>poly2</th><th>poly3</th><th>poly4</th><th>poly5</th><th>poly7</th></tr>
+    <tr><td colspan="11"><b>Metrica Game 3</b> (external, clean ball — this one may choose a method)</td></tr>
+    <tr><td>0.5 s</td><td class="num">0.15</td><td class="num"><b>0.12</b></td><td class="num">0.33</td><td class="num">0.27</td><td class="num">0.58</td><td class="num">0.13</td><td class="num">0.12</td><td class="num">0.15</td><td class="num">0.15</td><td class="num">0.21</td></tr>
+    <tr><td>1 s</td><td class="num">0.59</td><td class="num"><b>0.25</b></td><td class="num">0.65</td><td class="num">0.72</td><td class="num">0.90</td><td class="num">0.33</td><td class="num">0.28</td><td class="num">0.65</td><td class="num">0.62</td><td class="num">1.15</td></tr>
+    <tr><td>2.5 s</td><td class="num">2.42</td><td class="num"><b>1.37</b></td><td class="num">2.05</td><td class="num">3.09</td><td class="num">3.38</td><td class="num">1.74</td><td class="num">1.45</td><td class="num">1.83</td><td class="num">1.77</td><td class="num">6.26</td></tr>
+    <tr><td>5 s</td><td class="num">6.01</td><td class="num"><b>4.12</b></td><td class="num">5.01</td><td class="num">6.01</td><td class="num">7.56</td><td class="num">4.81</td><td class="num">4.22</td><td class="num">6.43</td><td class="num">6.34</td><td class="num">15.31</td></tr>
+    <tr><td>10 s</td><td class="num">11.66</td><td class="num"><b>9.37</b></td><td class="num">10.60</td><td class="num">11.66</td><td class="num">14.60</td><td class="num">10.30</td><td class="num">9.63</td><td class="num">13.16</td><td class="num">13.04</td><td class="num">29.42</td></tr>
+    <tr><td>20 s</td><td class="num"><b>19.28</b></td><td class="num">20.48</td><td class="num">21.17</td><td class="num">19.28</td><td class="num">21.35</td><td class="num">21.50</td><td class="num">20.65</td><td class="num">26.61</td><td class="num">26.58</td><td class="num">49.82</td></tr>
+    <tr><td colspan="11"><b>BAR–ATH tactical</b> (automatic check on the provided input; not used to choose)</td></tr>
+    <tr><td>0.5 s</td><td class="num">0.30</td><td class="num">0.13</td><td class="num">0.26</td><td class="num">0.35</td><td class="num">0.90</td><td class="num">0.15</td><td class="num">0.13</td><td class="num">0.12</td><td class="num"><b>0.12</b></td><td class="num">0.12</td></tr>
+    <tr><td>1 s</td><td class="num">0.74</td><td class="num">0.25</td><td class="num">0.58</td><td class="num">0.69</td><td class="num">1.24</td><td class="num">0.33</td><td class="num">0.26</td><td class="num">0.18</td><td class="num">0.17</td><td class="num"><b>0.17</b></td></tr>
+    <tr><td>2.5 s</td><td class="num">2.66</td><td class="num">1.38</td><td class="num">2.10</td><td class="num">2.80</td><td class="num">3.51</td><td class="num">1.76</td><td class="num">1.44</td><td class="num">0.99</td><td class="num">0.88</td><td class="num"><b>0.48</b></td></tr>
+    <tr><td>5 s</td><td class="num">5.69</td><td class="num">3.68</td><td class="num">4.48</td><td class="num">5.69</td><td class="num">7.20</td><td class="num">4.30</td><td class="num">3.75</td><td class="num">3.69</td><td class="num"><b>3.44</b></td><td class="num">3.54</td></tr>
+    <tr><td>10 s</td><td class="num">11.53</td><td class="num"><b>9.51</b></td><td class="num">10.57</td><td class="num">11.53</td><td class="num">13.27</td><td class="num">10.39</td><td class="num">9.59</td><td class="num">11.57</td><td class="num">11.49</td><td class="num">18.44</td></tr>
+    <tr><td>20 s</td><td class="num"><b>18.95</b></td><td class="num">19.76</td><td class="num">19.86</td><td class="num">18.95</td><td class="num">19.10</td><td class="num">20.69</td><td class="num">19.82</td><td class="num">28.83</td><td class="num">29.02</td><td class="num">44.27</td></tr>
+  </table></div>
+  <h3>Logarithmic and root speed profiles</h3>
+  <p>Same straight line as linear, but the ball covers most of it early and slows down late, like a struck ball losing speed: log <code>s = ln(1+cτ)/ln(1+c)</code> with c = 3, 9, 30, and root <code>s = τ^(1/N)</code> with N = 2, 3 (<code>warped.py</code>). Same masking test, Metrica Game 3, mean error in metres:</p>
+  <div class="tbl"><table>
+    <tr><th>Gap</th><th>linear</th><th>cubic</th><th>log c=3</th><th>log c=9</th><th>log c=30</th><th>square root</th><th>cube root</th></tr>
+    <tr><td>0.5 s</td><td class="num">0.15</td><td class="num"><b>0.12</b></td><td class="num">0.48</td><td class="num">0.68</td><td class="num">0.89</td><td class="num">0.64</td><td class="num">0.90</td></tr>
+    <tr><td>1 s</td><td class="num">0.59</td><td class="num"><b>0.25</b></td><td class="num">1.12</td><td class="num">1.50</td><td class="num">1.91</td><td class="num">1.44</td><td class="num">1.95</td></tr>
+    <tr><td>2.5 s</td><td class="num">2.42</td><td class="num"><b>1.37</b></td><td class="num">2.93</td><td class="num">3.53</td><td class="num">4.26</td><td class="num">3.49</td><td class="num">4.39</td></tr>
+    <tr><td>5 s</td><td class="num">6.01</td><td class="num"><b>4.12</b></td><td class="num">6.88</td><td class="num">7.81</td><td class="num">8.94</td><td class="num">7.75</td><td class="num">9.17</td></tr>
+    <tr><td>10 s</td><td class="num">11.66</td><td class="num"><b>9.37</b></td><td class="num">12.17</td><td class="num">13.05</td><td class="num">14.29</td><td class="num">13.07</td><td class="num">14.65</td></tr>
+    <tr><td>20 s</td><td class="num"><b>19.28</b></td><td class="num">20.48</td><td class="num">19.68</td><td class="num">20.44</td><td class="num">21.63</td><td class="num">20.49</td><td class="num">22.04</td></tr>
+  </table></div>
+  <p>Every log and root variant is worse than linear at every gap length, on both matches, and the harder the profile decelerates the worse it gets. A front-loaded profile assumes the gap starts with a kick. The agents' numbers say otherwise: the visible ball moves at a median 4–6 m/s and is almost never still (3% of frames), so a gap starts at a random moment of play, not at a strike. Constant speed is the better average guess; cubic wins because it reads the real speed at both edges.</p>
+
+  <div class="cols">
+    <div class="box"><h3>Reading it</h3><ul>
+      <li>On the external match, <b>cubic is the most accurate from 0.5 to 10 s</b>, with degree-3 polynomial close behind. That is the choice the rules allow us to make.</li>
+      <li>On our match, degree 5–7 polynomials win short gaps. Our ball track looks smoothed by the tracker, which rewards high-degree fits. We do not choose on this.</li>
+      <li>Degree 7 falls apart from 5 s on (15–50 m off). Player-anchored is the least accurate as a position, though it is the only method that says which team kept the ball.</li>
+      <li>At 20 s every method is about 19–20 m off: half a pitch. Our real gaps are mostly 10–30 s, so no interpolation can place the ball there.</li>
+    </ul></div>
+    <div class="box"><h3>Limits</h3><ul>
+      <li>Hidden stretches come from moments when the ball was seen, which tend to be open play. Real gaps happen in crowds and long balls, so real errors are likely larger.</li>
+      <li>The match has no seen stretches long enough to mimic its own 30 s+ gaps.</li>
+      <li>Position error does not equal possession error; the score depends on the dead-ball and segmentation steps.</li>
+    </ul></div>
+  </div>
+
+  <h3>The finding that matters: the ball is missing in long blocks</h3>
+  <p>The physics run also counted the gaps in the graded halves (aggregate input statistics only). The 64,091 missing frames sit in just 147 gaps, and the lengths split in two:</p>
+  <div class="tbl"><table>
+    <tr><th>Gap length</th><th>Gaps</th><th>Missing frames</th><th>Share of missing</th><th>What can fill it</th></tr>
+    <tr><td>under 1 s</td><td class="num">16</td><td class="num">73</td><td class="num">0.1%</td><td>Any interpolation; physics also flags touches and balls going out</td></tr>
+    <tr><td>1–5 s</td><td class="num">0</td><td class="num">0</td><td class="num">0%</td><td>—</td></tr>
+    <tr><td>5–10 s</td><td class="num">53</td><td class="num">9,343</td><td class="num">14.6%</td><td rowspan="3">No ball path is recoverable. Needs ball-free evidence: team shape, pressing line, Smart Tagging phases, player-anchored possession</td></tr>
+    <tr><td>10–30 s</td><td class="num">59</td><td class="num">26,340</td><td class="num">41.1%</td></tr>
+    <tr><td>over 30 s</td><td class="num">19</td><td class="num">28,333</td><td class="num">44.2%</td></tr>
+  </table></div>
+  <p class="callout">This is why linear, cubic, Kalman and physics all score the same: 99.9% of the missing ball sits in gaps of 5 s or more, where drawing a line between two points 20 s apart says nothing about who had the ball. Two consequences. The pipeline must decide possession without the ball for long stretches (steps 4 and 6). And the degradation of external matches must hide the ball in long blocks like these, not at random frames, or our validation will be far too optimistic.</p>
+  <div class="cols">
+    <div class="box"><h3>What happened</h3><ul>
+      <li>Filling the ball barely moves the score. MatchLens's dead-ball code (<code>deadball.py:331</code>) treats any filled position as "ball missing" and calls the ball dead after 0.5 s, so the filled positions never reach the stoppage logic.</li>
+      <li>Ten fill variants land on exactly two outcomes: 30 possessions (spellF1 0.2383) or 32 (0.2286). The degree of the curve does not matter. Player-anchored adds one useful signal: in 30 of 147 gaps the ball vanished with one team and came back with the other.</li>
+      <li>Three fill methods (linear, cubic, Kalman + RTS) give the same possession structure within noise. The shape of the curve does not matter while the dead-ball rule throws it away.</li>
+      <li>Cubic added two possessions (32 vs 30). One possession moves spellF1 by about 6 points on this window, so 0.238 vs 0.229 is noise, not a ranking.</li>
+      <li>The fill is necessary but not sufficient: "ball missing" has to stop meaning "ball dead" before any method can show its value.</li>
+    </ul></div>
+    <div class="box"><h3>How to read these numbers</h3><ul>
+      <li>Public 5 minutes, 17 possessions: a sanity check only. The rules forbid choosing between versions here.</li>
+      <li>The real comparison runs on Metrica and IDSSE matches with the ball hidden like ours, scoring position error per gap length and spellF1 downstream.</li>
+      <li>Per-frame outputs stayed in <code>data/challenge/_runs/</code>; only these aggregate rows were printed.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Autonomous loop · external bench</div>
+  <h2>Possession loop</h2>
+  <p>Each iteration: run the pipeline on external matches with the ball hidden like ours, classify every missed and invented possession by cause, fix the biggest cause, re-measure. Tune split: Metrica Games 1–2. Held-out: Metrica Game 3, looked at only when a change clearly wins. Truth comes from Metrica events; the ball is shown during stoppages (as in our tracking) and 40% is hidden in blocks matching our gap lengths. Log: <code>.planning/LOOP.md</code>.</p>
+  <div class="tbl"><table>
+    <tr><th>#</th><th>Hypothesis</th><th>Change</th><th>spellF1 tune (G1, G2)</th><th>Possessions predicted (truth 357, 330)</th><th>Mean length (truth ≈ 10 s)</th><th>Kept?</th></tr>
+    <tr><td class="num">0</td><td>Baseline: MatchLens as-is</td><td>Bench built</td><td class="num">0.316 (0.335, 0.296)</td><td class="num">381, 369</td><td class="num">5.4 s</td><td>baseline</td></tr>
+    <tr><td class="num">1</td><td>"Ball unseen 0.5 s ⇒ dead" splits possessions: 314 of 459 misses were a predicted stoppage during live play</td><td>Missing ball no longer stops play (MatchLens ghost rule off)</td><td class="num">0.326 (0.338, 0.313)</td><td class="num">356, 350</td><td class="num">10.2 s</td><td>yes, new base</td></tr>
+  </table></div>
+  <div class="tbl"><table>
+    <tr><th>Why true possessions are missed</th><th>Iteration 0</th><th>Iteration 1</th></tr>
+    <tr><td>Predicted dead ball during a live possession</td><td class="num">314</td><td class="num">114</td></tr>
+    <tr><td>Wrong team for the whole possession</td><td class="num">56</td><td class="num">153</td></tr>
+    <tr><td>Merged with a neighbour (turnover or stoppage missed)</td><td class="num">36</td><td class="num">137</td></tr>
+    <tr><td>Split by a spurious turnover</td><td class="num">19</td><td class="num">39</td></tr>
+    <tr><td>Split by an invented stoppage</td><td class="num">22</td><td class="num">7</td></tr>
+  </table></div>
+  <p>Iteration 1 fixed the structure: the possession count and average length now match the truth. The score barely moved (+0.01, inside the noise) because the errors moved to <b>which team</b> has the ball and <b>when it changes hands</b>, which is the gain and loss logic. That is the next target.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Experiments · reading the raw data</div>
+  <h2>What 7 agents found in the raw tracking</h2>
+  <p>Seven Haiku agents each analysed a 2.5-minute window of raw positions with code (allowed by the organisers' clarification, ADR-001). Two windows carried the public true labels. These are hypotheses to verify on the full match and tune on external data; agent confidence was 20–55%. Full write-up: <code>docs/research/swarm-findings.md</code>.</p>
+  <div class="tbl"><table>
+    <tr><th>Finding</th><th>Evidence</th><th>What to do</th></tr>
+    <tr><td><b>A missing ball is not a dead ball</b></td><td>Labelled gaps of 5–15 s had the same live label on both sides; 72% of dead-ball frames still have a ball. Whole teams move 15–30 m during 20–45 s gaps.</td><td>Remove MatchLens's "ball unseen 0.5 s ⇒ dead" rule. The biggest fix.</td></tr>
+    <tr><td><b>Possession usually survives a gap</b></td><td>The team nearest the ball is the same before and after in about 13 of 17 gaps; the player-anchored fill saw a change in 30 of 147.</td><td>Carry the last owner through a gap; look for evidence of a change in the remaining 20–25%.</td></tr>
+    <tr><td><b>Dead ball = far from everyone, near a line, everyone slows</b></td><td>Labelled: nearest player 2.9 m in D vs 1.3–1.6 m live; nearest over 8 m means D 78% of the time. Ball off the pitch in only about 10% of D frames.</td><td>Build the dead-ball detector from these combined, plus set-piece tags.</td></tr>
+    <tr><td><b>Nearest team is a noisy owner</b></td><td>Agrees with the truth 79% (85% within 3 m); its flips come 0.2–1.6 s before real changes.</td><td>Weight by ball speed and distance; switch only after control is kept for about 1 s.</td></tr>
+    <tr><td><b>Use relative team shape</b></td><td>Both teams drift together during gaps; home minus away centroid separates the owner (AUC 0.73); Barcelona's hull is 44% larger when it has the ball.</td><td>Relative, count-normalised shape features.</td></tr>
+    <tr><td><b>Tracking breaks where the ball is lost</b></td><td>In one window 47% of gap frames have 8 or fewer Barcelona players (0% with the ball visible).</td><td>Robust features: medians, smoothing, skip frames with few players.</td></tr>
+    <tr><td><b>Tag "Team" depends on the tag</b></td><td>Build-up and progression name the attacker (85–100% right); defending tags name the defender; box and final-third tags are unreliable.</td><td>Map tags per type before using them.</td></tr>
+  </table></div>
+  <p class="callout">The public window is unusual: the ball is missing on only 4% and 19% of its two halves, against 41% in the match. Another reason never to judge versions on it.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Where the score comes from</div>
+  <h2>Four levers, in order of impact</h2>
+  <div class="cols">
+    <div class="box"><h3>1 · Dead balls</h3><p>Every D stretch ends a possession. Missing one merges two possessions; inventing one splits a possession. Smart Tagging set pieces give restart times almost free.</p></div>
+    <div class="box"><h3>2 · Segment, don't classify</h3><p>An HMM or HSMM over {H, A, D} with switch penalties and duration models produces clean runs instead of flicker.</p></div>
+    <div class="box"><h3>3 · Signals without the ball</h3><p>Team shape (spread, compactness, pressing line, movement toward the ball) and team-tagged phases need only team membership, not IDs.</p></div>
+    <div class="box"><h3>4 · Abstain wisely</h3><p>X inside a possession is free. At a hand-over always commit, or your old label bleeds into the new possession.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Pipeline</div>
+  <h2>Nine steps from tracking to CSV</h2>
+  <ol class="steps">
+    <li><span><b>Read the match.</b> Unify fractional coordinates, per-file frame counts, team membership, tags and homography into one per-frame table.</span></li>
+    <li><span><b>Clean the ball.</b> Drop one-frame teleports, fill gaps up to about 0.5 s, mark longer gaps unknown. A missing ball does not mean play stopped.</span></li>
+    <li><span><b>Touches and control.</b> Direction and speed impulses plus the nearest team, then a retention check so a deflection is not counted as a turnover.</span></li>
+    <li><span><b>Team shape.</b> ID-free team features feed a classifier trained on other matches.</span></li>
+    <li><span><b>Dead balls.</b> Ball off the pitch, collective slowdown, ball still at a restart spot, kickoff formation, tagged set pieces.</span></li>
+    <li><span><b>Tags as hints.</b> Smart Tagging phases with a team push the probabilities a little. They are automatic and can be wrong.</span></li>
+    <li><span><b>Fuse.</b> Per-frame P(H), P(A), P(D), with touches weighted high when the ball is seen and shape plus tags when it is not.</span></li>
+    <li><span><b>Segment.</b> Whole-match Viterbi or HSMM with switch costs and realistic durations.</span></li>
+    <li><span><b>Finish.</b> Snap possession starts to the winning touch and D ends to the restart; D before the second-half kickoff; X outside graded time; write 199,319 rows.</span></li>
+  </ol>
+</section>
+
+<section>
+  <div class="eyebrow">Where each number may come from</div>
+  <h2>Evaluation and the lines we do not cross</h2>
+  <div class="tbl"><table>
+    <tr><th>Data</th><th>Used for</th><th>Never used for</th></tr>
+    <tr><td>External matches (IDSSE, Metrica, SkillCorner, PFF), degraded to look like our input</td><td>Tuning, training, choosing between versions, with a held-out split and bootstrap CIs; when CIs overlap, keep the simpler version</td><td>Nothing excluded, provided licences allow it</td></tr>
+    <tr><td>Public 5 minutes (17 possessions)</td><td>Format sanity: frame offset, H/A swap, row count, what the labels mean</td><td>Tuning, model choice, thresholds. It ranks the baselines the wrong way round (0.4242 vs 0.3256 publicly, 0.2242 vs 0.2433 on the full match)</td></tr>
+    <tr><td>Challenge input statistics</td><td>Calibrating the degradation: ball-missing rate, tracked players per frame, track lengths (computed by a human, locally)</td><td>Anything that uses answers</td></tr>
+    <tr><td>Full-match output</td><td>Aggregate no-key sanity checks (G5), reviewed by a human</td><td>Being shown to an AI agent</td></tr>
+  </table></div>
+  <div class="cols">
+    <div class="box yes"><h3>Allowed</h3><ul>
+      <li>Any method or model the organisers can inspect, explained in the technical document.</li>
+      <li>Replacing or improving the tracking with algorithms.</li>
+      <li>Hand labels on other games, in any amount.</li>
+      <li>Unsupervised or algorithmic pseudo-labels on the provided game.</li>
+      <li>Watching the video to understand and debug.</li>
+    </ul></div>
+    <div class="box no"><h3>Not allowed</h3><ul>
+      <li>Hand labels or hand corrections on the provided game, for any purpose.</li>
+      <li>The private ground truth, or any human-produced data about this game (Opta, StatsBomb, corrected tracking).</li>
+      <li>Tuning on the public 5 minutes, or rules tied to specific frames of the game.</li>
+      <li>Committing match data, or derived data that would reconstruct it, to the public repo.</li>
+      <li>Ours, stricter: letting an AI tool read <code>data/challenge/</code> or its outputs.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Schedule</div>
+  <h2>Seven days</h2>
+  <div class="tbl"><table>
+    <tr><th>Day</th><th>Exit</th></tr>
+    <tr><td class="num">D1</td><td>External H/A/D labels, degradation simulator and the official scorer running on external data</td></tr>
+    <tr><td class="num">D2–3</td><td>Ball, touches, dead ball, tags and Viterbi: first end-to-end submission</td></tr>
+    <tr><td class="num">D4–5</td><td>Team-shape model; tune switch costs and evidence weights on external data</td></tr>
+    <tr><td class="num">D6</td><td>Full-match sanity checks (human-run)</td></tr>
+    <tr><td class="num">D7</td><td>Buffer, technical document, validate the exact file, submit</td></tr>
+  </table></div>
+</section>
+
+</div>

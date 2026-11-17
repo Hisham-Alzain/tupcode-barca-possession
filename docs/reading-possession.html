@@ -1,0 +1,450 @@
+<title>Reading Possession</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column, like a match report. Each step = words on the left, a small chalkboard on the right. */
+:root{
+  --bg:#f6f8f5; --panel:#ffffff; --ink:#15231c; --muted:#5b6b62; --line:#d5ddd6;
+  --pitch:#2f7d4f; --pitch2:#2a7248; --chalk:#eef5ef;
+  --home:#1f5fd0; --away:#d43a2f; --dead:#8a938d; --ball:#f4c20d; --accent:#0d6b3f;
+  --display:"Barlow Condensed","Arial Narrow",sans-serif; --body:"Barlow",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0f1512; --panel:#161e1a; --ink:#e7efe9; --muted:#9baba1; --line:#2a352f;
+  --pitch:#245f3d; --pitch2:#205637; --chalk:#d9e6dc;
+  --home:#5a93ff; --away:#ff6b5e; --dead:#8f9a93; --ball:#ffd447; --accent:#58c48c; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0f1512; --panel:#161e1a; --ink:#e7efe9; --muted:#9baba1; --line:#2a352f;
+  --pitch:#245f3d; --pitch2:#205637; --chalk:#d9e6dc;
+  --home:#5a93ff; --away:#ff6b5e; --dead:#8f9a93; --ball:#ffd447; --accent:#58c48c; color-scheme:dark }
+body{background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--body)}
+.wrap{max-width:960px;margin:0 auto;padding-block:36px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
+h1{font-size:clamp(40px,7vw,64px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:30px;font-weight:600}
+h3{font-size:24px;font-weight:600}
+p{margin:0;max-width:62ch}
+.eyebrow{font:600 13px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.lead{font-size:20px;color:var(--muted)}
+header{display:flex;flex-direction:column;gap:14px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.fact{border-top:3px solid var(--pitch);padding-top:10px}
+.fact b{display:block;font:700 34px/1 var(--display);font-variant-numeric:tabular-nums}
+.fact span{color:var(--muted);font-size:15px}
+.strip{display:flex;height:26px;border-radius:4px;overflow:hidden}
+.strip i{display:block;height:100%}
+.H{background:var(--home)}.A{background:var(--away)}.D{background:var(--dead)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:2px;display:inline-block}
+.steps{display:flex;flex-direction:column;gap:18px;list-style:none;margin:0;padding:0}
+.step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:22px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px}
+@media (max-width:720px){.step{grid-template-columns:1fr}}
+.step .txt{display:flex;flex-direction:column;gap:8px;min-width:0}
+.num{font:700 15px/1 var(--display);letter-spacing:.08em;color:var(--accent)}
+.coach{font-size:15px;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+svg{display:block;width:100%;height:auto;border-radius:6px}
+.pg{fill:var(--pitch)}.pg2{fill:var(--pitch2)}.ch{stroke:var(--chalk);fill:none;stroke-width:1.5}.cht{fill:var(--chalk);font:600 11px var(--body)}
+.ph{fill:var(--home);stroke:var(--chalk);stroke-width:1.5}.pa{fill:var(--away);stroke:var(--chalk);stroke-width:1.5}
+.bl{fill:var(--ball);stroke:#1b1b1b;stroke-width:1}.zone{fill:none;stroke:var(--ball);stroke-width:1.5;stroke-dasharray:4 3}
+.path{fill:none;stroke:var(--ball);stroke-width:2}.dash{stroke-dasharray:5 4}.arr{fill:none;stroke:var(--chalk);stroke-width:1.5}
+.tbl{width:100%;border-collapse:collapse;font-size:16px;font-variant-numeric:tabular-nums}
+.tbl th,.tbl td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font:600 13px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scroll{overflow-x:auto}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.card p{font-size:16px}
+section{display:flex;flex-direction:column;gap:14px}
+footer{color:var(--muted);font-size:14px}
+/* Pipeline: raw data to answer, one numbered stage per row, joined by a rail */
+.flow{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;counter-reset:st}
+.stage{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding-bottom:16px}
+.stage::before{counter-increment:st;content:counter(st);width:44px;height:44px;border-radius:50%;background:var(--pitch);color:var(--chalk);display:grid;place-items:center;font:700 22px/1 var(--display);z-index:1}
+.stage:not(:last-child)::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.stage .box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.stage .box p{font-size:16px}
+.io{display:flex;flex-wrap:wrap;gap:6px;font-size:13px}
+.io span{border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted)}
+.io b{color:var(--ink);font-weight:600}
+.raw{font:500 13px/1.5 ui-monospace,Consolas,monospace;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;overflow-x:auto;white-space:pre;color:var(--muted)}
+.raw em{font-style:normal;color:var(--ink)}
+.out{display:flex;gap:6px;flex-wrap:wrap}
+.out i{font:700 15px/1 var(--display);font-style:normal;padding:6px 10px;border-radius:4px;color:#fff}
+.out .X{background:var(--line);color:var(--muted)}
+/* Every situation: small chalkboard + what it sees + the call */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.case{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.case h3{font-size:20px}
+.case p{font-size:15px;color:var(--muted)}
+.call{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;margin-top:auto}
+.call i{font:700 15px/1 var(--display);font-style:normal;padding:5px 9px;border-radius:4px;color:#fff}
+.call .X{background:var(--line);color:var(--muted)}
+.grp{font:600 13px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.no{stroke:var(--away);stroke-width:2.5}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Barcelona v Athletic · tactical camera · tracking data only</span>
+  <h1>How the system decides who has the ball</h1>
+  <p class="lead">For every frame of the match, 25 times a second, the system must say one of three things: Barcelona have it, Athletic have it, or the ball is dead. It never watches the pictures. It only sees dots: the players and, when the tracker can find it, the ball.</p>
+  <div class="strip" role="img" aria-label="Example: a stretch of play shown as blue for Barcelona, red for Athletic and grey for dead ball">
+    <i class="H" style="width:18%"></i><i class="A" style="width:7%"></i><i class="H" style="width:22%"></i><i class="D" style="width:9%"></i><i class="A" style="width:15%"></i><i class="H" style="width:6%"></i><i class="A" style="width:11%"></i><i class="D" style="width:12%"></i>
+  </div>
+  <div class="legend"><span><i class="H"></i>Barcelona in possession</span><span><i class="A"></i>Athletic in possession</span><span><i class="D"></i>Dead ball (out of play, foul, restart being set up)</span></div>
+</header>
+
+<section>
+  <h2>From the raw file to the answer</h2>
+  <p>The whole system is one pass through the match, in seven stages. The rest of this page zooms into stages 4 to 6.</p>
+  <ol class="flow">
+    <li class="stage"><div class="box">
+      <span class="num">RAW DATA IN</span><h3>Dots on a pitch, 25 times a second</h3>
+      <p>The automatic tracking from the tactical camera gives, for every frame, the position in metres of each person it can see, which team they are on, and the ball when it can find it. No names, no events, nothing typed in by a person. One frame looks like this:</p>
+      <div class="raw">frame 52,310   <em>Barcelona</em> (x, y) × 11    <em>Athletic</em> (x, y) × 11    <em>ball</em> (x, y)  or  <em>—</em> not found</div>
+      <p>The match notes (Smart Tagging) add a few seconds' window around each set piece and each phase of play. Only the kick-off note is used, to find the start of each half. The rest was tried and left out, for football reasons:</p>
+      <p class="coach">The phase notes ("Barcelona building up", "Athletic pressing") are padded windows of 15 to 30 seconds. They name the right team about 78% of the time, while the system is already right about 93% of the time: they would teach it worse, not better. The set-piece notes start 3 to 9 seconds before the restart, too loose to time a restart. A rule giving the restart to the tagged taker's team made no measurable difference.</p>
+      <div class="io"><span>in: <b>tracking file</b></span><span>in: <b>match notes</b></span><span>199,319 frames</span></div>
+    </div></li>
+    <li class="stage"><div class="box">
+      <span class="num">CLEAN</span><h3>Throw out what the tracker got wrong</h3>
+      <p>A ball that jumps metres in one frame, or freezes on one spot, is a tracker glitch and is removed. A missing ball stays missing: nothing is invented (step 7 explains why). The system also notes that this match's ball path has been smoothed, because the touch reading (step 3) adjusts for it.</p>
+      <div class="io"><span>out: <b>a clean ball, or "not seen"</b></span><span>out: <b>smoothed track: yes</b></span></div>
+    </div></li>
+    <li class="stage"><div class="box">
+      <span class="num">MEASURE</span><h3>Turn dots into the things a coach looks at</h3>
+      <p>For every frame: who is nearest the ball on each side, how wide and deep each team stands, how fast the quickest players run, whether the ball just changed direction (a touch), how fast and which way it is travelling, and whether it is over a line.</p>
+      <div class="io"><span>out: <b>distances to the ball</b></span><span>out: <b>team shapes</b></span><span>out: <b>running speeds</b></span><span>out: <b>touches</b></span><span>out: <b>ball speed and direction</b></span><span>out: <b>ball over a line</b></span></div>
+    </div></li>
+    <li class="stage"><div class="box">
+      <span class="num">READ THE CLUES · STEPS 1–8</span><h3>Each clue says who is likely on the ball</h3>
+      <p>Each measurement becomes a vote: Barcelona, Athletic or dead ball. The man on the ball, the duel, the touch, the direction a fast ball is flying, the lines of the pitch, the shapes of the two teams and how fast the players run all have a say. One more vote comes from a learned judge of who holds the visible ball (step 5). The votes from team shapes, player speeds and that judge were learned on other matches, never on this one.</p>
+      <div class="io"><span>out: <b>frame by frame: how likely Barcelona, Athletic, dead ball</b></span></div>
+    </div></li>
+    <li class="stage"><div class="box">
+      <span class="num">DECIDE · STEP 10</span><h3>One consistent story for each half</h3>
+      <p>The votes for the whole half are weighed together. Switching team has a cost, so one odd frame never flips possession.</p>
+      <div class="io"><span>out: <b>a possession sequence per half</b></span></div>
+    </div></li>
+    <li class="stage"><div class="box">
+      <span class="num">APPLY THE ORGANISERS' RULES · STEP 9</span><h3>Tidy the story to match how the game is marked</h3>
+      <p>Play restarts when the quick players start running. A stoppage starts the moment the ball crossed the line. A touch that falls straight back is not a turnover, and neither is a short spell in which the other team never got the ball under control. Before the kick-off the ball is dead.</p>
+      <div class="io"><span>out: <b>final possession sequence</b></span></div>
+    </div></li>
+    <li class="stage"><div class="box">
+      <span class="num">ANSWER OUT</span><h3>One letter for every frame</h3>
+      <p>A file with one row per frame of the video. Frames outside the two halves are marked X and not scored. The organisers' checker confirms the file is valid.</p>
+      <div class="out"><i class="H">H Barcelona</i><i class="A">A Athletic</i><i class="D">D dead ball</i><i class="X">X not scored</i></div>
+      <div class="io"><span>199,319 rows</span><span>324 possessions</span><span>Barcelona 59%</span></div>
+    </div></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Every situation, and the call it makes</h2>
+  <p>Blue is Barcelona, red is Athletic, yellow is the ball. Each card is one situation the system meets, what it sees, and the letter it writes.</p>
+
+  <div class="grp">Ball in sight</div>
+  <div class="cases">
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Blue player next to the ball, red player far away"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <circle class="zone" cx="72" cy="48" r="13"/><circle class="ph" cx="66" cy="44" r="7"/><circle class="bl" cx="74" cy="50" r="4"/><circle class="pa" cx="128" cy="26" r="7"/></svg>
+      <h3>One player on the ball</h3><p>Only one team has a player within a metre of it.</p>
+      <div class="call"><i class="H">H</i>that player's team</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Blue and red player both at the ball"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <circle class="zone" cx="80" cy="46" r="15"/><circle class="ph" cx="71" cy="44" r="7"/><circle class="pa" cx="90" cy="49" r="7"/><circle class="bl" cx="80" cy="47" r="4"/></svg>
+      <h3>A 50-50 challenge</h3><p>Both teams at the ball. Nobody has won it yet.</p>
+      <div class="call"><i class="H">H</i>stays with the team that had it</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Ball travelling between two blue players"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <polyline class="path dash" points="28,66 132,24"/><circle class="ph" cx="24" cy="70" r="7"/><circle class="ph" cx="136" cy="22" r="7"/><circle class="bl" cx="80" cy="45" r="4"/><circle class="pa" cx="96" cy="72" r="7"/></svg>
+      <h3>A pass in the air</h3><p>The ball is between players. The last touch was Barcelona's.</p>
+      <div class="call"><i class="H">H</i>the passer's team, until the next touch</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="A fast ball flying long toward Athletic's goal, Barcelona attacking to the right"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <polyline class="path" points="22,70 96,34"/><polyline class="path dash" points="96,34 140,14"/><circle class="ph" cx="18" cy="74" r="7"/><circle class="bl" cx="96" cy="34" r="4"/><circle class="pa" cx="124" cy="52" r="7"/><circle class="pa" cx="136" cy="70" r="7"/><circle class="ph" cx="112" cy="20" r="7"/>
+        <path class="arr" d="M20 12h34M48 7l6 5-6 5"/><text class="cht" x="20" y="30">Barcelona attack →</text></svg>
+      <h3>Long ball forward</h3><p>The ball is flying fast toward Athletic's goal. Nobody is near it to say who played it.</p>
+      <div class="call"><i class="H">H</i>extra weight for the team attacking that way</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Pass clipped by a red player, then reaching a blue player"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <polyline class="path" points="26,68 80,34 134,64"/><circle class="ph" cx="22" cy="72" r="7"/><circle class="pa" cx="82" cy="24" r="7"/><circle class="ph" cx="138" cy="68" r="7"/><circle class="bl" cx="80" cy="34" r="4"/></svg>
+      <h3>Clipped, then back to us</h3><p>An Athletic player touches it for under a second, then it reaches Barcelona again.</p>
+      <div class="call"><i class="H">H</i>no change: a deflection</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="A red player and a blue player both stabbing at a loose ball, then Barcelona collect it"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <circle class="zone" cx="76" cy="46" r="15"/><circle class="pa" cx="68" cy="40" r="7"/><circle class="ph" cx="86" cy="54" r="7"/><circle class="bl" cx="76" cy="46" r="4"/><polyline class="path dash" points="80,48 128,62"/><circle class="ph" cx="134" cy="64" r="7"/><text class="cht" x="8" y="14">loose, under 2 s</text></svg>
+      <h3>Poked at, never controlled</h3><p>Athletic have it for under two seconds but never take a clean touch: a stab in a scramble, then Barcelona collect.</p>
+      <div class="call"><i class="H">H</i>no change: never in control</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Pass intercepted by a red player who keeps the ball"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <polyline class="path" points="26,68 84,40"/><polyline class="path dash" points="88,40 132,22"/><circle class="ph" cx="22" cy="72" r="7"/><circle class="pa" cx="92" cy="36" r="7"/><circle class="pa" cx="136" cy="20" r="7"/><circle class="bl" cx="84" cy="42" r="4"/></svg>
+      <h3>Interception that sticks</h3><p>Athletic win it and keep it: carry it, or pass it to a team-mate.</p>
+      <div class="call"><i class="A">A</i>from their first touch</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Ball path with a sudden jump marked as a glitch"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <polyline class="path" points="20,60 60,50 74,46"/><circle class="bl" cx="120" cy="14" r="4"/><line class="no" x1="112" y1="6" x2="128" y2="22"/><line class="no" x1="128" y1="6" x2="112" y2="22"/><circle class="ph" cx="70" cy="56" r="7"/></svg>
+      <h3>Tracker glitch</h3><p>The ball jumps metres in one frame, or freezes on a spot.</p>
+      <div class="call">ignored: the reading is thrown out</div>
+    </div>
+  </div>
+
+  <div class="grp">Ball out of sight</div>
+  <div class="cases">
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="No ball; blue team spread wide, red team compact"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <circle class="ph" cx="30" cy="12" r="6"/><circle class="ph" cx="26" cy="46" r="6"/><circle class="ph" cx="30" cy="80" r="6"/><circle class="ph" cx="70" cy="22" r="6"/><circle class="ph" cx="72" cy="68" r="6"/>
+        <circle class="pa" cx="112" cy="34" r="6"/><circle class="pa" cx="114" cy="56" r="6"/><circle class="pa" cx="132" cy="40" r="6"/><circle class="pa" cx="134" cy="54" r="6"/><text class="cht" x="54" y="50">no ball</text></svg>
+      <h3>Hidden, play going on</h3><p>No ball. One team spreads out and pushes up, the other is compact and deep.</p>
+      <div class="call"><i class="H">H</i>the team in the attacking shape; it keeps the last team unless the shapes clearly change</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="No ball; all players walking, short arrows"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <circle class="ph" cx="40" cy="30" r="6"/><circle class="ph" cx="60" cy="64" r="6"/><circle class="pa" cx="100" cy="28" r="6"/><circle class="pa" cx="118" cy="62" r="6"/>
+        <path class="arr" d="M40 40v5M60 74v5M100 38v5M118 72v5"/><text class="cht" x="8" y="12">everyone walking</text></svg>
+      <h3>Hidden, play stopped</h3><p>No ball, and even the quickest players are walking and regrouping.</p>
+      <div class="call"><i class="D">D</i>dead ball</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Dashed unseen path, ball reappears beside a red player"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <polyline class="path dash" points="20,70 70,50 112,40"/><circle class="zone" cx="120" cy="38" r="13"/><circle class="pa" cx="127" cy="44" r="7"/><circle class="bl" cx="120" cy="38" r="4"/><circle class="ph" cx="50" cy="20" r="7"/></svg>
+      <h3>Ball comes back into view</h3><p>It reappears with only one team's player on it.</p>
+      <div class="call"><i class="A">A</i>that player's team, straight away</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Turnover somewhere in an unseen stretch"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <rect x="20" y="36" width="56" height="18" rx="3" fill="var(--home)"/><rect x="84" y="36" width="56" height="18" rx="3" fill="var(--away)"/><line class="ch" x1="80" y1="28" x2="80" y2="62"/><text class="cht" x="30" y="24">hidden stretch</text><text class="cht" x="62" y="76">switch here</text></svg>
+      <h3>Possession changed out of sight</h3><p>The team is different before and after a hidden stretch, but the moment was not seen.</p>
+      <div class="call">switch placed where the team shapes turn over (the weakest case)</div>
+    </div>
+  </div>
+
+  <div class="grp">Stoppages and the clock</div>
+  <div class="cases">
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Ball crossing the touchline, then seen beyond it"><rect class="pg" width="160" height="90"/><line class="ch" x1="0" y1="20" x2="160" y2="20"/>
+        <polyline class="path" points="40,60 84,20"/><polyline class="path dash" points="84,20 96,9"/><circle class="zone" cx="84" cy="20" r="5"/><circle class="bl" cx="98" cy="8" r="4"/><circle class="ph" cx="36" cy="64" r="7"/><circle class="pa" cx="96" cy="40" r="7"/><circle class="ph" cx="130" cy="66" r="7"/>
+        <text class="cht" x="104" y="34">crossed here</text></svg>
+      <h3>Ball out for a throw-in</h3><p>The ball runs over the touchline. The stoppage starts the moment it crossed, not when the players slow down. A ball seen more than half a metre outside the lines for two seconds is dead, even if nothing else says so.</p>
+      <div class="call"><i class="D">D</i>dead from the moment it crossed</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Ball placed still, players standing with short movement arrows"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <circle class="bl" cx="52" cy="46" r="4"/><circle class="ph" cx="44" cy="52" r="7"/><circle class="pa" cx="98" cy="30" r="7"/><circle class="pa" cx="104" cy="60" r="7"/><circle class="ph" cx="126" cy="44" r="7"/><path class="arr" d="M98 40v5M104 70v5M126 54v5"/></svg>
+      <h3>Foul or set piece</h3><p>Ball placed still, players stop running and walk into position.</p>
+      <div class="call"><i class="D">D</i>dead ball</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Players bursting into a run, long arrows"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <circle class="bl" cx="40" cy="46" r="4"/><circle class="pa" cx="32" cy="50" r="7"/><circle class="pa" cx="96" cy="24" r="6"/><circle class="ph" cx="110" cy="64" r="6"/><path class="arr" d="M96 24h26M110 64h-26M32 50h20"/></svg>
+      <h3>The restart</h3><p>The quick players burst back into a run as the ball is played.</p>
+      <div class="call"><i class="A">A</i>live again from that moment, for the team that took it</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Ball on the centre spot, teams in their own halves"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/><circle class="ch" cx="80" cy="45" r="16"/>
+        <circle class="bl" cx="80" cy="45" r="4"/><circle class="ph" cx="50" cy="20" r="6"/><circle class="ph" cx="44" cy="66" r="6"/><circle class="ph" cx="72" cy="48" r="6"/><circle class="pa" cx="112" cy="22" r="6"/><circle class="pa" cx="118" cy="64" r="6"/></svg>
+      <h3>Before the kick-off</h3><p>The half's clock has started but the teams are still lining up.</p>
+      <div class="call"><i class="D">D</i>dead until the ball leaves the centre spot</div>
+    </div>
+    <div class="case">
+      <svg viewBox="0 0 160 90" role="img" aria-label="Empty pitch, players walking off"><rect class="pg" width="160" height="90"/><line class="ch" x1="80" y1="0" x2="80" y2="90"/>
+        <circle class="ph" cx="30" cy="80" r="6"/><circle class="pa" cx="130" cy="80" r="6"/><path class="arr" d="M30 72v-8M130 72v-8"/><text class="cht" x="44" y="44">half-time</text></svg>
+      <h3>Before, between and after the halves</h3><p>Warm-up, half-time, after the final whistle.</p>
+      <div class="call"><i class="X">X</i>not scored</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>What makes it hard</h2>
+  <div class="facts">
+    <div class="fact"><b>199,319</b><span>frames to label, about two and a quarter hours of video</span></div>
+    <div class="fact"><b>41%</b><span>of playing time (the two halves only) the ball is not tracked at all: 64,643 of 158,857 frames, almost all in gaps of 5 seconds or more</span></div>
+    <div class="fact"><b>No names</b><span>the dots carry a team, not a shirt number, and some players drop out of view</span></div>
+    <div class="fact"><b>11 s</b><span>is the average possession the system calls over the whole match, and about one in three lasts under 4 seconds</span></div>
+  </div>
+  <p>So the question is the one a scout answers from the stand without thinking: who is in control right now? The steps below are how the system rebuilds that judgement from positions alone.</p>
+</section>
+
+<section>
+  <h2>Stages 4 to 6, step by step</h2>
+  <ol class="steps">
+    <li class="step">
+      <div class="txt"><span class="num">STEP 1 · ON THE BALL</span><h3>The player within a metre controls it</h3>
+        <p>If one team has a player within about a metre of the ball and the other does not, that team is in possession. A metre is the reach of a foot: closer than that, the ball is yours to play.</p>
+        <p class="coach">Football reading: the man on the ball.</p></div>
+      <svg viewBox="0 0 320 170" role="img" aria-label="A blue player inside a one metre circle around the ball, a red player outside it">
+        <rect class="pg" width="320" height="170"/><rect class="pg2" x="80" width="80" height="170"/><rect class="pg2" x="240" width="80" height="170"/>
+        <circle class="zone" cx="150" cy="88" r="34"/><circle class="bl" cx="150" cy="88" r="6"/>
+        <circle class="ph" cx="134" cy="100" r="10"/><circle class="pa" cx="226" cy="62" r="10"/>
+        <text class="cht" x="190" y="130">1 m</text><text class="cht" x="14" y="22">Barcelona's ball</text>
+      </svg>
+    </li>
+    <li class="step">
+      <div class="txt"><span class="num">STEP 2 · THE DUEL</span><h3>In a 50-50, nothing changes until someone comes away with it</h3>
+        <p>When both teams are within a metre, the system does not flip possession to whoever's boot is nearer. The team that last touched it cleanly keeps it until an opponent has the ball to himself.</p>
+        <p class="coach">Football reading: a challenge is not a turnover. Winning it is.</p></div>
+      <svg viewBox="0 0 320 170" role="img" aria-label="A blue and a red player both inside the one metre circle around the ball">
+        <rect class="pg" width="320" height="170"/><rect class="pg2" x="80" width="80" height="170"/><rect class="pg2" x="240" width="80" height="170"/>
+        <circle class="zone" cx="160" cy="88" r="34"/><circle class="bl" cx="160" cy="88" r="6"/>
+        <circle class="ph" cx="143" cy="98" r="10"/><circle class="pa" cx="178" cy="76" r="10"/>
+        <text class="cht" x="14" y="22">Contested: still Barcelona's</text>
+      </svg>
+    </li>
+    <li class="step">
+      <div class="txt"><span class="num">STEP 3 · THE TOUCH</span><h3>A change in the ball's path means someone played it</h3>
+        <p>A ball only changes speed or direction sharply when it is struck or controlled. The system finds those moments and credits the nearest player's team. That team then holds possession while the pass travels, until the next touch.</p>
+        <p>This match's ball track has been smoothed by the provider. That rounds off every sharp corner, so the ball seems to turn about two metres away from the player who actually played it. The system notices the smoothing and undoes it: it extends the straight line of the ball coming in and the straight line of the ball going out, and where the two lines meet is where the ball was really played. The touch goes to the team standing there.</p>
+        <p class="coach">Football reading: a pass in flight still belongs to the passer's team.</p></div>
+      <svg viewBox="0 0 320 170" role="img" aria-label="The ball's path bends sharply at a blue player and continues to a team-mate">
+        <rect class="pg" width="320" height="170"/><rect class="pg2" x="80" width="80" height="170"/><rect class="pg2" x="240" width="80" height="170"/>
+        <path class="path" d="M30 140 L96 111 Q128 97 160 86 L280 44"/>
+        <polyline class="arr dash" points="96,111 130,96 160,86"/>
+        <circle class="ph" cx="124" cy="110" r="10"/><circle class="ph" cx="288" cy="52" r="10"/><circle class="pa" cx="210" cy="124" r="10"/>
+        <circle class="zone" cx="130" cy="96" r="5"/><circle class="bl" cx="205" cy="70" r="6"/>
+        <text class="cht" x="70" y="84">real touch</text><text class="cht" x="134" y="118">smoothed track cuts the corner</text><text class="cht" x="14" y="22">Ball in flight: Barcelona's</text>
+      </svg>
+    </li>
+    <li class="step">
+      <div class="txt"><span class="num">STEP 4 · WHERE THE BALL IS FLYING</span><h3>A fast ball forward usually belongs to the team attacking that way</h3>
+        <p>Long balls, switches and clearances often travel with nobody near them, and the smoothed track can hide who struck them. But a ball moving fast is rarely going backwards for long: teams mostly play it toward the goal they attack. So while the ball is seen and moving quickly, the team attacking in its direction of travel gets an extra vote. The vote starts small at about 4 metres a second (a firm pass) and reaches full weight at 8 metres a second (a driven ball).</p>
+        <p>It is one vote among many, never the answer on its own: on a back-pass to the keeper, the man on the ball and the touch can outvote it.</p>
+        <p class="coach">Football reading: you can tell who hit a long ball from which way it is going.</p></div>
+      <svg viewBox="0 0 320 170" role="img" aria-label="A fast ball flying toward Athletic's goal, an arrow showing Barcelona's attacking direction">
+        <rect class="pg" width="320" height="170"/><rect class="pg2" x="80" width="80" height="170"/><rect class="pg2" x="240" width="80" height="170"/>
+        <line class="ch" x1="312" y1="60" x2="312" y2="110"/>
+        <polyline class="path" points="46,132 196,70"/><polyline class="path dash" points="196,70 280,40"/>
+        <circle class="ph" cx="38" cy="140" r="10"/><circle class="bl" cx="196" cy="70" r="6"/><circle class="ph" cx="268" cy="34" r="10"/><circle class="pa" cx="250" cy="96" r="10"/><circle class="pa" cx="226" cy="132" r="10"/>
+        <path class="arr" d="M14 30h70M76 24l8 6-8 6"/><text class="cht" x="14" y="18">Barcelona attack this way</text><text class="cht" x="120" y="118">8 m/s and rising</text>
+      </svg>
+    </li>
+    <li class="step">
+      <div class="txt"><span class="num">STEP 5 · A LEARNED JUDGE</span><h3>A second opinion on who holds the visible ball</h3>
+        <p>On top of the hand-written rules, a simple model gives its own view of which team holds the ball while it is in sight. It looks at what a scout would: which players were near the ball over the last few seconds, not only this instant; which team last kicked it; where it is flying; where on the pitch it is; and the shape of the two teams.</p>
+        <p>It was trained only on other matches with known answers. It never saw this match, and nothing in it was adjusted to Barcelona v Athletic. It is given a moderate weight, so it helps settle close calls rather than overruling the man on the ball.</p>
+        <p class="coach">Football reading: an experienced eye that has watched many matches, asked "whose ball is it?" for each moment.</p></div>
+      <svg viewBox="0 0 320 170" role="img" aria-label="The ball with faint trails of the players who were near it over the last seconds">
+        <rect class="pg" width="320" height="170"/><rect class="pg2" x="80" width="80" height="170"/><rect class="pg2" x="240" width="80" height="170"/>
+        <polyline class="arr dash" points="96,128 120,110 140,96"/><polyline class="arr dash" points="230,40 214,58 200,72"/>
+        <polyline class="path dash" points="60,140 100,120 150,94"/>
+        <circle class="ph" cx="146" cy="100" r="10"/><circle class="bl" cx="160" cy="88" r="6"/><circle class="pa" cx="196" cy="76" r="10"/><circle class="ph" cx="60" cy="140" r="10"/>
+        <text class="cht" x="14" y="22">Last 4 seconds: Barcelona near it, last kick Barcelona</text><text class="cht" x="186" y="140">verdict: Barcelona</text>
+      </svg>
+    </li>
+    <li class="step">
+      <div class="txt"><span class="num">STEP 6 · DEAD BALL</span><h3>The players tell you when play has stopped</h3>
+        <p>A ball over the line or placed still for a set piece is dead. But the stronger signal is the players: when a game stops, even the quickest players on the pitch drop to a walk and both teams drift into restart positions. The system measures how fast the fastest players are moving and how the two shapes settle.</p>
+        <p>When the ball is seen going out, the lines decide the timing, as the Laws do: the stoppage starts at the moment the ball crossed the line, if that happened within the five seconds before the players slowed. And a ball seen more than half a metre outside the lines for two seconds or more is dead ball until it is seen back on the pitch, even when the players have not yet reacted.</p>
+        <p>The restart is timed the same way: play is live again at the moment the quick players burst back into a run.</p>
+        <p>The start of each half follows the same idea. The second half is marked from a few minutes before the kick-off, while the teams are still lining up. The organisers count all of that as dead ball. The match notes give a five-second window around the kick-off, and the system places the kick-off at the moment inside it when the ball sits on the centre spot. It lands one frame from the real kick-off.</p>
+        <p class="coach">Football reading: you can tell the whistle has gone without hearing it.</p></div>
+      <svg viewBox="0 0 320 170" role="img" aria-label="Ball beyond the touchline, players standing with short movement arrows">
+        <rect class="pg" width="320" height="170"/><rect class="pg2" x="80" width="80" height="170"/><rect class="pg2" x="240" width="80" height="170"/>
+        <line class="ch" x1="0" y1="34" x2="320" y2="34"/><circle class="bl" cx="170" cy="20" r="6"/>
+        <circle class="ph" cx="168" cy="48" r="10"/><circle class="ph" cx="90" cy="96" r="10"/><circle class="ph" cx="230" cy="120" r="10"/>
+        <circle class="pa" cx="130" cy="80" r="10"/><circle class="pa" cx="200" cy="88" r="10"/><circle class="pa" cx="270" cy="70" r="10"/>
+        <path class="arr" d="M90 112v8M230 136v6M130 96v6M200 104v7M270 86v6"/>
+        <text class="cht" x="14" y="160">Everyone walking: throw-in being set up</text>
+      </svg>
+    </li>
+    <li class="step">
+      <div class="txt"><span class="num">STEP 7 · BALL OUT OF SIGHT</span><h3>With no ball, read the two shapes</h3>
+        <p>For four frames in ten there is no ball to look at. The teams still give it away. The side in possession opens up: it gets wider, its line moves toward the opponent's goal. The side without it closes up: narrow, compact, dropping. The system learned that pattern from other matches where the answer was known, then applies it here.</p>
+        <p>It also works out, for this match, how much of the hidden time is stoppage rather than play. When the camera loses the ball it is often because play has stopped.</p>
+        <p>Why not draw in the missing ball? It was tried. Placing the hidden ball at the feet of the likely carrier halves the error in where the ball is (about 9 to 11 metres off, against 16 metres for a straight line between the last and next sightings). But it did not make the possession calls any better, because the shapes already answer "whose ball?" more reliably than an invented ball position. So it is not used.</p>
+        <p class="coach">Football reading: you know who has the ball from the back four alone.</p></div>
+      <svg viewBox="0 0 320 170" role="img" aria-label="Blue players spread wide across the pitch, red players in a compact block">
+        <rect class="pg" width="320" height="170"/><rect class="pg2" x="80" width="80" height="170"/><rect class="pg2" x="240" width="80" height="170"/>
+        <circle class="ph" cx="60" cy="22" r="9"/><circle class="ph" cx="50" cy="86" r="9"/><circle class="ph" cx="62" cy="150" r="9"/><circle class="ph" cx="140" cy="40" r="9"/><circle class="ph" cx="150" cy="130" r="9"/><circle class="ph" cx="118" cy="86" r="9"/>
+        <circle class="pa" cx="222" cy="62" r="9"/><circle class="pa" cx="226" cy="88" r="9"/><circle class="pa" cx="222" cy="114" r="9"/><circle class="pa" cx="258" cy="70" r="9"/><circle class="pa" cx="262" cy="96" r="9"/><circle class="pa" cx="290" cy="84" r="9"/>
+        <text class="cht" x="170" y="24">ball not tracked</text><text class="cht" x="14" y="166">wide and high</text><text class="cht" x="222" y="140">compact, deep</text>
+      </svg>
+    </li>
+    <li class="step">
+      <div class="txt"><span class="num">STEP 8 · BALL BACK IN SIGHT</span><h3>Whoever is alone on it when it reappears has it</h3>
+        <p>When the tracker finds the ball again and only one team has a player within a metre, that team is given possession straight away. The system does not assume the team that had it before still has it: across a hidden spell of open play, the ball changes sides almost half the time.</p>
+        <p class="coach">Football reading: when the camera cuts back, look at who is standing over it.</p></div>
+      <svg viewBox="0 0 320 170" role="img" aria-label="A dashed unknown path ends with the ball reappearing beside a red player">
+        <rect class="pg" width="320" height="170"/><rect class="pg2" x="80" width="80" height="170"/><rect class="pg2" x="240" width="80" height="170"/>
+        <polyline class="path dash" points="40,130 120,90 214,74"/><circle class="zone" cx="226" cy="72" r="30"/><circle class="bl" cx="226" cy="72" r="6"/>
+        <circle class="pa" cx="240" cy="84" r="10"/><circle class="ph" cx="120" cy="120" r="10"/>
+        <text class="cht" x="60" y="80">unseen</text><text class="cht" x="14" y="22">Reappears at Athletic's feet</text>
+      </svg>
+    </li>
+    <li class="step">
+      <div class="txt"><span class="num">STEP 9 · A TOUCH IS NOT POSSESSION</span><h3>A deflection that comes back is not a turnover</h3>
+        <p>The organisers' rule: possession only changes when the other team gains control of the ball. A touch without control, a pass clipped by an opponent that is not intercepted, a header won with nobody collecting it: none of these is a change.</p>
+        <p>So if Athletic have the ball for less than a second and it comes straight back to Barcelona, that moment stays Barcelona's. If Athletic keep it, the turnover is placed at their first touch, the moment of the interception, not when they settle it.</p>
+        <p>There is a second, stricter test. If Athletic have it for under two seconds and in that time no Athletic player ever touched it cleanly (only stabs and pokes in a crowd), that is not control either, and the moment stays Barcelona's.</p>
+        <p class="coach">Football reading: a block that falls back to the passer's team is not a turnover. An interception that sticks is.</p></div>
+      <svg viewBox="0 0 320 170" role="img" aria-label="A blue pass clips a red player and runs on to another blue player">
+        <rect class="pg" width="320" height="170"/><rect class="pg2" x="80" width="80" height="170"/><rect class="pg2" x="240" width="80" height="170"/>
+        <polyline class="path" points="40,130 160,80 270,110"/>
+        <circle class="ph" cx="32" cy="140" r="10"/><circle class="pa" cx="168" cy="68" r="10"/><circle class="ph" cx="282" cy="118" r="10"/>
+        <circle class="bl" cx="160" cy="80" r="6"/>
+        <text class="cht" x="130" y="44">clipped, no control</text><text class="cht" x="14" y="22">Still Barcelona's</text>
+      </svg>
+    </li>
+    <li class="step">
+      <div class="txt"><span class="num">STEP 10 · THE FINAL CALL</span><h3>One consistent story for the whole half</h3>
+        <p>Each clue on its own is jumpy: a deflection, a player running past the ball, a tracking glitch. So the last step weighs every clue across the whole half at once and picks the sequence of possessions that fits them best, with a built-in reluctance to switch. A turnover has to be earned by evidence, not by one odd frame.</p>
+        <p class="coach">Football reading: an analyst logging possessions, not a fan shouting at every bobble.</p></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span class="eyebrow" style="color:var(--muted)">Frame-by-frame clues</span>
+        <div class="strip"><i class="H" style="width:9%"></i><i class="A" style="width:2%"></i><i class="H" style="width:11%"></i><i class="D" style="width:1%"></i><i class="H" style="width:7%"></i><i class="A" style="width:14%"></i><i class="H" style="width:2%"></i><i class="A" style="width:9%"></i><i class="D" style="width:10%"></i><i class="A" style="width:2%"></i><i class="D" style="width:8%"></i><i class="H" style="width:25%"></i></div>
+        <span class="eyebrow" style="color:var(--muted)">Final call</span>
+        <div class="strip"><i class="H" style="width:30%"></i><i class="A" style="width:25%"></i><i class="D" style="width:20%"></i><i class="H" style="width:25%"></i></div>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>How it is marked</h2>
+  <p>The organisers do not count correct frames. They count correct possessions. Each possession the system calls is paired with a real one, and it only counts if the two overlap well in time: same team, started and ended at about the right moment. Calling the right team but switching a few seconds late, or splitting one possession into two, loses marks. A perfect score is 1.0.</p>
+  <p>The other matches used for practice were labelled with every deflection as a possession of its own, which the organisers' rule does not do. So those answers were re-marked the organisers' way (a team needs the ball for about two seconds to count as in control), and the system is now judged against both versions.</p>
+  <div class="scroll"><table class="tbl">
+    <thead><tr><th>Where it was tested</th><th>Organisers' rule</th><th>Every deflection counted</th><th>What it tells us</th></tr></thead>
+    <tbody>
+      <tr><td>Other matches, made to look like this one (smoothed ball, ball lost at stoppages)</td><td><b>0.67 to 0.69</b></td><td>0.58 to 0.59</td><td>Best guide to the real result. The range covers four different ways of hiding the ball</td></tr>
+      <tr><td>Other matches, ball hidden at random</td><td>0.67</td><td>0.62</td><td>Easier conditions than this match</td></tr>
+      <tr><td>Other matches, original tracking</td><td>0.69</td><td>0.64</td><td>Best-case tracking</td></tr>
+      <tr><td>The 5 public minutes of Barcelona v Athletic</td><td colspan="2"><b>0.635</b> (0.568 on 15 November)</td><td>17 possessions called against 17 real. Right letter on 86.8% of frames; average of the per-letter scores 0.842. A check only: never used to adjust anything</td></tr>
+      <tr><td>Starting point (the earlier MatchLens logic, same 5 minutes)</td><td colspan="2">0.24</td><td>Where this work began</td></tr>
+    </tbody>
+  </table></div>
+  <p>The last four steps were added on the final day, one at a time, each kept only because it gained on the other matches under the organisers' rule:</p>
+  <div class="scroll"><table class="tbl">
+    <thead><tr><th>Added on 17 November</th><th>Gain on other matches</th></tr></thead>
+    <tbody>
+      <tr><td>Stricter control test: a short spell with no clean touch is not a change (step 9)</td><td>+0.011 (typical)</td></tr>
+      <tr><td>Direction of a fast ball (step 4)</td><td>+0.012 to +0.020</td></tr>
+      <tr><td>Stoppages timed by the lines (step 6)</td><td>+0.011 to +0.017</td></tr>
+      <tr><td>Learned judge of the visible ball (step 5)</td><td>about +0.009 expected</td></tr>
+    </tbody>
+  </table></div>
+  <p>One honest note about the final day. The places where the output differs from the public five minutes were listed by type (a stoppage missed, a spell starting early, a short spell missed) and used only to understand what kind of mistakes remain. Every rule and every number was still chosen and checked on the other matches, and the public score was read only after each choice was made.</p>
+  <p>For the whole match the final output has 324 possessions averaging 10.7 seconds, with Barcelona holding 59% of the time the ball is in play. 71,866 frames (45% of the two halves) are called dead ball.</p>
+</section>
+
+<section>
+  <h2>Where it still gets it wrong</h2>
+  <div class="two">
+    <div class="card"><h3>Turnovers called late</h3><p>On a smoothed ball the switch comes a few frames late on average, and about three-quarters of a second late when possession changes in a challenge. The cause was touches the smoothing had hidden; rebuilding the touch point (step 3) recovers many of them. Quick one-twos, with two touches inside half a second, are still read poorly.</p></div>
+    <div class="card"><h3>Turnovers while the ball is out of sight</h3><p>When the system names a team during a hidden spell it is right about nine times in ten, but it catches the moment of a hidden turnover within a second only one time in six. A possession under four seconds while the ball is not tracked leaves almost no trace in the team shapes. This is the biggest gap left.</p></div>
+    <div class="card"><h3>Too many or too few stoppages</h3><p>In the public five minutes it calls less dead ball than there really is. Over the whole match it calls much more, because it treats long hidden spells as likely stoppages. That cannot be checked without the answers.</p></div>
+    <div class="card"><h3>Which side restarts</h3><p>After a stoppage it sometimes gives the restart to the wrong team when both have players near the ball as it comes back into play.</p></div>
+  </div>
+</section>
+
+<footer>All rules were set on other, public matches. Nothing was fitted to the Barcelona v Athletic answers. The possession, duel and touch rules follow Vidal-Codina et al.; an audit against that paper found its remaining rules do not improve the result. Every term was checked against the organisers' own definitions; steps 6 (kick-off, lines) and 9 (control) bring the system in line with them. The learned judge (step 5) was trained on other matches only. Two steps that adapt to this match's tracking (the smoothed-ball touch reading and the share of hidden time treated as stoppage) are pending confirmation from the organisers. Decision records: ADR-021 to ADR-027.</footer>
+</div>
